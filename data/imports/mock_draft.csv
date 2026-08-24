@@ -1,0 +1,37 @@
+round,pick,team,player,position
+1,1,Team A,Ja'Marr Chase,WR
+1,2,Team B,Bijan Robinson,RB
+1,3,Team C,CeeDee Lamb,WR
+1,4,Team D,Justin Jefferson,WR
+1,5,Team E,Jahmyr Gibbs,RB
+1,6,Team F,Saquon Barkley,RB
+1,7,Rotten Johnnies,Amon-Ra St. Brown,WR
+1,8,Team H,Derrick Henry,RB
+1,9,Team I,Malik Nabers,WR
+1,10,Team J,Jonathan Taylor,RB
+1,11,Team K,Puka Nacua,WR
+1,12,Team L,Christian McCaffrey,RB
+2,13,Team L,Josh Allen,QB
+2,14,Team K,Brock Bowers,TE
+2,15,Team J,De'Von Achane,RB
+2,16,Team I,Drake London,WR
+2,17,Team H,Kyren Williams,RB
+2,18,Rotten Johnnies,Brian Thomas Jr.,WR
+2,19,Team F,Josh Jacobs,RB
+2,20,Team E,Trey McBride,TE
+2,21,Team D,James Cook,RB
+2,22,Team C,Garrett Wilson,WR
+2,23,Team B,Devon Achane,RB
+2,24,Team A,Ladd McConkey,WR
+3,25,Team A,Patrick Mahomes,QB
+3,26,Team B,Tee Higgins,WR
+3,27,Team C,Breece Hall,RB
+3,28,Team D,Jalen Hurts,QB
+3,29,Team E,Marvin Harrison Jr.,WR
+3,30,Team F,Rashee Rice,WR
+3,31,Rotten Johnnies,James Conner,RB
+3,32,Team H,Omarion Hampton,RB
+3,33,Team I,DK Metcalf,WR
+3,34,Team J,George Kittle,TE
+3,35,Team K,Terry McLaurin,WR
+3,36,Team L,Lamar Jackson,QB

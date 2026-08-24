@@ -1,0 +1,1424 @@
+{
+  "uriAlias": "/league/rosters",
+  "body": {
+    "rosters": {
+      "teams": [
+        {
+          "abbr": "3MTA3",
+          "point": "1",
+          "is_vacant": 0,
+          "projected_points": 81.5905,
+          "id": "8",
+          "short_name": "3MTA3",
+          "lineup_status": "illegal",
+          "logo": "https://fantasy-media.cbssports.com/football/kjfha/team_logo/8-1785477936.jpg?width=100&height=100",
+          "players": [
+            {
+              "jersey": "6",
+              "profile_url": "https://kjfha.football.cbssports.com/players/playerpage/26694019",
+              "no_longer_eligible_for_il": 0,
+              "projected_points": "14.7",
+              "id": "26694019",
+              "gametime": 1789345200,
+              "percentowned": "90%",
+              "avg_points": "0.00",
+              "lastname": "Dart",
+              "opponents": [
+                {
+                  "abbrev": "DAL",
+                  "home_team": "false",
+                  "game_id": null,
+                  "time": 1789345200,
+                  "point": "1",
+                  "venuetype": "Outside",
+                  "game_abbr": null
+                }
+              ],
+              "photo": "https://sports.cbsimg.net/images/football/nfl/players/170x170/26694019.png",
+              "roster_status": "A",
+              "eligible_for_il": 0,
+              "ytd_points": 0,
+              "fullname": "Jaxson Dart",
+              "eligible_for_offense_and_defense": 0,
+              "profile_link": "<a class='playerLink' aria-label=' Jaxson Dart QB NYG' href='https://kjfha.football.cbssports.com/players/playerpage/26694019'>Jaxson Dart</a> <span class=\"playerPositionAndTeam\">QB &#149; NYG</span> ",
+              "home_game": 1,
+              "position": "QB",
+              "wildcards": {
+                "salary": null
+              },
+              "pro_team": "NYG",
+              "update_type": "normal",
+              "on_waivers_until": null,
+              "percentstarted": "37%",
+              "eligible_positions_display": "QB",
+              "firstname": "Jaxson",
+              "opponent": "DAL",
+              "oprk": 32,
+              "game_odds": {
+                "odds": {
+                  "total": {
+                    "total": "48.5",
+                    "selection_ids": null,
+                    "under_odds": "-110",
+                    "over_odds": "-110"
+                  },
+                  "team_odds": [
+                    {
+                      "spread": {
+                        "odds": "-118",
+                        "spread": "-2.5",
+                        "selection_id": "-"
+                      },
+                      "team_abbr": "DAL"
+                    },
+                    {
+                      "spread": {
+                        "odds": "-102",
+                        "spread": "+2.5",
+                        "selection_id": "-"
+                      },
+                      "team_abbr": "NYG"
+                    }
+                  ]
+                },
+                "book_used": "MGM",
+                "game_status": "S",
+                "odds_from_preferred_book": 1
+              },
+              "bye_week": "8",
+              "age": 23,
+              "headline": "Giants' Jaxson Dart: Rested for second preseason game",
+              "elias_id": "DAR735504",
+              "on_waivers": 0,
+              "opponent_team": "DAL",
+              "is_locked": "0",
+              "eligible": "QB",
+              "no_longer_eligible_for_ml": 0,
+              "owned_by_team_id": "8",
+              "pro_status": "A",
+              "roster_pos": "QB",
+              "is_keeper": 0
+            },
+            {
+              "jersey": "10",
+              "profile_url": "https://kjfha.football.cbssports.com/players/playerpage/26695757",
+              "no_longer_eligible_for_il": 0,
+              "projected_points": "9.7",
+              "id": "26695757",
+              "gametime": 1788999600,
+              "percentowned": "100%",
+              "avg_points": "0.00",
+              "lastname": "Maye",
+              "opponents": [
+                {
+                  "abbrev": "@SEA",
+                  "home_team": "true",
+                  "game_id": null,
+                  "time": 1788999600,
+                  "point": "1",
+                  "venuetype": "Outside",
+                  "game_abbr": null
+                }
+              ],
+              "photo": "https://sports.cbsimg.net/images/football/nfl/players/170x170/26695757.png",
+              "roster_status": "A",
+              "eligible_for_il": 0,
+              "ytd_points": 0,
+              "fullname": "Drake Maye",
+              "eligible_for_offense_and_defense": 0,
+              "profile_link": "<a class='playerLink' aria-label=' Drake Maye QB NE' href='https://kjfha.football.cbssports.com/players/playerpage/26695757'>Drake Maye</a> <span class=\"playerPositionAndTeam\">QB &#149; NE</span> ",
+              "home_game": 0,
+              "position": "QB",
+              "wildcards": {
+                "salary": null
+              },
+              "pro_team": "NE",
+              "update_type": "normal",
+              "on_waivers_until": null,
+              "percentstarted": "77%",
+              "eligible_positions_display": "QB",
+              "firstname": "Drake",
+              "opponent": "@SEA",
+              "oprk": 7,
+              "game_odds": {
+                "odds": {
+                  "total": {
+                    "total": "44.5",
+                    "selection_ids": null,
+                    "under_odds": "-110",
+                    "over_odds": "-110"
+                  },
+                  "team_odds": [
+                    {
+                      "spread": {
+                        "odds": "-110",
+                        "spread": "+3.5",
+                        "selection_id": "-"
+                      },
+                      "team_abbr": "NE"
+                    },
+                    {
+                      "spread": {
+                        "odds": "-110",
+                        "spread": "-3.5",
+                        "selection_id": "-"
+                      },
+                      "team_abbr": "SEA"
+                    }
+                  ]
+                },
+                "book_used": "MGM",
+                "game_status": "S",
+                "odds_from_preferred_book": 1
+              },
+              "bye_week": "11",
+              "age": 23,
+              "headline": "Patriots' Drake Maye: Sharp at Monday's practice session",
+              "elias_id": "MAY289639",
+              "on_waivers": 0,
+              "opponent_team": "SEA",
+              "is_locked": "0",
+              "eligible": "QB",
+              "no_longer_eligible_for_ml": 0,
+              "owned_by_team_id": "8",
+              "pro_status": "A",
+              "roster_pos": "QB",
+              "is_keeper": 0
+            },
+            {
+              "jersey": "13",
+              "profile_url": "https://kjfha.football.cbssports.com/players/playerpage/2252798",
+              "no_longer_eligible_for_il": 0,
+              "projected_points": "7.4",
+              "id": "2252798",
+              "gametime": 1789318800,
+              "percentowned": "94%",
+              "avg_points": "0.00",
+              "lastname": "Dowdle",
+              "opponents": [
+                {
+                  "abbrev": "ATL",
+                  "home_team": "false",
+                  "game_id": null,
+                  "time": 1789318800,
+                  "point": "1",
+                  "venuetype": "Outside",
+                  "game_abbr": null
+                }
+              ],
+              "photo": "https://sports.cbsimg.net/images/football/nfl/players/170x170/2252798.png",
+              "roster_status": "A",
+              "eligible_for_il": 0,
+              "ytd_points": 0,
+              "fullname": "Rico Dowdle",
+              "eligible_for_offense_and_defense": 0,
+              "profile_link": "<a class='playerLink' aria-label=' Rico Dowdle RB PIT' href='https://kjfha.football.cbssports.com/players/playerpage/2252798'>Rico Dowdle</a> <span class=\"playerPositionAndTeam\">RB &#149; PIT</span> ",
+              "home_game": 1,
+              "position": "RB",
+              "wildcards": {
+                "salary": null
+              },
+              "pro_team": "PIT",
+              "update_type": "normal",
+              "on_waivers_until": null,
+              "percentstarted": "52%",
+              "eligible_positions_display": "RB",
+              "firstname": "Rico",
+              "opponent": "ATL",
+              "oprk": 11,
+              "game_odds": {
+                "odds": {
+                  "total": {
+                    "total": "41.5",
+                    "selection_ids": null,
+                    "under_odds": "-110",
+                    "over_odds": "-110"
+                  },
+                  "team_odds": [
+                    {
+                      "spread": {
+                        "odds": "-110",
+                        "spread": "+3",
+                        "selection_id": "-"
+                      },
+                      "team_abbr": "ATL"
+                    },
+                    {
+                      "spread": {
+                        "odds": "-110",
+                        "spread": "-3",
+                        "selection_id": "-"
+                      },
+                      "team_abbr": "PIT"
+                    }
+                  ]
+                },
+                "book_used": "MGM",
+                "game_status": "S",
+                "odds_from_preferred_book": 1
+              },
+              "bye_week": "9",
+              "age": 28,
+              "headline": "Steelers' Rico Dowdle: Five carries Friday, just like Warren",
+              "elias_id": "DOW329751",
+              "on_waivers": 0,
+              "opponent_team": "ATL",
+              "is_locked": "0",
+              "eligible": "RB,RB-WR-TE",
+              "no_longer_eligible_for_ml": 0,
+              "owned_by_team_id": "8",
+              "pro_status": "A",
+              "roster_pos": "RB",
+              "is_keeper": 0
+            },
+            {
+              "profile_url": "https://kjfha.football.cbssports.com/players/playerpage/29133405",
+              "no_longer_eligible_for_il": 0,
+              "projected_points": "6.2",
+              "id": "29133405",
+              "avg_points": "0.00",
+              "lastname": "Love",
+              "opponents": [
+                {
+                  "abbrev": "@LAC",
+                  "home_team": "true",
+                  "game_id": null,
+                  "time": 1789331100,
+                  "point": "1",
+                  "venuetype": "Outside",
+                  "game_abbr": null
+                }
+              ],
+              "photo": "https://sports.cbsimg.net/images/football/nfl/players/170x170/29133405.png",
+              "eligible_for_il": 0,
+              "eligible_for_offense_and_defense": 0,
+              "position": "RB",
+              "firstname": "Jeremiyah",
+              "opponent": "@LAC",
+              "game_odds": {
+                "odds": {
+                  "total": {
+                    "total": "46.5",
+                    "selection_ids": null,
+                    "under_odds": "-110",
+                    "over_odds": "-110"
+                  },
+                  "team_odds": [
+                    {
+                      "spread": {
+                        "odds": "-105",
+                        "spread": "+10.5",
+                        "selection_id": "-"
+                      },
+                      "team_abbr": "ARI"
+                    },
+                    {
+                      "spread": {
+                        "odds": "-115",
+                        "spread": "-10.5",
+                        "selection_id": "-"
+                      },
+                      "team_abbr": "LAC"
+                    }
+                  ]
+                },
+                "book_used": "MGM",
+                "game_status": "S",
+                "odds_from_preferred_book": 1
+              },
+              "elias_id": "LOV121782",
+              "eligible": "RB,RB-WR-TE",
+              "injury": "Ankle",
+              "no_longer_eligible_for_ml": 0,
+              "roster_pos": "RB",
+              "is_keeper": 0,
+              "jersey": "4",
+              "icons": {
+                "injury": "Ankle: Questionable for Week 1 at L.A. Chargers"
+              },
+              "gametime": 1789331100,
+              "percentowned": "24%",
+              "roster_status": "A",
+              "ytd_points": 0,
+              "fullname": "Jeremiyah Love",
+              "profile_link": "<a class='playerLink' aria-label=' Jeremiyah Love RB ARI' href='https://kjfha.football.cbssports.com/players/playerpage/29133405'>Jeremiyah Love</a> <span class=\"playerPositionAndTeam\">RB &#149; ARI</span> <span class=\"playerIconsWrapper\"><span title=\"Ankle: Questionable for Week 1 at L.A. Chargers\"><a href=\"https://kjfha.football.cbssports.com/players/playerpage/29133405\" subtab=\"Injury Report\" class=\"playerLink\" aria-label=\"Injury Report: Ankle: Questionable for Week 1 at L.A. Chargers\"><span class=\"icon-red_cross\"></span></a></span></span>",
+              "home_game": 0,
+              "wildcards": {
+                "salary": null
+              },
+              "pro_team": "ARI",
+              "update_type": "normal",
+              "on_waivers_until": null,
+              "percentstarted": "18%",
+              "return": "Questionable for Week 1 at L.A. Chargers",
+              "eligible_positions_display": "RB",
+              "oprk": 5,
+              "bye_week": "14",
+              "age": 21,
+              "headline": "Cardinals' Jeremiyah Love: No surgery needed, per LaFleur",
+              "opponent_team": "LAC",
+              "on_waivers": 0,
+              "is_locked": "0",
+              "pro_status": "A",
+              "owned_by_team_id": "8"
+            },
+            {
+              "jersey": "1",
+              "profile_url": "https://kjfha.football.cbssports.com/players/playerpage/3125968",
+              "no_longer_eligible_for_il": 0,
+              "projected_points": "9.6",
+              "id": "3125968",
+              "gametime": 1789318800,
+              "percentowned": "94%",
+              "avg_points": "0.00",
+              "lastname": "Williams",
+              "opponents": [
+                {
+                  "abbrev": "NO",
+                  "home_team": "false",
+                  "game_id": null,
+                  "time": 1789318800,
+                  "point": "1",
+                  "venuetype": "Outside",
+                  "game_abbr": null
+                }
+              ],
+              "photo": "https://sports.cbsimg.net/images/football/nfl/players/170x170/3125968.png",
+              "roster_status": "A",
+              "eligible_for_il": 0,
+              "ytd_points": 0,
+              "fullname": "Jameson Williams",
+              "eligible_for_offense_and_defense": 0,
+              "profile_link": "<a class='playerLink' aria-label=' Jameson Williams WR DET' href='https://kjfha.football.cbssports.com/players/playerpage/3125968'>Jameson Williams</a> <span class=\"playerPositionAndTeam\">WR &#149; DET</span> ",
+              "home_game": 1,
+              "position": "WR",
+              "wildcards": {
+                "salary": null
+              },
+              "pro_team": "DET",
+              "update_type": "normal",
+              "on_waivers_until": null,
+              "percentstarted": "81%",
+              "eligible_positions_display": "WR",
+              "firstname": "Jameson",
+              "opponent": "NO",
+              "oprk": 13,
+              "game_odds": {
+                "odds": {
+                  "total": {
+                    "total": "49.5",
+                    "selection_ids": null,
+                    "under_odds": "-110",
+                    "over_odds": "-110"
+                  },
+                  "team_odds": [
+                    {
+                      "spread": {
+                        "odds": "-110",
+                        "spread": "+7",
+                        "selection_id": "-"
+                      },
+                      "team_abbr": "NO"
+                    },
+                    {
+                      "spread": {
+                        "odds": "-110",
+                        "spread": "-7",
+                        "selection_id": "-"
+                      },
+                      "team_abbr": "DET"
+                    }
+                  ]
+                },
+                "book_used": "MGM",
+                "game_status": "S",
+                "odds_from_preferred_book": 1
+              },
+              "bye_week": "6",
+              "age": 25,
+              "headline": "Lions' Jameson Williams: Participates in Wednesday's practice",
+              "elias_id": "WIL344909",
+              "on_waivers": 0,
+              "opponent_team": "NO",
+              "is_locked": "0",
+              "eligible": "WR-TE,RB-WR-TE",
+              "no_longer_eligible_for_ml": 0,
+              "owned_by_team_id": "8",
+              "pro_status": "A",
+              "roster_pos": "WR-TE",
+              "is_keeper": 0
+            },
+            {
+              "profile_url": "https://kjfha.football.cbssports.com/players/playerpage/26697761",
+              "no_longer_eligible_for_il": 0,
+              "projected_points": "12.6",
+              "id": "26697761",
+              "avg_points": "0.00",
+              "lastname": "Nabers",
+              "opponents": [
+                {
+                  "abbrev": "DAL",
+                  "home_team": "false",
+                  "game_id": null,
+                  "time": 1789345200,
+                  "point": "1",
+                  "venuetype": "Outside",
+                  "game_abbr": null
+                }
+              ],
+              "photo": "https://sports.cbsimg.net/images/football/nfl/players/170x170/26697761.png",
+              "eligible_for_il": 0,
+              "eligible_for_offense_and_defense": 0,
+              "position": "WR",
+              "firstname": "Malik",
+              "opponent": "DAL",
+              "game_odds": {
+                "odds": {
+                  "total": {
+                    "total": "48.5",
+                    "selection_ids": null,
+                    "under_odds": "-110",
+                    "over_odds": "-110"
+                  },
+                  "team_odds": [
+                    {
+                      "spread": {
+                        "odds": "-118",
+                        "spread": "-2.5",
+                        "selection_id": "-"
+                      },
+                      "team_abbr": "DAL"
+                    },
+                    {
+                      "spread": {
+                        "odds": "-102",
+                        "spread": "+2.5",
+                        "selection_id": "-"
+                      },
+                      "team_abbr": "NYG"
+                    }
+                  ]
+                },
+                "book_used": "MGM",
+                "game_status": "S",
+                "odds_from_preferred_book": 1
+              },
+              "elias_id": "NAB400459",
+              "eligible": "WR-TE,RB-WR-TE",
+              "injury": "Knee - ACL",
+              "no_longer_eligible_for_ml": 0,
+              "roster_pos": "WR-TE",
+              "is_keeper": 0,
+              "jersey": "1",
+              "icons": {
+                "injury": "Knee - ACL: Questionable for Week 1 vs. Dallas",
+                "headline": "Giants' Malik Nabers: May ditch red jersey this week"
+              },
+              "gametime": 1789345200,
+              "percentowned": "53%",
+              "roster_status": "A",
+              "ytd_points": 0,
+              "fullname": "Malik Nabers",
+              "profile_link": "<a class='playerLink' aria-label=' Malik Nabers WR NYG' href='https://kjfha.football.cbssports.com/players/playerpage/26697761'>Malik Nabers</a> <span class=\"playerPositionAndTeam\">WR &#149; NYG</span> <span class=\"playerIconsWrapper\"><span title=\"Giants' Malik Nabers: May ditch red jersey this week\"><a href=\"https://kjfha.football.cbssports.com/players/playerpage/26697761\" class=\"playerLink\" subtab=\"Update\" aria-label=\"Update: Giants' Malik Nabers: May ditch red jersey this week\"><span class=\"icon-news-note-recent\"></span></a></span><span title=\"Knee - ACL: Questionable for Week 1 vs. Dallas\"><a href=\"https://kjfha.football.cbssports.com/players/playerpage/26697761\" subtab=\"Injury Report\" class=\"playerLink\" aria-label=\"Injury Report: Knee - ACL: Questionable for Week 1 vs. Dallas\"><span class=\"icon-red_cross\"></span></a></span></span>",
+              "home_game": 1,
+              "wildcards": {
+                "salary": null
+              },
+              "pro_team": "NYG",
+              "update_type": "normal",
+              "on_waivers_until": null,
+              "percentstarted": "25%",
+              "return": "Questionable for Week 1 vs. Dallas",
+              "eligible_positions_display": "WR",
+              "oprk": 32,
+              "bye_week": "8",
+              "age": 23,
+              "headline": "Giants' Malik Nabers: May ditch red jersey this week",
+              "opponent_team": "DAL",
+              "on_waivers": 0,
+              "is_locked": "0",
+              "pro_status": "A",
+              "owned_by_team_id": "8"
+            },
+            {
+              "jersey": "15",
+              "profile_url": "https://kjfha.football.cbssports.com/players/playerpage/3163962",
+              "no_longer_eligible_for_il": 0,
+              "projected_points": "11.9",
+              "id": "3163962",
+              "gametime": 1789331100,
+              "percentowned": "94%",
+              "avg_points": "0.00",
+              "lastname": "McConkey",
+              "opponents": [
+                {
+                  "abbrev": "ARI",
+                  "home_team": "false",
+                  "game_id": null,
+                  "time": 1789331100,
+                  "point": "1",
+                  "venuetype": "Outside",
+                  "game_abbr": null
+                }
+              ],
+              "photo": "https://sports.cbsimg.net/images/football/nfl/players/170x170/3163962.png",
+              "roster_status": "A",
+              "eligible_for_il": 0,
+              "ytd_points": 0,
+              "fullname": "Ladd McConkey",
+              "eligible_for_offense_and_defense": 0,
+              "profile_link": "<a class='playerLink' aria-label=' Ladd McConkey WR LAC' href='https://kjfha.football.cbssports.com/players/playerpage/3163962'>Ladd McConkey</a> <span class=\"playerPositionAndTeam\">WR &#149; LAC</span> ",
+              "home_game": 1,
+              "position": "WR",
+              "wildcards": {
+                "salary": null
+              },
+              "pro_team": "LAC",
+              "update_type": "normal",
+              "on_waivers_until": null,
+              "percentstarted": "64%",
+              "eligible_positions_display": "WR",
+              "firstname": "Ladd",
+              "opponent": "ARI",
+              "oprk": 15,
+              "game_odds": {
+                "odds": {
+                  "total": {
+                    "total": "46.5",
+                    "selection_ids": null,
+                    "under_odds": "-110",
+                    "over_odds": "-110"
+                  },
+                  "team_odds": [
+                    {
+                      "spread": {
+                        "odds": "-105",
+                        "spread": "+10.5",
+                        "selection_id": "-"
+                      },
+                      "team_abbr": "ARI"
+                    },
+                    {
+                      "spread": {
+                        "odds": "-115",
+                        "spread": "-10.5",
+                        "selection_id": "-"
+                      },
+                      "team_abbr": "LAC"
+                    }
+                  ]
+                },
+                "book_used": "MGM",
+                "game_status": "S",
+                "odds_from_preferred_book": 1
+              },
+              "bye_week": "7",
+              "age": 24,
+              "headline": "Chargers' Ladd McConkey: Plays opening series Thursday",
+              "elias_id": "MCC512833",
+              "on_waivers": 0,
+              "opponent_team": "ARI",
+              "is_locked": "0",
+              "eligible": "WR-TE,RB-WR-TE",
+              "no_longer_eligible_for_ml": 0,
+              "owned_by_team_id": "8",
+              "pro_status": "A",
+              "roster_pos": "RB-WR-TE",
+              "is_keeper": 0
+            },
+            {
+              "jersey": "4",
+              "profile_url": "https://kjfha.football.cbssports.com/players/playerpage/2165272",
+              "no_longer_eligible_for_il": 0,
+              "projected_points": "6.7",
+              "id": "2165272",
+              "gametime": 1789318800,
+              "percentowned": "83%",
+              "avg_points": "0.00",
+              "lastname": "McLaughlin",
+              "opponents": [
+                {
+                  "abbrev": "@CIN",
+                  "home_team": "true",
+                  "game_id": null,
+                  "time": 1789318800,
+                  "point": "1",
+                  "venuetype": "Outside",
+                  "game_abbr": null
+                }
+              ],
+              "photo": "https://sports.cbsimg.net/images/football/nfl/players/170x170/2165272.png",
+              "roster_status": "A",
+              "eligible_for_il": 0,
+              "ytd_points": 0,
+              "fullname": "Chase McLaughlin",
+              "eligible_for_offense_and_defense": 0,
+              "profile_link": "<a class='playerLink' aria-label=' Chase McLaughlin K TB' href='https://kjfha.football.cbssports.com/players/playerpage/2165272'>Chase McLaughlin</a> <span class=\"playerPositionAndTeam\">K &#149; TB</span>",
+              "home_game": 0,
+              "position": "K",
+              "wildcards": {
+                "salary": null
+              },
+              "pro_team": "TB",
+              "update_type": "normal",
+              "on_waivers_until": null,
+              "percentstarted": "72%",
+              "eligible_positions_display": "K",
+              "firstname": "Chase",
+              "opponent": "@CIN",
+              "oprk": 16,
+              "game_odds": {
+                "odds": {
+                  "total": {
+                    "total": "52.5",
+                    "selection_ids": null,
+                    "under_odds": "-110",
+                    "over_odds": "-110"
+                  },
+                  "team_odds": [
+                    {
+                      "spread": {
+                        "odds": "-110",
+                        "spread": "+3.5",
+                        "selection_id": "-"
+                      },
+                      "team_abbr": "TB"
+                    },
+                    {
+                      "spread": {
+                        "odds": "-110",
+                        "spread": "-3.5",
+                        "selection_id": "-"
+                      },
+                      "team_abbr": "CIN"
+                    }
+                  ]
+                },
+                "book_used": "MGM",
+                "game_status": "S",
+                "odds_from_preferred_book": 1
+              },
+              "bye_week": "10",
+              "age": 30,
+              "headline": null,
+              "elias_id": "MCL090068",
+              "on_waivers": 0,
+              "opponent_team": "CIN",
+              "is_locked": "0",
+              "eligible": "K",
+              "no_longer_eligible_for_ml": 0,
+              "owned_by_team_id": "8",
+              "pro_status": "A",
+              "roster_pos": "K",
+              "is_keeper": 0
+            },
+            {
+              "profile_url": "https://kjfha.football.cbssports.com/players/playerpage/1925",
+              "no_longer_eligible_for_il": 0,
+              "icons": {
+                "headline": "William Bradley-King: Tryout in New York"
+              },
+              "projected_points": "2.7",
+              "id": "1925",
+              "gametime": 1789086900,
+              "percentowned": "54%",
+              "avg_points": "0.00",
+              "lastname": "49ers",
+              "opponents": [
+                {
+                  "abbrev": "@LAR",
+                  "home_team": "true",
+                  "game_id": null,
+                  "time": 1789086900,
+                  "point": "1",
+                  "venuetype": "Outside",
+                  "game_abbr": null
+                }
+              ],
+              "photo": "https://sports.cbsimg.net/images/nfl/logos/250x250/SF.png",
+              "roster_status": "A",
+              "eligible_for_il": 0,
+              "ytd_points": 0,
+              "fullname": "49ers",
+              "eligible_for_offense_and_defense": 0,
+              "profile_link": "<a class='playerLink' aria-label=' 49ers DST SF' href='https://kjfha.football.cbssports.com/players/playerpage/1925'>49ers</a> <span class=\"playerPositionAndTeam\">DST &#149; SF</span> <span class=\"playerIconsWrapper\"><span title=\"William Bradley-King: Tryout in New York\"><a href=\"https://kjfha.football.cbssports.com/players/playerpage/1925\" class=\"playerLink\" subtab=\"Update\" aria-label=\"Update: William Bradley-King: Tryout in New York\"><span class=\"icon-news-note-recent\"></span></a></span></span>",
+              "home_game": 0,
+              "position": "DST",
+              "wildcards": {
+                "salary": null
+              },
+              "pro_team": "SF",
+              "update_type": "normal",
+              "on_waivers_until": null,
+              "percentstarted": "29%",
+              "eligible_positions_display": "DST",
+              "firstname": "",
+              "opponent": "@LAR",
+              "oprk": 1,
+              "game_odds": {
+                "odds": {
+                  "total": {
+                    "total": "48.5",
+                    "selection_ids": null,
+                    "under_odds": "-105",
+                    "over_odds": "-115"
+                  },
+                  "team_odds": [
+                    {
+                      "spread": {
+                        "odds": "-110",
+                        "spread": "+3.5",
+                        "selection_id": "-"
+                      },
+                      "team_abbr": "SF"
+                    },
+                    {
+                      "spread": {
+                        "odds": "-110",
+                        "spread": "-3.5",
+                        "selection_id": "-"
+                      },
+                      "team_abbr": "LAR"
+                    }
+                  ]
+                },
+                "book_used": "MGM",
+                "game_status": "S",
+                "odds_from_preferred_book": 1
+              },
+              "bye_week": "8",
+              "headline": "William Bradley-King: Tryout in New York",
+              "elias_id": "415",
+              "on_waivers": 0,
+              "opponent_team": "LAR",
+              "is_locked": "0",
+              "eligible": "DST",
+              "no_longer_eligible_for_ml": 0,
+              "pro_status": null,
+              "owned_by_team_id": "8",
+              "roster_pos": "DST",
+              "is_keeper": 0
+            },
+            {
+              "jersey": "8",
+              "profile_url": "https://kjfha.football.cbssports.com/players/playerpage/2181169",
+              "no_longer_eligible_for_il": 0,
+              "projected_points": "12.3",
+              "id": "2181169",
+              "gametime": 1789318800,
+              "percentowned": "96%",
+              "avg_points": "0.00",
+              "lastname": "Jackson",
+              "opponents": [
+                {
+                  "abbrev": "@IND",
+                  "home_team": "true",
+                  "game_id": null,
+                  "time": 1789318800,
+                  "point": "1",
+                  "venuetype": "Outside",
+                  "game_abbr": null
+                }
+              ],
+              "photo": "https://sports.cbsimg.net/images/football/nfl/players/170x170/2181169.png",
+              "roster_status": "RS",
+              "eligible_for_il": 0,
+              "ytd_points": 0,
+              "fullname": "Lamar Jackson",
+              "eligible_for_offense_and_defense": 0,
+              "profile_link": "<a class='playerLink' aria-label=' Lamar Jackson QB BAL' href='https://kjfha.football.cbssports.com/players/playerpage/2181169'>Lamar Jackson</a> <span class=\"playerPositionAndTeam\">QB &#149; BAL</span>",
+              "home_game": 0,
+              "position": "QB",
+              "wildcards": {
+                "salary": null
+              },
+              "pro_team": "BAL",
+              "update_type": "normal",
+              "on_waivers_until": null,
+              "percentstarted": "63%",
+              "eligible_positions_display": "QB",
+              "firstname": "Lamar",
+              "opponent": "@IND",
+              "oprk": 19,
+              "game_odds": {
+                "odds": {
+                  "total": {
+                    "total": "49.5",
+                    "selection_ids": null,
+                    "under_odds": "-120",
+                    "over_odds": "+100"
+                  },
+                  "team_odds": [
+                    {
+                      "spread": {
+                        "odds": "-115",
+                        "spread": "-3.5",
+                        "selection_id": "-"
+                      },
+                      "team_abbr": "BAL"
+                    },
+                    {
+                      "spread": {
+                        "odds": "-105",
+                        "spread": "+3.5",
+                        "selection_id": "-"
+                      },
+                      "team_abbr": "IND"
+                    }
+                  ]
+                },
+                "book_used": "MGM",
+                "game_status": "S",
+                "odds_from_preferred_book": 1
+              },
+              "bye_week": "13",
+              "age": 29,
+              "headline": null,
+              "elias_id": "JAC323395",
+              "on_waivers": 0,
+              "opponent_team": "IND",
+              "is_locked": "0",
+              "eligible": "QB",
+              "no_longer_eligible_for_ml": 0,
+              "owned_by_team_id": "8",
+              "pro_status": "A",
+              "roster_pos": "QB",
+              "is_keeper": 0
+            },
+            {
+              "jersey": "5",
+              "profile_url": "https://kjfha.football.cbssports.com/players/playerpage/3123337",
+              "no_longer_eligible_for_il": 0,
+              "projected_points": "9.6",
+              "id": "3123337",
+              "gametime": 1789331100,
+              "percentowned": "72%",
+              "avg_points": "0.00",
+              "lastname": "Daniels",
+              "opponents": [
+                {
+                  "abbrev": "@PHI",
+                  "home_team": "true",
+                  "game_id": null,
+                  "time": 1789331100,
+                  "point": "1",
+                  "venuetype": "Outside",
+                  "game_abbr": null
+                }
+              ],
+              "photo": "https://sports.cbsimg.net/images/football/nfl/players/170x170/3123337.png",
+              "roster_status": "RS",
+              "eligible_for_il": 0,
+              "ytd_points": 0,
+              "fullname": "Jayden Daniels",
+              "eligible_for_offense_and_defense": 0,
+              "profile_link": "<a class='playerLink' aria-label=' Jayden Daniels QB WAS' href='https://kjfha.football.cbssports.com/players/playerpage/3123337'>Jayden Daniels</a> <span class=\"playerPositionAndTeam\">QB &#149; WAS</span> ",
+              "home_game": 0,
+              "position": "QB",
+              "wildcards": {
+                "salary": null
+              },
+              "pro_team": "WAS",
+              "update_type": "normal",
+              "on_waivers_until": null,
+              "percentstarted": "27%",
+              "eligible_positions_display": "QB",
+              "firstname": "Jayden",
+              "opponent": "@PHI",
+              "oprk": 12,
+              "game_odds": {
+                "odds": {
+                  "total": {
+                    "total": "47.5",
+                    "selection_ids": null,
+                    "under_odds": "-110",
+                    "over_odds": "-110"
+                  },
+                  "team_odds": [
+                    {
+                      "spread": {
+                        "odds": "-115",
+                        "spread": "+4.5",
+                        "selection_id": "-"
+                      },
+                      "team_abbr": "WAS"
+                    },
+                    {
+                      "spread": {
+                        "odds": "-105",
+                        "spread": "-4.5",
+                        "selection_id": "-"
+                      },
+                      "team_abbr": "PHI"
+                    }
+                  ]
+                },
+                "book_used": "MGM",
+                "game_status": "S",
+                "odds_from_preferred_book": 1
+              },
+              "bye_week": "7",
+              "age": 25,
+              "headline": "Commanders' Jayden Daniels: Rusty in first game",
+              "elias_id": "DAN567618",
+              "on_waivers": 0,
+              "opponent_team": "PHI",
+              "is_locked": "0",
+              "eligible": "QB",
+              "no_longer_eligible_for_ml": 0,
+              "owned_by_team_id": "8",
+              "pro_status": "A",
+              "roster_pos": "QB",
+              "is_keeper": 0
+            },
+            {
+              "jersey": "27",
+              "profile_url": "https://kjfha.football.cbssports.com/players/playerpage/2967536",
+              "no_longer_eligible_for_il": 0,
+              "projected_points": "5.3",
+              "id": "2967536",
+              "gametime": 1789331100,
+              "percentowned": "77%",
+              "avg_points": "0.00",
+              "lastname": "Mason",
+              "opponents": [
+                {
+                  "abbrev": "GB",
+                  "home_team": "false",
+                  "game_id": null,
+                  "time": 1789331100,
+                  "point": "1",
+                  "venuetype": "Outside",
+                  "game_abbr": null
+                }
+              ],
+              "photo": "https://sports.cbsimg.net/images/football/nfl/players/170x170/2967536.png",
+              "roster_status": "RS",
+              "eligible_for_il": 0,
+              "ytd_points": 0,
+              "fullname": "Jordan Mason",
+              "eligible_for_offense_and_defense": 0,
+              "profile_link": "<a class='playerLink' aria-label=' Jordan Mason RB MIN' href='https://kjfha.football.cbssports.com/players/playerpage/2967536'>Jordan Mason</a> <span class=\"playerPositionAndTeam\">RB &#149; MIN</span> ",
+              "home_game": 1,
+              "position": "RB",
+              "wildcards": {
+                "salary": null
+              },
+              "pro_team": "MIN",
+              "update_type": "normal",
+              "on_waivers_until": null,
+              "percentstarted": "16%",
+              "eligible_positions_display": "RB",
+              "firstname": "Jordan",
+              "opponent": "GB",
+              "oprk": 14,
+              "game_odds": {
+                "odds": {
+                  "total": {
+                    "total": "45.5",
+                    "selection_ids": null,
+                    "under_odds": "-115",
+                    "over_odds": "-105"
+                  },
+                  "team_odds": [
+                    {
+                      "spread": {
+                        "odds": "+100",
+                        "spread": "-1.5",
+                        "selection_id": "-"
+                      },
+                      "team_abbr": "GB"
+                    },
+                    {
+                      "spread": {
+                        "odds": "-120",
+                        "spread": "+1.5",
+                        "selection_id": "-"
+                      },
+                      "team_abbr": "MIN"
+                    }
+                  ]
+                },
+                "book_used": "MGM",
+                "game_status": "S",
+                "odds_from_preferred_book": 1
+              },
+              "bye_week": "6",
+              "age": 27,
+              "headline": "Vikings' Jordan Mason: Just three totes in preseason opener",
+              "elias_id": "MAS125056",
+              "on_waivers": 0,
+              "opponent_team": "GB",
+              "is_locked": "0",
+              "eligible": "RB,RB-WR-TE",
+              "no_longer_eligible_for_ml": 0,
+              "owned_by_team_id": "8",
+              "pro_status": "A",
+              "roster_pos": "RB",
+              "is_keeper": 0
+            },
+            {
+              "jersey": "44",
+              "profile_url": "https://kjfha.football.cbssports.com/players/playerpage/26697012",
+              "no_longer_eligible_for_il": 0,
+              "projected_points": "10.8",
+              "id": "26697012",
+              "gametime": 1789345200,
+              "percentowned": "62%",
+              "avg_points": "0.00",
+              "lastname": "Skattebo",
+              "opponents": [
+                {
+                  "abbrev": "DAL",
+                  "home_team": "false",
+                  "game_id": null,
+                  "time": 1789345200,
+                  "point": "1",
+                  "venuetype": "Outside",
+                  "game_abbr": null
+                }
+              ],
+              "photo": "https://sports.cbsimg.net/images/football/nfl/players/170x170/26697012.png",
+              "roster_status": "RS",
+              "eligible_for_il": 0,
+              "ytd_points": 0,
+              "fullname": "Cam Skattebo",
+              "eligible_for_offense_and_defense": 0,
+              "profile_link": "<a class='playerLink' aria-label=' Cam Skattebo RB NYG' href='https://kjfha.football.cbssports.com/players/playerpage/26697012'>Cam Skattebo</a> <span class=\"playerPositionAndTeam\">RB &#149; NYG</span> ",
+              "home_game": 1,
+              "position": "RB",
+              "wildcards": {
+                "salary": null
+              },
+              "pro_team": "NYG",
+              "update_type": "normal",
+              "on_waivers_until": null,
+              "percentstarted": "25%",
+              "eligible_positions_display": "RB",
+              "firstname": "Cam",
+              "opponent": "DAL",
+              "oprk": 24,
+              "game_odds": {
+                "odds": {
+                  "total": {
+                    "total": "48.5",
+                    "selection_ids": null,
+                    "under_odds": "-110",
+                    "over_odds": "-110"
+                  },
+                  "team_odds": [
+                    {
+                      "spread": {
+                        "odds": "-118",
+                        "spread": "-2.5",
+                        "selection_id": "-"
+                      },
+                      "team_abbr": "DAL"
+                    },
+                    {
+                      "spread": {
+                        "odds": "-102",
+                        "spread": "+2.5",
+                        "selection_id": "-"
+                      },
+                      "team_abbr": "NYG"
+                    }
+                  ]
+                },
+                "book_used": "MGM",
+                "game_status": "S",
+                "odds_from_preferred_book": 1
+              },
+              "bye_week": "8",
+              "age": 24,
+              "headline": "Giants' Cam Skattebo: Backfield getting crowded",
+              "elias_id": "SKA578439",
+              "on_waivers": 0,
+              "opponent_team": "DAL",
+              "is_locked": "0",
+              "eligible": "RB,RB-WR-TE",
+              "no_longer_eligible_for_ml": 0,
+              "owned_by_team_id": "8",
+              "pro_status": "A",
+              "roster_pos": "RB",
+              "is_keeper": 0
+            },
+            {
+              "jersey": "8",
+              "profile_url": "https://kjfha.football.cbssports.com/players/playerpage/28908905",
+              "no_longer_eligible_for_il": 0,
+              "projected_points": "11.2",
+              "id": "28908905",
+              "gametime": 1789331100,
+              "percentowned": "99%",
+              "avg_points": "0.00",
+              "lastname": "Hampton",
+              "opponents": [
+                {
+                  "abbrev": "ARI",
+                  "home_team": "false",
+                  "game_id": null,
+                  "time": 1789331100,
+                  "point": "1",
+                  "venuetype": "Outside",
+                  "game_abbr": null
+                }
+              ],
+              "photo": "https://sports.cbsimg.net/images/football/nfl/players/170x170/28908905.png",
+              "roster_status": "RS",
+              "eligible_for_il": 0,
+              "ytd_points": 0,
+              "fullname": "Omarion Hampton",
+              "eligible_for_offense_and_defense": 0,
+              "profile_link": "<a class='playerLink' aria-label=' Omarion Hampton RB LAC' href='https://kjfha.football.cbssports.com/players/playerpage/28908905'>Omarion Hampton</a> <span class=\"playerPositionAndTeam\">RB &#149; LAC</span> ",
+              "home_game": 1,
+              "position": "RB",
+              "wildcards": {
+                "salary": null
+              },
+              "pro_team": "LAC",
+              "update_type": "normal",
+              "on_waivers_until": null,
+              "percentstarted": "73%",
+              "eligible_positions_display": "RB",
+              "firstname": "Omarion",
+              "opponent": "ARI",
+              "oprk": 30,
+              "game_odds": {
+                "odds": {
+                  "total": {
+                    "total": "46.5",
+                    "selection_ids": null,
+                    "under_odds": "-110",
+                    "over_odds": "-110"
+                  },
+                  "team_odds": [
+                    {
+                      "spread": {
+                        "odds": "-105",
+                        "spread": "+10.5",
+                        "selection_id": "-"
+                      },
+                      "team_abbr": "ARI"
+                    },
+                    {
+                      "spread": {
+                        "odds": "-115",
+                        "spread": "-10.5",
+                        "selection_id": "-"
+                      },
+                      "team_abbr": "LAC"
+                    }
+                  ]
+                },
+                "book_used": "MGM",
+                "game_status": "S",
+                "odds_from_preferred_book": 1
+              },
+              "bye_week": "7",
+              "age": 23,
+              "headline": "Chargers' Omarion Hampton: Cameo appearance in preseason loss",
+              "elias_id": "HAM773946",
+              "on_waivers": 0,
+              "opponent_team": "ARI",
+              "is_locked": "0",
+              "eligible": "RB,RB-WR-TE",
+              "no_longer_eligible_for_ml": 0,
+              "owned_by_team_id": "8",
+              "pro_status": "A",
+              "roster_pos": "RB",
+              "is_keeper": 0
+            },
+            {
+              "profile_url": "https://kjfha.football.cbssports.com/players/playerpage/28874444",
+              "no_longer_eligible_for_il": 0,
+              "projected_points": "4.5",
+              "id": "28874444",
+              "avg_points": "0.00",
+              "lastname": "Burden III",
+              "opponents": [
+                {
+                  "abbrev": "@CAR",
+                  "home_team": "true",
+                  "game_id": null,
+                  "time": 1789318800,
+                  "point": "1",
+                  "venuetype": "Outside",
+                  "game_abbr": null
+                }
+              ],
+              "photo": "https://sports.cbsimg.net/images/football/nfl/players/170x170/28874444.png",
+              "eligible_for_il": 0,
+              "eligible_for_offense_and_defense": 0,
+              "position": "WR",
+              "firstname": "Luther",
+              "opponent": "@CAR",
+              "game_odds": {
+                "odds": {
+                  "total": {
+                    "total": "45.5",
+                    "selection_ids": null,
+                    "under_odds": "-110",
+                    "over_odds": "-110"
+                  },
+                  "team_odds": [
+                    {
+                      "spread": {
+                        "odds": "-118",
+                        "spread": "-2.5",
+                        "selection_id": "-"
+                      },
+                      "team_abbr": "CHI"
+                    },
+                    {
+                      "spread": {
+                        "odds": "-102",
+                        "spread": "+2.5",
+                        "selection_id": "-"
+                      },
+                      "team_abbr": "CAR"
+                    }
+                  ]
+                },
+                "book_used": "MGM",
+                "game_status": "S",
+                "odds_from_preferred_book": 1
+              },
+              "elias_id": "BUR035840",
+              "eligible": "WR-TE,RB-WR-TE",
+              "injury": "Groin",
+              "no_longer_eligible_for_ml": 0,
+              "roster_pos": "WR-TE",
+              "is_keeper": 0,
+              "jersey": "10",
+              "icons": {
+                "injury": "Groin: Questionable for Week 1 at Carolina"
+              },
+              "gametime": 1789318800,
+              "percentowned": "54%",
+              "roster_status": "RS",
+              "ytd_points": 0,
+              "fullname": "Luther Burden III",
+              "profile_link": "<a class='playerLink' aria-label=' Luther Burden III WR CHI' href='https://kjfha.football.cbssports.com/players/playerpage/28874444'>Luther Burden III</a> <span class=\"playerPositionAndTeam\">WR &#149; CHI</span> <span class=\"playerIconsWrapper\"><span title=\"Groin: Questionable for Week 1 at Carolina\"><a href=\"https://kjfha.football.cbssports.com/players/playerpage/28874444\" subtab=\"Injury Report\" class=\"playerLink\" aria-label=\"Injury Report: Groin: Questionable for Week 1 at Carolina\"><span class=\"icon-red_cross\"></span></a></span></span>",
+              "home_game": 0,
+              "wildcards": {
+                "salary": null
+              },
+              "pro_team": "CHI",
+              "update_type": "normal",
+              "on_waivers_until": null,
+              "percentstarted": "22%",
+              "return": "Questionable for Week 1 at Carolina",
+              "eligible_positions_display": "WR",
+              "oprk": 11,
+              "bye_week": "10",
+              "age": 22,
+              "headline": "",
+              "opponent_team": "CAR",
+              "on_waivers": 0,
+              "is_locked": "0",
+              "pro_status": "A",
+              "owned_by_team_id": "8"
+            },
+            {
+              "profile_url": "https://kjfha.football.cbssports.com/players/playerpage/1903",
+              "no_longer_eligible_for_il": 0,
+              "projected_points": "5.8",
+              "id": "1903",
+              "gametime": 1789318800,
+              "percentowned": "55%",
+              "avg_points": "0.00",
+              "lastname": "Ravens",
+              "opponents": [
+                {
+                  "abbrev": "@IND",
+                  "home_team": "true",
+                  "game_id": null,
+                  "time": 1789318800,
+                  "point": "1",
+                  "venuetype": "Outside",
+                  "game_abbr": null
+                }
+              ],
+              "photo": "https://sports.cbsimg.net/images/nfl/logos/250x250/BAL.png",
+              "roster_status": "RS",
+              "eligible_for_il": 0,
+              "ytd_points": 0,
+              "fullname": "Ravens",
+              "eligible_for_offense_and_defense": 0,
+              "profile_link": "<a class='playerLink' aria-label=' Ravens DST BAL' href='https://kjfha.football.cbssports.com/players/playerpage/1903'>Ravens</a> <span class=\"playerPositionAndTeam\">DST &#149; BAL</span> ",
+              "home_game": 0,
+              "position": "DST",
+              "wildcards": {
+                "salary": null
+              },
+              "pro_team": "BAL",
+              "update_type": "normal",
+              "on_waivers_until": null,
+              "percentstarted": "33%",
+              "eligible_positions_display": "DST",
+              "firstname": "",
+              "opponent": "@IND",
+              "oprk": 14,
+              "game_odds": {
+                "odds": {
+                  "total": {
+                    "total": "49.5",
+                    "selection_ids": null,
+                    "under_odds": "-120",
+                    "over_odds": "+100"
+                  },
+                  "team_odds": [
+                    {
+                      "spread": {
+                        "odds": "-115",
+                        "spread": "-3.5",
+                        "selection_id": "-"
+                      },
+                      "team_abbr": "BAL"
+                    },
+                    {
+                      "spread": {
+                        "odds": "-105",
+                        "spread": "+3.5",
+                        "selection_id": "-"
+                      },
+                      "team_abbr": "IND"
+                    }
+                  ]
+                },
+                "book_used": "MGM",
+                "game_status": "S",
+                "odds_from_preferred_book": 1
+              },
+              "bye_week": "13",
+              "headline": "Ravens' Jamon Johnson: Exits game early",
+              "elias_id": "425",
+              "opponent_team": "IND",
+              "on_waivers": 0,
+              "is_locked": "0",
+              "eligible": "DST",
+              "no_longer_eligible_for_ml": 0,
+              "pro_status": null,
+              "owned_by_team_id": "8",
+              "roster_pos": "DST",
+              "is_keeper": 0
+            }
+          ],
+          "name": "3MTA3",
+          "warning": {
+            "description": "You have 7 reserve players. You must have 8. You have 0 injured players. You must have 1. You have 16 total players. You must have 18. "
+          },
+          "division": "Jocks",
+          "long_abbr": "3MTA3"
+        }
+      ],
+      "period": "1",
+      "point": "1",
+      "show_lineup_optimizer": 0
+    }
+  },
+  "uri": "/league/rosters",
+  "statusMessage": "OK",
+  "statusCode": 200
+}

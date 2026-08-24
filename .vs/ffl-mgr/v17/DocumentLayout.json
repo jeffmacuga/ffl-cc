@@ -1,0 +1,943 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\User\\source\\ffl-mgr\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\cbs_rosters.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:cbs_rosters.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\discover_cbs_api.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:discover_cbs_api.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\cbs_normalize.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:cbs_normalize.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\pages\\draft_assistant.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:pages\\draft_assistant.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\cbs_verify.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:cbs_verify.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\app.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:app.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\cbs-json-validate2.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:cbs-json-validate2.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\cbs-json-validate.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:cbs-json-validate.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\test_cbs_normalize.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:test_cbs_normalize.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\cbs_inspect_json_test.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:cbs_inspect_json_test.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\cbs_inspect_json.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:cbs_inspect_json.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\cbs_pw_extract.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:cbs_pw_extract.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\cbs_pw_detect.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:cbs_pw_detect.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\cbs-json-validate3.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:cbs-json-validate3.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\cbs-json-validate-schema.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:cbs-json-validate-schema.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\cbs-disc-api.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:cbs-disc-api.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\cbs-detect.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:cbs-detect.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\data\\scripts\\check_db.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:data\\scripts\\check_db.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\data\\scripts\\draft-tables-01.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:data\\scripts\\draft-tables-01.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\data\\scripts\\merge_dbs.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:data\\scripts\\merge_dbs.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\data\\scripts\\init_db.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:data\\scripts\\init_db.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\data\\scripts\\create-draftedplayers-tbl.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:data\\scripts\\create-draftedplayers-tbl.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\scripts\\import_rankings.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:scripts\\import_rankings.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\scripts\\script-general.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:scripts\\script-general.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\scripts\\myroster.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:scripts\\myroster.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\services\\database.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:services\\database.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\discovery_output\\sample_07bb024efb32.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:discovery_output\\sample_07bb024efb32.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\cbs_verify2.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:cbs_verify2.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\data\\scripts\\create_roster_requirements.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:data\\scripts\\create_roster_requirements.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\data\\scripts\\delete-table.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:data\\scripts\\delete-table.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\data\\scripts\\import_player_rankings.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:data\\scripts\\import_player_rankings.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\data\\scripts\\validate_db3.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:data\\scripts\\validate_db3.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\data\\scripts\\validate_db2.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:data\\scripts\\validate_db2.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\data\\scripts\\validate_db.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:data\\scripts\\validate_db.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\cbs_pw_native.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:cbs_pw_native.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\cbs-disc-api3.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:cbs-disc-api3.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\discovery_output\\endpoints.jsonl||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:discovery_output\\endpoints.jsonl||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\discovery_output\\rosters_test.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:discovery_output\\rosters_test.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\archive\\cbs_test.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:archive\\cbs_test.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\data\\repositories\\draft_repo.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:data\\repositories\\draft_repo.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\tests\\test_draft_service.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:tests\\test_draft_service.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\services\\recommendation_service.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:services\\recommendation_service.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\services\\draft_service.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:services\\draft_service.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\tests\\test_recommendations.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:tests\\test_recommendations.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\data\\scripts\\check_schema.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:data\\scripts\\check_schema.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\test_available_players.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:test_available_players.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\services\\roster_service.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:services\\roster_service.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\data\\scripts\\create_missing_tables.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:data\\scripts\\create_missing_tables.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\utils\\formatters.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:utils\\formatters.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\utils\\constants.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:utils\\constants.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\models\\team.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:models\\team.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\models\\player.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:models\\player.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\tests\\test_recommendation_engine.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:tests\\test_recommendation_engine.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\source\\ffl-mgr\\tests\\test_roster_analysis.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:tests\\test_roster_analysis.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "app.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\app.py",
+              "RelativeDocumentMoniker": "app.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\app.py",
+              "RelativeToolTip": "app.py",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABoAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-15T01:25:51.528Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "cbs_rosters.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\cbs_rosters.py",
+              "RelativeDocumentMoniker": "cbs_rosters.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\cbs_rosters.py",
+              "RelativeToolTip": "cbs_rosters.py",
+              "ViewState": "AQIAAI0AAAAAAAAAAAAAAKwAAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-24T11:03:01.756Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "cbs_normalize.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\cbs_normalize.py",
+              "RelativeDocumentMoniker": "cbs_normalize.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\cbs_normalize.py",
+              "RelativeToolTip": "cbs_normalize.py",
+              "ViewState": "AQIAAA8AAAAAAAAAAAArwCAAAAARAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-24T07:51:41.71Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "discover_cbs_api.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\discover_cbs_api.py",
+              "RelativeDocumentMoniker": "discover_cbs_api.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\discover_cbs_api.py",
+              "RelativeToolTip": "discover_cbs_api.py",
+              "ViewState": "AQIAAOsAAAAAAAAAAAArwPwAAAAVAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-24T07:26:50.258Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "draft_assistant.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\pages\\draft_assistant.py",
+              "RelativeDocumentMoniker": "pages\\draft_assistant.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\pages\\draft_assistant.py",
+              "RelativeToolTip": "pages\\draft_assistant.py",
+              "ViewState": "AQIAADMAAAAAAAAAAAAAAD8AAAAfAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-24T06:09:28.548Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "cbs_verify.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\cbs_verify.py",
+              "RelativeDocumentMoniker": "cbs_verify.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\cbs_verify.py",
+              "RelativeToolTip": "cbs_verify.py",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAvAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-24T05:42:26.158Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "cbs-json-validate2.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\cbs-json-validate2.py",
+              "RelativeDocumentMoniker": "cbs-json-validate2.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\cbs-json-validate2.py",
+              "RelativeToolTip": "cbs-json-validate2.py",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-24T00:26:46.31Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "cbs-json-validate.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\cbs-json-validate.py",
+              "RelativeDocumentMoniker": "cbs-json-validate.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\cbs-json-validate.py",
+              "RelativeToolTip": "cbs-json-validate.py",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAAzAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-24T00:26:24.387Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "test_cbs_normalize.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\test_cbs_normalize.py",
+              "RelativeDocumentMoniker": "test_cbs_normalize.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\test_cbs_normalize.py",
+              "RelativeToolTip": "test_cbs_normalize.py",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABcAAAAYAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-23T20:58:23.915Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "cbs_inspect_json_test.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\cbs_inspect_json_test.py",
+              "RelativeDocumentMoniker": "cbs_inspect_json_test.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\cbs_inspect_json_test.py",
+              "RelativeToolTip": "cbs_inspect_json_test.py",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAUAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-24T03:53:29.13Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "cbs_inspect_json.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\cbs_inspect_json.py",
+              "RelativeDocumentMoniker": "cbs_inspect_json.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\cbs_inspect_json.py",
+              "RelativeToolTip": "cbs_inspect_json.py",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAqAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-24T03:51:57.538Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "cbs_pw_extract.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\cbs_pw_extract.py",
+              "RelativeDocumentMoniker": "cbs_pw_extract.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\cbs_pw_extract.py",
+              "RelativeToolTip": "cbs_pw_extract.py",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-24T03:49:50.232Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "cbs-json-validate3.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\cbs-json-validate3.py",
+              "RelativeDocumentMoniker": "cbs-json-validate3.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\cbs-json-validate3.py",
+              "RelativeToolTip": "cbs-json-validate3.py",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-24T00:26:41.982Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "cbs-json-validate-schema.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\cbs-json-validate-schema.py",
+              "RelativeDocumentMoniker": "cbs-json-validate-schema.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\cbs-json-validate-schema.py",
+              "RelativeToolTip": "cbs-json-validate-schema.py",
+              "ViewState": "AQIAABEAAAAAAAAAAADwvxYAAAAnAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-23T20:52:33.65Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "cbs-disc-api.txt",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\cbs-disc-api.txt",
+              "RelativeDocumentMoniker": "cbs-disc-api.txt",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\cbs-disc-api.txt",
+              "RelativeToolTip": "cbs-disc-api.txt",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2026-08-24T03:48:44.482Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "cbs_pw_detect.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\cbs_pw_detect.py",
+              "RelativeDocumentMoniker": "cbs_pw_detect.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\cbs_pw_detect.py",
+              "RelativeToolTip": "cbs_pw_detect.py",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-23T12:52:02.653Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "cbs-detect.txt",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\cbs-detect.txt",
+              "RelativeDocumentMoniker": "cbs-detect.txt",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\cbs-detect.txt",
+              "RelativeToolTip": "cbs-detect.txt",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2026-08-24T03:48:38.279Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "check_db.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\data\\scripts\\check_db.py",
+              "RelativeDocumentMoniker": "data\\scripts\\check_db.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\data\\scripts\\check_db.py",
+              "RelativeToolTip": "data\\scripts\\check_db.py",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAQAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-21T07:35:42.063Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "draft-tables-01.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\data\\scripts\\draft-tables-01.py",
+              "RelativeDocumentMoniker": "data\\scripts\\draft-tables-01.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\data\\scripts\\draft-tables-01.py",
+              "RelativeToolTip": "data\\scripts\\draft-tables-01.py",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-24T02:47:08.333Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "merge_dbs.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\data\\scripts\\merge_dbs.py",
+              "RelativeDocumentMoniker": "data\\scripts\\merge_dbs.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\data\\scripts\\merge_dbs.py",
+              "RelativeToolTip": "data\\scripts\\merge_dbs.py",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-24T02:47:20.372Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "init_db.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\data\\scripts\\init_db.py",
+              "RelativeDocumentMoniker": "data\\scripts\\init_db.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\data\\scripts\\init_db.py",
+              "RelativeToolTip": "data\\scripts\\init_db.py",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-23T05:51:24.967Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "create-draftedplayers-tbl.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\data\\scripts\\create-draftedplayers-tbl.py",
+              "RelativeDocumentMoniker": "data\\scripts\\create-draftedplayers-tbl.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\data\\scripts\\create-draftedplayers-tbl.py",
+              "RelativeToolTip": "data\\scripts\\create-draftedplayers-tbl.py",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-23T05:26:46.419Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "import_rankings.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\scripts\\import_rankings.py",
+              "RelativeDocumentMoniker": "scripts\\import_rankings.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\scripts\\import_rankings.py",
+              "RelativeToolTip": "scripts\\import_rankings.py",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-23T07:40:10.917Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "script-general.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\scripts\\script-general.py",
+              "RelativeDocumentMoniker": "scripts\\script-general.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\scripts\\script-general.py",
+              "RelativeToolTip": "scripts\\script-general.py",
+              "ViewState": "AQIAAAEAAAAAAAAAAAAIwAcAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-23T07:14:29.818Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "myroster.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\scripts\\myroster.py",
+              "RelativeDocumentMoniker": "scripts\\myroster.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\scripts\\myroster.py",
+              "RelativeToolTip": "scripts\\myroster.py",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-24T03:14:15.107Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "database.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\services\\database.py",
+              "RelativeDocumentMoniker": "services\\database.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\services\\database.py",
+              "RelativeToolTip": "services\\database.py",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-24T02:29:47.209Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "sample_07bb024efb32.json",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\discovery_output\\sample_07bb024efb32.json",
+              "RelativeDocumentMoniker": "discovery_output\\sample_07bb024efb32.json",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\discovery_output\\sample_07bb024efb32.json",
+              "RelativeToolTip": "discovery_output\\sample_07bb024efb32.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAAEAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-08-24T03:09:28.779Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "cbs_verify2.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\cbs_verify2.py",
+              "RelativeDocumentMoniker": "cbs_verify2.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\cbs_verify2.py",
+              "RelativeToolTip": "cbs_verify2.py",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABUAAAAbAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-23T12:34:28.189Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "create_roster_requirements.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\data\\scripts\\create_roster_requirements.py",
+              "RelativeDocumentMoniker": "data\\scripts\\create_roster_requirements.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\data\\scripts\\create_roster_requirements.py",
+              "RelativeToolTip": "data\\scripts\\create_roster_requirements.py",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-24T02:47:01.759Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "delete-table.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\data\\scripts\\delete-table.py",
+              "RelativeDocumentMoniker": "data\\scripts\\delete-table.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\data\\scripts\\delete-table.py",
+              "RelativeToolTip": "data\\scripts\\delete-table.py",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-23T05:51:56.222Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "import_player_rankings.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\data\\scripts\\import_player_rankings.py",
+              "RelativeDocumentMoniker": "data\\scripts\\import_player_rankings.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\data\\scripts\\import_player_rankings.py",
+              "RelativeToolTip": "data\\scripts\\import_player_rankings.py",
+              "ViewState": "AQIAAF0AAAAAAAAAAAAAAFgAAAAQAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-23T07:11:05.911Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "validate_db3.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\data\\scripts\\validate_db3.py",
+              "RelativeDocumentMoniker": "data\\scripts\\validate_db3.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\data\\scripts\\validate_db3.py",
+              "RelativeToolTip": "data\\scripts\\validate_db3.py",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAVAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-23T06:04:24.455Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "validate_db2.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\data\\scripts\\validate_db2.py",
+              "RelativeDocumentMoniker": "data\\scripts\\validate_db2.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\data\\scripts\\validate_db2.py",
+              "RelativeToolTip": "data\\scripts\\validate_db2.py",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-24T02:47:34.327Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "cbs_pw_native.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\cbs_pw_native.py",
+              "RelativeDocumentMoniker": "cbs_pw_native.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\cbs_pw_native.py",
+              "RelativeToolTip": "cbs_pw_native.py",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-24T02:30:02.053Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "cbs-disc-api3.txt",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\cbs-disc-api3.txt",
+              "RelativeDocumentMoniker": "cbs-disc-api3.txt",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\cbs-disc-api3.txt",
+              "RelativeToolTip": "cbs-disc-api3.txt",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2026-08-24T00:05:13.823Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "validate_db.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\data\\scripts\\validate_db.py",
+              "RelativeDocumentMoniker": "data\\scripts\\validate_db.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\data\\scripts\\validate_db.py",
+              "RelativeToolTip": "data\\scripts\\validate_db.py",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAKAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-23T05:57:33.739Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 36,
+              "Title": "endpoints.jsonl",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\discovery_output\\endpoints.jsonl",
+              "RelativeDocumentMoniker": "discovery_output\\endpoints.jsonl",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\discovery_output\\endpoints.jsonl",
+              "RelativeToolTip": "discovery_output\\endpoints.jsonl",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-08-24T00:04:49.653Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 37,
+              "Title": "rosters_test.json",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\discovery_output\\rosters_test.json",
+              "RelativeDocumentMoniker": "discovery_output\\rosters_test.json",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\discovery_output\\rosters_test.json",
+              "RelativeToolTip": "discovery_output\\rosters_test.json",
+              "ViewState": "AQIAANMDAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-08-23T23:53:09.247Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 38,
+              "Title": "cbs_test.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\archive\\cbs_test.py",
+              "RelativeDocumentMoniker": "archive\\cbs_test.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\archive\\cbs_test.py",
+              "RelativeToolTip": "archive\\cbs_test.py",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABIAAAAYAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-23T11:20:50.766Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 39,
+              "Title": "draft_repo.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\data\\repositories\\draft_repo.py",
+              "RelativeDocumentMoniker": "data\\repositories\\draft_repo.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\data\\repositories\\draft_repo.py",
+              "RelativeToolTip": "data\\repositories\\draft_repo.py",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABQAAAAtAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-23T10:06:06.674Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 40,
+              "Title": "test_draft_service.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\tests\\test_draft_service.py",
+              "RelativeDocumentMoniker": "tests\\test_draft_service.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\tests\\test_draft_service.py",
+              "RelativeToolTip": "tests\\test_draft_service.py",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAABSAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-23T09:47:04.824Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 41,
+              "Title": "recommendation_service.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\services\\recommendation_service.py",
+              "RelativeDocumentMoniker": "services\\recommendation_service.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\services\\recommendation_service.py",
+              "RelativeToolTip": "services\\recommendation_service.py",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABQAAAAEAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-23T08:07:07.26Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 42,
+              "Title": "draft_service.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\services\\draft_service.py",
+              "RelativeDocumentMoniker": "services\\draft_service.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\services\\draft_service.py",
+              "RelativeToolTip": "services\\draft_service.py",
+              "ViewState": "AQIAAAIAAAAAAAAAAAAmwBEAAAAjAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-23T05:18:56.772Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 43,
+              "Title": "test_recommendations.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\tests\\test_recommendations.py",
+              "RelativeDocumentMoniker": "tests\\test_recommendations.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\tests\\test_recommendations.py",
+              "RelativeToolTip": "tests\\test_recommendations.py",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAMAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-23T08:03:11.497Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 44,
+              "Title": "check_schema.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\data\\scripts\\check_schema.py",
+              "RelativeDocumentMoniker": "data\\scripts\\check_schema.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\data\\scripts\\check_schema.py",
+              "RelativeToolTip": "data\\scripts\\check_schema.py",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-23T07:45:10.119Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 45,
+              "Title": "test_available_players.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\test_available_players.py",
+              "RelativeDocumentMoniker": "test_available_players.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\test_available_players.py",
+              "RelativeToolTip": "test_available_players.py",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAZAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-23T07:42:48.755Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 46,
+              "Title": "roster_service.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\services\\roster_service.py",
+              "RelativeDocumentMoniker": "services\\roster_service.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\services\\roster_service.py",
+              "RelativeToolTip": "services\\roster_service.py",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-23T07:40:45.838Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 47,
+              "Title": "create_missing_tables.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\data\\scripts\\create_missing_tables.py",
+              "RelativeDocumentMoniker": "data\\scripts\\create_missing_tables.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\data\\scripts\\create_missing_tables.py",
+              "RelativeToolTip": "data\\scripts\\create_missing_tables.py",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAA3AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-23T06:58:20.212Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 48,
+              "Title": "formatters.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\utils\\formatters.py",
+              "RelativeDocumentMoniker": "utils\\formatters.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\utils\\formatters.py",
+              "RelativeToolTip": "utils\\formatters.py",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-23T05:01:14.545Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 49,
+              "Title": "constants.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\utils\\constants.py",
+              "RelativeDocumentMoniker": "utils\\constants.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\utils\\constants.py",
+              "RelativeToolTip": "utils\\constants.py",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-23T05:01:06.707Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 50,
+              "Title": "team.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\models\\team.py",
+              "RelativeDocumentMoniker": "models\\team.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\models\\team.py",
+              "RelativeToolTip": "models\\team.py",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-23T05:00:41.435Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 51,
+              "Title": "player.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\models\\player.py",
+              "RelativeDocumentMoniker": "models\\player.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\models\\player.py",
+              "RelativeToolTip": "models\\player.py",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-23T05:00:35.036Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 52,
+              "Title": "test_recommendation_engine.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\tests\\test_recommendation_engine.py",
+              "RelativeDocumentMoniker": "tests\\test_recommendation_engine.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\tests\\test_recommendation_engine.py",
+              "RelativeToolTip": "tests\\test_recommendation_engine.py",
+              "ViewState": "AQIAAC4AAAAAAAAAAAAkwE4AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-21T08:12:29.477Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 53,
+              "Title": "test_roster_analysis.py",
+              "DocumentMoniker": "C:\\Users\\User\\source\\ffl-mgr\\tests\\test_roster_analysis.py",
+              "RelativeDocumentMoniker": "tests\\test_roster_analysis.py",
+              "ToolTip": "C:\\Users\\User\\source\\ffl-mgr\\tests\\test_roster_analysis.py",
+              "RelativeToolTip": "tests\\test_roster_analysis.py",
+              "ViewState": "AQIAABIAAAAAAAAAAAAUwBoAAAAcAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-08-21T07:57:21.478Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

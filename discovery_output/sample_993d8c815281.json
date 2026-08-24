@@ -1,0 +1,23 @@
+{
+  "status": "ok",
+  "account_id": 10970,
+  "site_id": 320758,
+  "zone_id": 1660816,
+  "size_id": 2,
+  "tracking": "",
+  "inventory": {
+    "ref": "https://kjfha.football.cbssports.com/rules",
+    "page": "https://kjfha.football.cbssports.com/players/rankings/top200/season/ppr",
+    "domain": "kjfha.football.cbssports.com",
+    "documentLang": "en",
+    "dfp_ad_unit_code": "%2F8264%2Faw-cbssports%2Fnfl%2Ffantasy%2Fmgmt%2Fdraftprep_topplayers"
+  },
+  "ads": [
+    {
+      "status": "no-ads",
+      "reason": "no-compatible-ads",
+      "error_code": "10",
+      "impression_id": "0a18bef5-7b02-4e08-90cb-2a1294b45e46"
+    }
+  ]
+}

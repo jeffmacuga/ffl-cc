@@ -1,0 +1,604 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://kjfha.football.cbssports.com/api/league/feed?version=3.0&response_format=json&access_token=%5BREDACTED%5D&content_type=all",
+    "headers": {
+      "sec-ch-ua-platform": "\"Windows\"",
+      "referer": "https://kjfha.football.cbssports.com/",
+      "x-requested-with": "XMLHttpRequest",
+      "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36",
+      "accept": "application/json, text/javascript, */*; q=0.01",
+      "sec-ch-ua": "\"Chromium\";v=\"151\", \"Not=A?Brand\";v=\"99\"",
+      "sec-ch-ua-mobile": "?0"
+    }
+  },
+  "response": {
+    "status": 200,
+    "url": "https://kjfha.football.cbssports.com/api/league/feed?version=3.0&response_format=json&access_token=%5BREDACTED%5D&content_type=all",
+    "headers": {
+      "x-berequrl": "kjfha.football.cbssports.com/api/league/feed?version=3.0&response_format=json&access_token=U2FsdGVkX1-0qUS9d-Fpz-g5VvXT1Hft6HOllmoNqZqTtk8Snb2MicmJwgMgxq3Ay7VmW9lS2W3XxAd2PCLXCtOKjg3xPeZQfqJrTLcJDoekTYoSi4llsxJzmnAkG3t9&content_type=all",
+      "age": "0",
+      "access-control-allow-methods": "GET,HEAD,POST,PUT,DELETE,OPTIONS,PATCH",
+      "expires": "Mon, 24 Aug 2026 07:23:00 GMT",
+      "x-requrl": "/api/league/feed?version=3.0&response_format=json&access_token=U2FsdGVkX1-0qUS9d-Fpz-g5VvXT1Hft6HOllmoNqZqTtk8Snb2MicmJwgMgxq3Ay7VmW9lS2W3XxAd2PCLXCtOKjg3xPeZQfqJrTLcJDoekTYoSi4llsxJzmnAkG3t9&content_type=all",
+      "x-cache": "MISS, MISS",
+      "date": "Mon, 24 Aug 2026 07:23:25 GMT",
+      "content-type": "application/json",
+      "x-served-by": "cache-dtw8028-DTW, cache-dtw8025-DTW",
+      "x-cache-hits": "0, 0",
+      "access-control-allow-headers": "*",
+      "feature-policy": "unload 'self'",
+      "content-security-policy": "frame-ancestors *.cbsig.net:* *.cbssports.com *.cbssports.com:* *.sportsline.com *.cbs.com *.247sports.com *.maxpreps.com",
+      "cache-control": "max-age=0",
+      "x-backend": "K8s Origin",
+      "x-timer": "S1787556205.867584,VS0,VE288",
+      "access-control-allow-credentials": "true",
+      "via": "1.1 varnish",
+      "accept-ranges": "bytes",
+      "content-length": "17829",
+      "backend": "4LKZcp7kIsYR2cCepfJEat--F_sigsci_waf",
+      "server": "Apache"
+    }
+  },
+  "payload": {
+    "uriAlias": "/league/feed",
+    "statusMessage": "OK",
+    "uri": "/league/feed",
+    "statusCode": 200,
+    "body": {
+      "feed": {
+        "newest_key": 1786697039,
+        "content-list": [
+          {
+            "to": "Everyone",
+            "add_drop": {
+              "team": {
+                "short_name": "3MTA3",
+                "long_abbr": "3MTA3",
+                "division": "Jocks",
+                "abbr": "3MTA3",
+                "logo": "https://fantasy-media.cbssports.com/football/kjfha/team_logo/8-1785477936.jpg?width=100&height=100",
+                "name": "3MTA3",
+                "id": "8",
+                "owners": [
+                  {
+                    "name": "MCJ",
+                    "id": "451EE64E-F773-11E1-9DCE-6BAA16F8410A",
+                    "logged_in_owner": 1,
+                    "commissioner": 0,
+                    "playoff_add_drops_disabled": 0
+                  }
+                ],
+                "is_vacant": 0
+              },
+              "action": "Add",
+              "to_ir_players": [],
+              "dropped_players": [
+                {
+                  "photo": "https://sports.cbsimg.net/images/football/nfl/players/170x170/2965664.png",
+                  "profile_url": "https://kjfha.football.cbssports.com/players/playerpage/2965664",
+                  "firstname": "Alec",
+                  "fullname": "Alec Pierce",
+                  "profile_link": "<a class='playerLink' aria-label=' Alec Pierce ' href='https://kjfha.football.cbssports.com/players/playerpage/2965664'>Alec Pierce</a>",
+                  "pro_status": "PUP",
+                  "eligible_positions_display": "WR",
+                  "pro_team": "IND",
+                  "id": "2965664",
+                  "lastname": "Pierce",
+                  "position": "WR",
+                  "eligible_for_offense_and_defense": 0,
+                  "jersey": "14"
+                }
+              ],
+              "to_minors_players": [],
+              "added_players": []
+            },
+            "to_is_me": 0,
+            "modified": 1786697039,
+            "created": 1786697039,
+            "views": 0,
+            "author_name": "CBSSports.com",
+            "years": [
+              "2026"
+            ],
+            "type": "add_drop",
+            "body": "<div style=\"padding-top:15px;font-size:12px;\"><b>3MTA3</b><br>Dropped:<br><a class='playerLink' aria-label=' Alec Pierce WR IND' href='https://kjfha.football.cbssports.com/players/playerpage/2965664'>Alec Pierce</a> <span class=\"playerPositionAndTeam\">WR &#149; IND</span><br></div>",
+            "pinned": 0,
+            "id": 615873339,
+            "reply_ids": [],
+            "subject": "Add/Drop for 3MTA3",
+            "author_is_me": 0,
+            "is_private": 0
+          },
+          {
+            "to": "Everyone",
+            "add_drop": {
+              "team": {
+                "short_name": "3MTA3",
+                "long_abbr": "3MTA3",
+                "division": "Jocks",
+                "abbr": "3MTA3",
+                "logo": "https://fantasy-media.cbssports.com/football/kjfha/team_logo/8-1785477936.jpg?width=100&height=100",
+                "name": "3MTA3",
+                "id": "8",
+                "owners": [
+                  {
+                    "name": "MCJ",
+                    "id": "451EE64E-F773-11E1-9DCE-6BAA16F8410A",
+                    "logged_in_owner": 1,
+                    "commissioner": 0,
+                    "playoff_add_drops_disabled": 0
+                  }
+                ],
+                "is_vacant": 0
+              },
+              "action": "Add",
+              "to_ir_players": [],
+              "dropped_players": [
+                {
+                  "photo": "https://sports.cbsimg.net/images/football/nfl/players/170x170/3176915.png",
+                  "profile_url": "https://kjfha.football.cbssports.com/players/playerpage/3176915",
+                  "firstname": "Trey",
+                  "fullname": "Trey Benson",
+                  "profile_link": "<a class='playerLink' aria-label=' Trey Benson ' href='https://kjfha.football.cbssports.com/players/playerpage/3176915'>Trey Benson</a>",
+                  "pro_status": "A",
+                  "eligible_positions_display": "RB",
+                  "pro_team": "ARI",
+                  "id": "3176915",
+                  "lastname": "Benson",
+                  "position": "RB",
+                  "eligible_for_offense_and_defense": 0,
+                  "jersey": "33"
+                }
+              ],
+              "to_minors_players": [],
+              "added_players": [
+                {
+                  "photo": "https://sports.cbsimg.net/images/football/nfl/players/170x170/26697012.png",
+                  "profile_url": "https://kjfha.football.cbssports.com/players/playerpage/26697012",
+                  "firstname": "Cam",
+                  "fullname": "Cam Skattebo",
+                  "profile_link": "<a class='playerLink' aria-label=' Cam Skattebo ' href='https://kjfha.football.cbssports.com/players/playerpage/26697012'>Cam Skattebo</a>",
+                  "pro_status": "A",
+                  "eligible_positions_display": "RB",
+                  "pro_team": "NYG",
+                  "id": "26697012",
+                  "lastname": "Skattebo",
+                  "position": "RB",
+                  "eligible_for_offense_and_defense": 0,
+                  "jersey": "44"
+                }
+              ]
+            },
+            "to_is_me": 0,
+            "modified": 1786696842,
+            "created": 1786696842,
+            "views": 0,
+            "author_name": "CBSSports.com",
+            "years": [
+              "2026"
+            ],
+            "type": "add_drop",
+            "body": "<div style=\"padding-top:15px;font-size:12px;\"><b>3MTA3</b><br>Added:<br><a class='playerLink' aria-label=' Cam Skattebo RB NYG' href='https://kjfha.football.cbssports.com/players/playerpage/26697012'>Cam Skattebo</a> <span class=\"playerPositionAndTeam\">RB &#149; NYG</span><br>Dropped:<br><a class='playerLink' aria-label=' Trey Benson RB ARI' href='https://kjfha.football.cbssports.com/players/playerpage/3176915'>Trey Benson</a> <span class=\"playerPositionAndTeam\">RB &#149; ARI</span><br></div>",
+            "pinned": 0,
+            "id": 615873332,
+            "reply_ids": [],
+            "subject": "Add/Drop for 3MTA3",
+            "author_is_me": 0,
+            "is_private": 0
+          },
+          {
+            "to": "Everyone",
+            "add_drop": {
+              "team": {
+                "short_name": "3MTA3",
+                "long_abbr": "3MTA3",
+                "division": "Jocks",
+                "abbr": "3MTA3",
+                "logo": "https://fantasy-media.cbssports.com/football/kjfha/team_logo/8-1785477936.jpg?width=100&height=100",
+                "name": "3MTA3",
+                "id": "8",
+                "owners": [
+                  {
+                    "name": "MCJ",
+                    "id": "451EE64E-F773-11E1-9DCE-6BAA16F8410A",
+                    "logged_in_owner": 1,
+                    "commissioner": 0,
+                    "playoff_add_drops_disabled": 0
+                  }
+                ],
+                "is_vacant": 0
+              },
+              "action": "Add",
+              "to_ir_players": [],
+              "dropped_players": [
+                {
+                  "photo": "https://sports.cbsimg.net/images/football/nfl/players/170x170/1243338.png",
+                  "profile_url": "https://kjfha.football.cbssports.com/players/playerpage/1243338",
+                  "firstname": "Tyrod",
+                  "fullname": "Tyrod Taylor",
+                  "profile_link": "<a class='playerLink' aria-label=' Tyrod Taylor ' href='https://kjfha.football.cbssports.com/players/playerpage/1243338'>Tyrod Taylor</a>",
+                  "pro_status": "A",
+                  "eligible_positions_display": "QB",
+                  "pro_team": "GB",
+                  "id": "1243338",
+                  "lastname": "Taylor",
+                  "position": "QB",
+                  "eligible_for_offense_and_defense": 0,
+                  "jersey": "6"
+                }
+              ],
+              "to_minors_players": [],
+              "added_players": [
+                {
+                  "photo": "https://sports.cbsimg.net/images/football/nfl/players/170x170/2181169.png",
+                  "profile_url": "https://kjfha.football.cbssports.com/players/playerpage/2181169",
+                  "firstname": "Lamar",
+                  "fullname": "Lamar Jackson",
+                  "profile_link": "<a class='playerLink' aria-label=' Lamar Jackson ' href='https://kjfha.football.cbssports.com/players/playerpage/2181169'>Lamar Jackson</a>",
+                  "pro_status": "A",
+                  "eligible_positions_display": "QB",
+                  "pro_team": "BAL",
+                  "id": "2181169",
+                  "lastname": "Jackson",
+                  "position": "QB",
+                  "eligible_for_offense_and_defense": 0,
+                  "jersey": "8"
+                }
+              ]
+            },
+            "to_is_me": 0,
+            "modified": 1786696766,
+            "created": 1786696766,
+            "views": 0,
+            "author_name": "CBSSports.com",
+            "years": [
+              "2026"
+            ],
+            "type": "add_drop",
+            "body": "<div style=\"padding-top:15px;font-size:12px;\"><b>3MTA3</b><br>Added:<br><a class='playerLink' aria-label=' Lamar Jackson QB BAL' href='https://kjfha.football.cbssports.com/players/playerpage/2181169'>Lamar Jackson</a> <span class=\"playerPositionAndTeam\">QB &#149; BAL</span><br>Dropped:<br><a class='playerLink' aria-label=' Tyrod Taylor QB GB' href='https://kjfha.football.cbssports.com/players/playerpage/1243338'>Tyrod Taylor</a> <span class=\"playerPositionAndTeam\">QB &#149; GB</span><br></div>",
+            "pinned": 0,
+            "id": 615873330,
+            "reply_ids": [],
+            "subject": "Add/Drop for 3MTA3",
+            "author_is_me": 0,
+            "is_private": 0
+          },
+          {
+            "to": "Everyone",
+            "add_drop": {
+              "team": {
+                "short_name": "3MTA3",
+                "long_abbr": "3MTA3",
+                "division": "Jocks",
+                "abbr": "3MTA3",
+                "logo": "https://fantasy-media.cbssports.com/football/kjfha/team_logo/8-1785477936.jpg?width=100&height=100",
+                "name": "3MTA3",
+                "id": "8",
+                "owners": [
+                  {
+                    "name": "MCJ",
+                    "id": "451EE64E-F773-11E1-9DCE-6BAA16F8410A",
+                    "logged_in_owner": 1,
+                    "commissioner": 0,
+                    "playoff_add_drops_disabled": 0
+                  }
+                ],
+                "is_vacant": 0
+              },
+              "action": "Add",
+              "to_ir_players": [],
+              "dropped_players": [
+                {
+                  "photo": "https://sports.cbsimg.net/images/football/nfl/players/170x170/3163421.png",
+                  "profile_url": "https://kjfha.football.cbssports.com/players/playerpage/3163421",
+                  "firstname": "Kimani",
+                  "fullname": "Kimani Vidal",
+                  "profile_link": "<a class='playerLink' aria-label=' Kimani Vidal ' href='https://kjfha.football.cbssports.com/players/playerpage/3163421'>Kimani Vidal</a>",
+                  "pro_status": "A",
+                  "eligible_positions_display": "RB",
+                  "pro_team": "LAC",
+                  "id": "3163421",
+                  "lastname": "Vidal",
+                  "position": "RB",
+                  "eligible_for_offense_and_defense": 0,
+                  "jersey": "28"
+                }
+              ],
+              "to_minors_players": [],
+              "added_players": [
+                {
+                  "photo": "https://sports.cbsimg.net/images/football/nfl/players/170x170/2967536.png",
+                  "profile_url": "https://kjfha.football.cbssports.com/players/playerpage/2967536",
+                  "firstname": "Jordan",
+                  "fullname": "Jordan Mason",
+                  "profile_link": "<a class='playerLink' aria-label=' Jordan Mason ' href='https://kjfha.football.cbssports.com/players/playerpage/2967536'>Jordan Mason</a>",
+                  "pro_status": "A",
+                  "eligible_positions_display": "RB",
+                  "pro_team": "MIN",
+                  "id": "2967536",
+                  "lastname": "Mason",
+                  "position": "RB",
+                  "eligible_for_offense_and_defense": 0,
+                  "jersey": "27"
+                }
+              ]
+            },
+            "to_is_me": 0,
+            "modified": 1786696713,
+            "created": 1786696713,
+            "views": 0,
+            "author_name": "CBSSports.com",
+            "years": [
+              "2026"
+            ],
+            "type": "add_drop",
+            "body": "<div style=\"padding-top:15px;font-size:12px;\"><b>3MTA3</b><br>Added:<br><a class='playerLink' aria-label=' Jordan Mason RB MIN' href='https://kjfha.football.cbssports.com/players/playerpage/2967536'>Jordan Mason</a> <span class=\"playerPositionAndTeam\">RB &#149; MIN</span><br>Dropped:<br><a class='playerLink' aria-label=' Kimani Vidal RB LAC' href='https://kjfha.football.cbssports.com/players/playerpage/3163421'>Kimani Vidal</a> <span class=\"playerPositionAndTeam\">RB &#149; LAC</span><br></div>",
+            "pinned": 0,
+            "id": 615873328,
+            "reply_ids": [],
+            "subject": "Add/Drop for 3MTA3",
+            "author_is_me": 0,
+            "is_private": 0
+          },
+          {
+            "to": "Everyone",
+            "add_drop": {
+              "team": {
+                "short_name": "3MTA3",
+                "long_abbr": "3MTA3",
+                "division": "Jocks",
+                "abbr": "3MTA3",
+                "logo": "https://fantasy-media.cbssports.com/football/kjfha/team_logo/8-1785477936.jpg?width=100&height=100",
+                "name": "3MTA3",
+                "id": "8",
+                "owners": [
+                  {
+                    "name": "MCJ",
+                    "id": "451EE64E-F773-11E1-9DCE-6BAA16F8410A",
+                    "logged_in_owner": 1,
+                    "commissioner": 0,
+                    "playoff_add_drops_disabled": 0
+                  }
+                ],
+                "is_vacant": 0
+              },
+              "action": "Add",
+              "to_ir_players": [],
+              "dropped_players": [
+                {
+                  "photo": "https://sports.cbsimg.net/images/football/nfl/players/170x170/2240651.png",
+                  "profile_url": "https://kjfha.football.cbssports.com/players/playerpage/2240651",
+                  "firstname": "Darnell",
+                  "fullname": "Darnell Mooney",
+                  "profile_link": "<a class='playerLink' aria-label=' Darnell Mooney ' href='https://kjfha.football.cbssports.com/players/playerpage/2240651'>Darnell Mooney</a>",
+                  "pro_status": "A",
+                  "eligible_positions_display": "WR",
+                  "pro_team": "NYG",
+                  "id": "2240651",
+                  "lastname": "Mooney",
+                  "position": "WR",
+                  "eligible_for_offense_and_defense": 0,
+                  "jersey": "17"
+                }
+              ],
+              "to_minors_players": [],
+              "added_players": [
+                {
+                  "photo": "https://sports.cbsimg.net/images/football/nfl/players/170x170/28874444.png",
+                  "profile_url": "https://kjfha.football.cbssports.com/players/playerpage/28874444",
+                  "firstname": "Luther",
+                  "fullname": "Luther Burden III",
+                  "profile_link": "<a class='playerLink' aria-label=' Luther Burden III ' href='https://kjfha.football.cbssports.com/players/playerpage/28874444'>Luther Burden III</a>",
+                  "pro_status": "A",
+                  "eligible_positions_display": "WR",
+                  "pro_team": "CHI",
+                  "id": "28874444",
+                  "lastname": "Burden III",
+                  "position": "WR",
+                  "eligible_for_offense_and_defense": 0,
+                  "jersey": "10"
+                }
+              ]
+            },
+            "to_is_me": 0,
+            "modified": 1786696619,
+            "created": 1786696619,
+            "views": 0,
+            "author_name": "CBSSports.com",
+            "years": [
+              "2026"
+            ],
+            "type": "add_drop",
+            "body": "<div style=\"padding-top:15px;font-size:12px;\"><b>3MTA3</b><br>Added:<br><a class='playerLink' aria-label=' Luther Burden III WR CHI' href='https://kjfha.football.cbssports.com/players/playerpage/28874444'>Luther Burden III</a> <span class=\"playerPositionAndTeam\">WR &#149; CHI</span><br>Dropped:<br><a class='playerLink' aria-label=' Darnell Mooney WR NYG' href='https://kjfha.football.cbssports.com/players/playerpage/2240651'>Darnell Mooney</a> <span class=\"playerPositionAndTeam\">WR &#149; NYG</span><br></div>",
+            "pinned": 0,
+            "id": 615873324,
+            "reply_ids": [],
+            "subject": "Add/Drop for 3MTA3",
+            "author_is_me": 0,
+            "is_private": 0
+          },
+          {
+            "to": "Everyone",
+            "add_drop": {
+              "team": {
+                "short_name": "3MTA3",
+                "long_abbr": "3MTA3",
+                "division": "Jocks",
+                "abbr": "3MTA3",
+                "logo": "https://fantasy-media.cbssports.com/football/kjfha/team_logo/8-1785477936.jpg?width=100&height=100",
+                "name": "3MTA3",
+                "id": "8",
+                "owners": [
+                  {
+                    "name": "MCJ",
+                    "id": "451EE64E-F773-11E1-9DCE-6BAA16F8410A",
+                    "logged_in_owner": 1,
+                    "commissioner": 0,
+                    "playoff_add_drops_disabled": 0
+                  }
+                ],
+                "is_vacant": 0
+              },
+              "action": "Add",
+              "to_ir_players": [],
+              "dropped_players": [
+                {
+                  "photo": "https://sports.cbsimg.net/images/football/nfl/players/170x170/2180514.png",
+                  "profile_url": "https://kjfha.football.cbssports.com/players/playerpage/2180514",
+                  "firstname": "Jauan",
+                  "fullname": "Jauan Jennings",
+                  "profile_link": "<a class='playerLink' aria-label=' Jauan Jennings ' href='https://kjfha.football.cbssports.com/players/playerpage/2180514'>Jauan Jennings</a>",
+                  "pro_status": "A",
+                  "eligible_positions_display": "WR",
+                  "pro_team": "MIN",
+                  "id": "2180514",
+                  "lastname": "Jennings",
+                  "position": "WR",
+                  "eligible_for_offense_and_defense": 0,
+                  "jersey": "14"
+                }
+              ],
+              "to_minors_players": [],
+              "added_players": [
+                {
+                  "photo": "https://sports.cbsimg.net/images/football/nfl/players/170x170/26697761.png",
+                  "profile_url": "https://kjfha.football.cbssports.com/players/playerpage/26697761",
+                  "firstname": "Malik",
+                  "fullname": "Malik Nabers",
+                  "profile_link": "<a class='playerLink' aria-label=' Malik Nabers ' href='https://kjfha.football.cbssports.com/players/playerpage/26697761'>Malik Nabers</a>",
+                  "pro_status": "A",
+                  "eligible_positions_display": "WR",
+                  "pro_team": "NYG",
+                  "id": "26697761",
+                  "lastname": "Nabers",
+                  "position": "WR",
+                  "eligible_for_offense_and_defense": 0,
+                  "jersey": "1"
+                }
+              ]
+            },
+            "to_is_me": 0,
+            "modified": 1786696586,
+            "created": 1786696586,
+            "views": 0,
+            "author_name": "CBSSports.com",
+            "years": [
+              "2026"
+            ],
+            "type": "add_drop",
+            "body": "<div style=\"padding-top:15px;font-size:12px;\"><b>3MTA3</b><br>Added:<br><a class='playerLink' aria-label=' Malik Nabers WR NYG' href='https://kjfha.football.cbssports.com/players/playerpage/26697761'>Malik Nabers</a> <span class=\"playerPositionAndTeam\">WR &#149; NYG</span><br>Dropped:<br><a class='playerLink' aria-label=' Jauan Jennings WR MIN' href='https://kjfha.football.cbssports.com/players/playerpage/2180514'>Jauan Jennings</a> <span class=\"playerPositionAndTeam\">WR &#149; MIN</span><br></div>",
+            "pinned": 0,
+            "id": 615873323,
+            "reply_ids": [],
+            "subject": "Add/Drop for 3MTA3",
+            "author_is_me": 0,
+            "is_private": 0
+          },
+          {
+            "to": "Everyone",
+            "add_drop": {
+              "team": {
+                "short_name": "3MTA3",
+                "long_abbr": "3MTA3",
+                "division": "Jocks",
+                "abbr": "3MTA3",
+                "logo": "https://fantasy-media.cbssports.com/football/kjfha/team_logo/8-1785477936.jpg?width=100&height=100",
+                "name": "3MTA3",
+                "id": "8",
+                "owners": [
+                  {
+                    "name": "MCJ",
+                    "id": "451EE64E-F773-11E1-9DCE-6BAA16F8410A",
+                    "logged_in_owner": 1,
+                    "commissioner": 0,
+                    "playoff_add_drops_disabled": 0
+                  }
+                ],
+                "is_vacant": 0
+              },
+              "action": "Add",
+              "to_ir_players": [],
+              "dropped_players": [
+                {
+                  "photo": "https://sports.cbsimg.net/images/football/nfl/players/170x170/3177368.png",
+                  "profile_url": "https://kjfha.football.cbssports.com/players/playerpage/3177368",
+                  "firstname": "Kyle",
+                  "fullname": "Kyle Monangai",
+                  "profile_link": "<a class='playerLink' aria-label=' Kyle Monangai ' href='https://kjfha.football.cbssports.com/players/playerpage/3177368'>Kyle Monangai</a>",
+                  "pro_status": "A",
+                  "eligible_positions_display": "RB",
+                  "pro_team": "CHI",
+                  "id": "3177368",
+                  "lastname": "Monangai",
+                  "position": "RB",
+                  "eligible_for_offense_and_defense": 0,
+                  "jersey": "25"
+                }
+              ],
+              "to_minors_players": [],
+              "added_players": [
+                {
+                  "photo": "https://sports.cbsimg.net/images/football/nfl/players/170x170/29133405.png",
+                  "profile_url": "https://kjfha.football.cbssports.com/players/playerpage/29133405",
+                  "firstname": "Jeremiyah",
+                  "fullname": "Jeremiyah Love",
+                  "profile_link": "<a class='playerLink' aria-label=' Jeremiyah Love ' href='https://kjfha.football.cbssports.com/players/playerpage/29133405'>Jeremiyah Love</a>",
+                  "pro_status": "A",
+                  "eligible_positions_display": "RB",
+                  "pro_team": "ARI",
+                  "id": "29133405",
+                  "lastname": "Love",
+                  "position": "RB",
+                  "eligible_for_offense_and_defense": 0,
+                  "jersey": "4"
+                }
+              ]
+            },
+            "to_is_me": 0,
+            "modified": 1786696489,
+            "created": 1786696489,
+            "views": 0,
+            "author_name": "CBSSports.com",
+            "years": [
+              "2026"
+            ],
+            "type": "add_drop",
+            "body": "<div style=\"padding-top:15px;font-size:12px;\"><b>3MTA3</b><br>Added:<br><a class='playerLink' aria-label=' Jeremiyah Love RB ARI' href='https://kjfha.football.cbssports.com/players/playerpage/29133405'>Jeremiyah Love</a> <span class=\"playerPositionAndTeam\">RB &#149; ARI</span><br>Dropped:<br><a class='playerLink' aria-label=' Kyle Monangai RB CHI' href='https://kjfha.football.cbssports.com/players/playerpage/3177368'>Kyle Monangai</a> <span class=\"playerPositionAndTeam\">RB &#149; CHI</span><br></div>",
+            "pinned": 0,
+            "id": 615873322,
+            "reply_ids": [],
+            "subject": "Add/Drop for 3MTA3",
+            "author_is_me": 0,
+            "is_private": 0
+          },
+          {
+            "to": "Everyone",
+            "to_is_me": 0,
+            "author_team_id": "6",
+            "modified": 1784908598,
+            "created": 1784908598,
+            "views": 0,
+            "author_name": "Neil Merritt",
+            "synopsis": "<table class=\"data\" style=\"width:100%;\">\n<tr class=\"title\"><td colspan=\"2\">Draft&nbsp;Order</td></tr>\n<tr class=\"subtitle\"><td colspan=\"2\">Order is reversed on even-numbered rounds</td></tr>\n<tr  class=\"label\"><th align=\"center\">Pick</th><th align=\"left\">Team</th></tr>\n<tr class=\"row1\" align=\"right\" valign=\"top\"><td align=\"center\">1</td><td align=\"left\">uncle rico</td></tr>\n<tr class=\"row2\" align=\"right\" valign=\"top\"><td align=\"center\">2</td><td align=\"left\">Kitten Whispers &amp; Pillow Fights</td></tr>\n<tr class=\"row1\" align=\"right\" valign=\"top\"><td align=\"center\">3</td><td align=\"left\">King Zoltan and The Lizard Wizard</td></tr>\n<tr class=\"row2\" align=\"right\" valign=\"top\"><td align=\"center\">4</td><td align=\"left\">Real Huffy FC</td></tr>\n<tr class=\"row1\" align=\"right\" valign=\"top\"><td align=\"center\">5</td><td align=\"left\">The Italian Stallion</td></tr>\n<tr class=\"row2\" align=\"right\" valign=\"top\"><td align=\"center\">6</td><td align=\"left\">Big Ern</td></tr>\n<tr class=\"row1\" align=\"right\" valign=\"top\"><td align=\"center\">7</td><td align=\"left\">Coughing Dragons</td></tr>\n<tr class=\"row2\" align=\"right\" valign=\"top\"><td align=\"center\">8</td><td align=\"left\">Kalifornication</td></tr>\n<tr class=\"row1\" align=\"right\" valign=\"top\"><td align=\"center\">9</td><td align=\"left\">Schoolboy</td></tr>\n<tr class=\"row2\" align=\"right\" valign=\"top\"><td align=\"center\">10</td><td align=\"left\">The Clem</td></tr>\n<tr class=\"footer pagination\"><td colspan=\"2\"></td></tr>\n</table>",
+            "has_truncated_synopsis": 1,
+            "author_team": "Kalifornication",
+            "years": [
+              "2026"
+            ],
+            "type": "commissioner_message_tool",
+            "pinned": 0,
+            "id": 615666195,
+            "reply_ids": [],
+            "author_logo": "https://fantasy-media.cbssports.com/football/kjfha/team_logo/6-1730738989.jpg?width=360&height=360",
+            "author_is_me": 0,
+            "subject": "Manual Draft Order Set",
+            "is_private": 0
+          }
+        ],
+        "content_type": "all",
+        "oldest_key": 1784908598
+      }
+    }
+  }
+}

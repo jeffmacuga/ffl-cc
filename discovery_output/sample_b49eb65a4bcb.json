@@ -1,0 +1,19 @@
+{
+  "ad": {},
+  "pxs": {},
+  "dmppxs": {},
+  "pag": {
+    "t": "dwxbmkzr",
+    "pu": "https://kjfha.football.cbssports.com/teams",
+    "pvid": "21d008d5-5d02-4515-b4fd-46f3c5dd63ba",
+    "js": "/*\n\n//SUP-3586\nvar privacy_banner          = document.querySelector(\".cps-banner.cps-container\");\nvar privacy_banner_height   = (privacy_banner) ? privacy_banner.offsetHeight : 0;\n\nvar skybox_top_wrapper      = document.querySelector('#skybox-top-wrapper');\n\n*/\n\n/*SUP-2638 */\n/*\nwindow.ggevents.push({\n    \n    'inscreen.load': function(data){\n        \n        if(skybox_top_wrapper) skybox_top_wrapper.setAttribute('style', 'visiblity: hidden !important');\n        \n        var isad = GUMGUM.isad;\n        if (isad && isad.closebtn) GUMGUM.onEvent(isad.closebtn, 'click', isad.closeAd.bind(isad));\n        \n        //SUP-3586\n        GUMGUM.isad.container.style.bottom = privacy_banner_height + \"px\";    \n\n    },\n    \n    'inscreen.close': function(data){\n        \n        if(skybox_top_wrapper) skybox_top_wrapper.setAttribute('style', 'visiblity: visible');\n        \n    }\n    \n}); \n*/\n/*\n\n//SUP-3586\nvar agree_links = document.querySelectorAll(\".cps-btn.cps-dismiss\");\n\nagree_links.forEach(function(link) {\n\n    link.addEventListener('click', function() {\n\n\t\tif(GUMGUM && GUMGUM.isad) {\n        \n            GUMGUM.isad.container.style.bottom = \"0px\";\n            \n        }\n\n    });\n    \n});\n\n*/\n\n/*SUP-3101*/\n// SUP-5018\ngoogletag.pubads().addEventListener('slotRequested', function(event) {\n    const slotId = event.slot.getSlotElementId();\n    if(['skybox', 'IL_INSEARCH', 'sticky', 'omni', 'mobile_banner_top2'].some(e => slotId.includes(e))) {\n        if(GUMGUM && GUMGUM.isad) {\n            GUMGUM.removeISAd();\n        }\n    }\n});\n\n//SUP-5017\n\n//Define Publisher Adhesion\nvar pub_adhesion = document.querySelector(\"div#IL_INSEARCH\");\n\n//Define GumGum Events\nwin.ggevents = win.ggevents || [];\n\n//Capture GumGum Events\nwin.ggevents.push({\n\n //Event Handler for In-Screen Load\n    'inscreen.load': function (data) {\n        \n        //If Publisher Adhesion Exists; Change Visibility to Hidden\n        if(pub_adhesion) pub_adhesion.setAttribute('style', 'visibility: hidden !important;');\n        if(GUMGUM && GUMGUM.isad){\n            GUMGUM.isad.container.style.zIndex = 2147483645;\n            //get height of the IS\n            let isH = GUMGUM.isad.container.offsetHeight;\n            //write styles that you want to add\n            let styleText = `html, body {overflow-x: hidden !important;} .st-adunit-ad.st-reset, .ad-mobile-omni-skybox-plus-top-wrapper {visibility: hidden !important;}`;\n            //create, configure and add stylesheet element\n            var styleSheet = document.createElement(\"style\");\n            styleSheet.innerText = styleText;\n            styleSheet.id = 'raiseVideo';\n            document.head.appendChild(styleSheet);\n        }\n        \n    },\n    \n    'inscreen.close': function (data) {\n        //find and delete stylesheet element\n        let styleSheet = document.querySelector('style#raiseVideo');\n        if(styleSheet){\n            styleSheet.disabled = true;\n            styleSheet.parentNode.removeChild(styleSheet);\n        }\n    }\n    \n});"
+  },
+  "jcsi": {
+    "t": 0,
+    "rq": 8
+  },
+  "meta": {
+    "mediaType": "banner"
+  },
+  "thms": 10000
+}
