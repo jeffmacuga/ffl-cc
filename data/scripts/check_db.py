@@ -1,18 +1,23 @@
 import sqlite3
+import pandas as pd
 
-conn = sqlite3.connect("C:\\Users\\User\\source\\ffl-mgr\\fantasy.db")
+conn = sqlite3.connect("C:\\Users\\User\\source\\repos\\ffl-cc\\fantasy.db")
 
 cursor = conn.cursor()
 
-# Correct SQL to get all table names in SQLite
-cursor.execute("""
-SELECT * FROM sqlite_master WHERE type='table';
-""")
+team_id = "18"  # example
 
-tables = cursor.fetchall()
+df = pd.read_sql_query("""
+    SELECT *
+    FROM cbs_standings
+    """,
+    conn,
+    #params=(team_id,)
+)
 
-print("Tables:")
-for table in tables:
-    print(table[0])
+print(df)
+
+#for row in cursor.fetchall():
+ #   print(row)
 
 conn.close()

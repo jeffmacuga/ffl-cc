@@ -1,6 +1,6 @@
 import sqlite3
 
-DB_FILE = "C:\\Users\\User\\source\\ffl-mgr\\fantasy.db"
+DB_FILE = "C:\\Users\\User\\source\\repos\\ffl-cc\\fantasy.db"
 
 
 def get_connection():

@@ -2,9 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\data",
-    "\\data\\imports",
-    "\\data\\repositories",
-    "\\discovery_output"
+    "\\pages",
+    "\\scripts",
+    "\\utils"
   ],
   "SelectedNode": "\\cbs_rosters.py",
   "PreviewInSolutionExplorer": false

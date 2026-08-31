@@ -41,13 +41,27 @@ def normalize_position(position):
         str(position).upper()
     )
 
-
 def calculate_player_score(player):
 
-    if getattr(player, "projected_avg_points", 0) > 0:
+    if getattr(
+        player,
+        "projected_avg_points",
+        0
+    ) > 0:
         return player.projected_avg_points
 
-    if getattr(player, "avg_points", 0) > 0:
+    if getattr(
+        player,
+        "projected_points",
+        0
+    ) > 0:
+        return player.projected_points
+
+    if getattr(
+        player,
+        "avg_points",
+        0
+    ) > 0:
         return player.avg_points
 
     return 0

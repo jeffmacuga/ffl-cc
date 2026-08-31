@@ -1,6 +1,6 @@
 import sqlite3
 
-DB_PATH = r"C:\Users\User\source\ffl-mgr\fantasy.db"
+DB_PATH = r"C:\Users\User\source\repos\ffl-cc\fantasy.db"
 
 with sqlite3.connect(DB_PATH) as conn:
     team_count = conn.execute(

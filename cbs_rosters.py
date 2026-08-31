@@ -9,7 +9,7 @@ from cbs_normalize import (
     upsert_cbs_data,
 )
 
-DB_PATH = r"C:\Users\User\source\ffl-mgr\fantasy.db"
+DB_PATH = r"C:\Users\User\source\repos\ffl-cc\fantasy.db"
 
 AUTH_STATE = Path(".auth/cbs_state.json")
 
@@ -26,6 +26,14 @@ ROSTER_URL_TEMPLATE = (
     "/api/league/rosters"
     "?league_id=kjfha"
     "&team_id={team_id}"
+    "&version=3.0"
+    "&response_format=json"
+)
+
+STANDINGS_URL = (
+    "https://kjfha.football.cbssports.com"
+    "/api/league/standings/overall"
+    "?league_id=kjfha"
     "&version=3.0"
     "&response_format=json"
 )
@@ -62,6 +70,63 @@ def fetch_json(page, url):
         )
 
     return json.loads(result["body"])
+
+def fetch_and_store_cbs_standings(page, conn):
+    print("REQUESTING CBS STANDINGS:", STANDINGS_URL)
+    standings_data = fetch_json(page, STANDINGS_URL)
+    body = standings_data["body"]
+    if isinstance(body, str):
+        body = json.loads(body)
+
+    # Extract teams from divisions in overall_standings
+    standings = []
+    overall = body.get("overall_standings", {})
+    for division in overall.get("divisions", []):
+        for team in division.get("teams", []):
+            standings.append({
+                "team_id": str(team["id"]),
+                "team_name": team["name"],
+                "wins": team["wins"],
+                "losses": team["losses"],
+                "ties": team.get("ties", 0),
+                "points_for": team.get("points_scored", 0)
+            })
+
+    print(f"Fetched {len(standings)} standings rows")
+
+    # Create table if not exists
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS cbs_standings (
+            team_id TEXT PRIMARY KEY,
+            team_name TEXT,
+            wins INTEGER,
+            losses INTEGER,
+            ties INTEGER,
+            points_for REAL
+        )
+    """)
+    # Upsert standings
+    for entry in standings:
+        conn.execute("""
+            INSERT INTO cbs_standings (team_id, team_name, wins, losses, ties, points_for)
+            VALUES (?, ?, ?, ?, ?, ?)
+            ON CONFLICT(team_id) DO UPDATE SET
+                team_name=excluded.team_name,
+                wins=excluded.wins,
+                losses=excluded.losses,
+                ties=excluded.ties,
+                points_for=excluded.points_for
+        """, (
+            entry["team_id"],
+            entry["team_name"],
+            entry["wins"],
+            entry["losses"],
+            entry.get("ties", 0),
+            entry["points_for"]
+        ))
+    conn.commit()
+    print("CBS standings updated.")
+
 
 def main():
 
@@ -142,6 +207,20 @@ def main():
 
             all_teams.extend(teams)
             all_players.extend(players)
+        
+        with sqlite3.connect(DB_PATH) as conn:
+
+            conn.execute(
+                "PRAGMA foreign_keys = ON"
+            )
+
+            upsert_cbs_data(
+                conn,
+                all_teams,
+                all_players
+            )
+       
+            fetch_and_store_cbs_standings(page, conn)
 
         browser.close()
 
@@ -155,18 +234,6 @@ def main():
         f"Total players: "
         f"{len(all_players)}"
     )
-
-    with sqlite3.connect(DB_PATH) as conn:
-
-        conn.execute(
-            "PRAGMA foreign_keys = ON"
-        )
-
-        upsert_cbs_data(
-            conn,
-            all_teams,
-            all_players
-        )
 
     print(
         "Import complete."

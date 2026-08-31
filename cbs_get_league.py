@@ -2,7 +2,7 @@ import sqlite3
 import pandas as pd
 
 def get_cbs_teams():
-    conn = sqlite3.connect("C:\\Users\\User\\source\\ffl-mgr\\fantasy.db")
+    conn = sqlite3.connect("C:\\Users\\User\\source\\repos\\ffl-cc\\fantasy.db")
 
     df = pd.read_sql_query("""
         SELECT
@@ -18,12 +18,16 @@ def get_cbs_teams():
     return df
 
 def get_cbs_roster(provider_team_id):
-    conn = sqlite3.connect("C:\\Users\\User\\source\\ffl-mgr\\fantasy.db")
+    conn = sqlite3.connect("C:\\Users\\User\\source\\repos\\ffl-cc\\fantasy.db")
 
     df = pd.read_sql_query("""
         SELECT
             player_name,
-            position
+            position,
+            projected_points,
+            average_points,
+            roster_position,
+            roster_status
         FROM cbs_rosters
         WHERE provider_team_id = ?
     """, conn, params=(provider_team_id,))

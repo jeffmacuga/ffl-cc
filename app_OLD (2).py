@@ -1,8 +1,15 @@
 import streamlit as st
 import pandas as pd
 import sqlite3
+import os
+import sys
+
+# Add the parent directory to sys.path so Python can find 'scripts'
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from espn_api.football import League
+from services.cbs_adapter import CBSTeam
+
 
 from optimizer import (
     get_optimal_lineup,
@@ -61,34 +68,41 @@ st.title("🏈 Fantasy Command Center")
 
 st.subheader(league.settings.name)
 
-
 # ------------------
 # STANDINGS
 # ------------------
 
-rows = []
+def get_standings_df(selected_platform):
+    if selected_platform == "ESPN":
+        teams = league.teams
+        rows = [
+            {
+                "Team": team.team_name,
+                "Wins": team.wins,
+                "Losses": team.losses,
+                "Points For": round(team.points_for, 2)
+            }
+            for team in teams
+        ]
+        df = pd.DataFrame(rows)
+        df = df.sort_values(["Wins", "Points For"], ascending=False)
+        return df
+    elif selected_platform == "CBS":
+        cbs_df = get_cbs_teams()
+        cbs_df = cbs_df.rename(columns={
+            "team_name": "Team",
+            "wins": "Wins",
+            "losses": "Losses",
+            "points_for": "Points For"
+        })
+        cbs_df = cbs_df[["Team", "Wins", "Losses", "Points For"]]
+        cbs_df = cbs_df.sort_values(["Wins", "Points For"], ascending=False)
+        return cbs_df
+    else:
+        return pd.DataFrame()
 
-for team in league.teams:
-    rows.append({
-        "Team": team.team_name,
-        "Wins": team.wins,
-        "Losses": team.losses,
-        "Points For": round(team.points_for, 2)
-    })
+# ... (rest of your code)
 
-df = pd.DataFrame(rows)
-
-df = df.sort_values(
-    ["Wins", "Points For"],
-    ascending=False
-)
-
-st.header("Standings")
-
-st.dataframe(
-    df,
-    use_container_width=True
-)
 
 
 st.header("Team Rosters")
@@ -132,6 +146,17 @@ selected = league_options[
     league_options["label"] == selected_label
 ].iloc[0]
 
+# Dynamically update standings based on selected platform
+standings_df = get_standings_df(selected["platform"])
+
+st.header("Standings")
+
+st.dataframe(
+    standings_df,
+    use_container_width=True
+)
+
+
 # Before using team_obj, ensure it is defined for both ESPN and CBS cases
 #st.write(league_options.columns.tolist())
 
@@ -167,6 +192,8 @@ else:
         selected["provider_team_id"]
     )
 
+    team_obj = CBSTeam(roster_df)
+
     roster_df.rename(
         columns={
             "player_name": "Player",
@@ -184,6 +211,18 @@ if team_obj is not None:
     current_lineup = []
 
     for player in team_obj.roster:
+
+        roster_status = getattr(
+            player,
+            "roster_status",
+            None
+        )
+
+        # CBS
+        if roster_status == "RS":
+            continue
+
+        # ESPN
         slot = getattr(player, "lineupSlot", "BE")
 
         if slot in {"BE", "IR"}:
@@ -193,9 +232,11 @@ if team_obj is not None:
             "Slot": slot,
             "Player": player.name,
             "Position": player.position,
-            "Score": round(calculate_player_score(player), 2)
+            "Score": round(
+                calculate_player_score(player),
+                2
+            )
         })
-
     POSITION_PRIORITY = [
         "QB",
         "RB",

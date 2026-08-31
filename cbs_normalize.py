@@ -18,6 +18,7 @@ def normalize_cbs_rosters(data):
         roster_size = len(team.get("players", []))
         total_players += roster_size
 
+        
         print(
             f"Team {team_id}: "
             f"{team.get('name')} "
@@ -34,6 +35,12 @@ def normalize_cbs_rosters(data):
         })
 
         for player in team.get("players", []):
+            
+            print(json.dumps(player, indent=2))
+            break
+            
+        
+        
             normalized_players.append({
                 "provider": "cbs",
                 "provider_team_id": team_id,
