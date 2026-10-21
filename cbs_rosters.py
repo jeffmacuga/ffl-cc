@@ -8,8 +8,9 @@ from cbs_normalize import (
     normalize_cbs_rosters,
     upsert_cbs_data,
 )
+from services.database import DB_FILE
 
-DB_PATH = r"C:\Users\User\source\repos\ffl-cc\fantasy.db"
+DB_PATH = DB_FILE
 
 AUTH_STATE = Path(".auth/cbs_state.json")
 

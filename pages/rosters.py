@@ -71,8 +71,29 @@ def reorder_roster_df(roster_df, platform):
         roster_df = roster_df.sort_values("Position")
     return roster_df
 
+
+def build_espn_roster_df(roster):
+    rows = []
+    for player in roster:
+        rows.append({
+            "Player": player.name,
+            "Position": player.position,
+            "NFL Team": player.proTeam,
+            "Roster Slot": player.lineupSlot,
+            "Injury Status": player.injuryStatus or (
+                "Injured" if player.injured else "Healthy"
+            ),
+            "Acquisition": player.acquisitionType,
+            "Season Points": player.total_points,
+            "Season Avg. Points": player.avg_points,
+            "Projected Season Points": player.projected_total_points,
+            "Projected Avg. Points": player.projected_avg_points
+        })
+    return pd.DataFrame(rows)
+
+
 def show_team_rosters(selected_league, selected_league_name):
-    st.header(f"{selected_league_name} Team Rosters")
+    st.header("Team Rosters")
     if selected_league["platform"] == "ESPN":
         league = load_espn_league(selected_league)
         espn_rows = []
@@ -104,8 +125,7 @@ def show_team_rosters(selected_league, selected_league_name):
         if team_obj is None:
             st.error("ESPN team not found.")
             return
-        roster_rows = [{"Player": p.name, "Position": p.position} for p in team_obj.roster]
-        roster_df = pd.DataFrame(roster_rows)
+        roster_df = build_espn_roster_df(team_obj.roster)
         roster_df = reorder_roster_df(roster_df, "ESPN")
         st.dataframe(roster_df, use_container_width=True)
     elif selected_league["platform"] == "CBS":

@@ -41,7 +41,7 @@ def normalize_position(position):
         str(position).upper()
     )
 
-def calculate_player_score(player):
+def calculate_player_score(player, allow_average_fallback=True):
 
     if getattr(
         player,
@@ -57,11 +57,7 @@ def calculate_player_score(player):
     ) > 0:
         return player.projected_points
 
-    if getattr(
-        player,
-        "avg_points",
-        0
-    ) > 0:
+    if allow_average_fallback and getattr(player, "avg_points", 0) > 0:
         return player.avg_points
 
     return 0
@@ -76,7 +72,11 @@ def get_current_lineup_score(team_obj):
     )
 
 
-def get_optimal_lineup(team, lineup_requirements=None):
+def get_optimal_lineup(
+    team,
+    lineup_requirements=None,
+    allow_average_fallback=True,
+):
 
     if lineup_requirements is None:
         lineup_requirements = {
@@ -108,7 +108,10 @@ def get_optimal_lineup(team, lineup_requirements=None):
             "position": normalize_position(
                 getattr(player, "position", "")
             ),
-            "score": calculate_player_score(player),
+            "score": calculate_player_score(
+                player,
+                allow_average_fallback=allow_average_fallback,
+            ),
             "player_obj": player
         })
 

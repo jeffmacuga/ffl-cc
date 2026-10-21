@@ -1,0 +1,54 @@
+{"captured_at": "2026-10-20T19:22:47-04:00", "method": "GET", "url": "https://kjfha.football.cbssports.com/", "resource_type": "document", "candidate": false}
+{"event": "response", "url": "https://kjfha.football.cbssports.com/", "method": "GET", "status": 200}
+{"captured_at": "2026-10-20T19:22:48-04:00", "method": "GET", "url": "https://fantasy-media.cbssports.com/football/kjfha/team_logo/8-1785477936.jpg", "resource_type": "image", "candidate": false}
+{"captured_at": "2026-10-20T19:22:48-04:00", "method": "GET", "url": "https://kjfha.football.cbssports.com/ownerlogo?size=36x36&teamname=3MTA3&id=%5BREDACTED%5D&id=%5BREDACTED%5D", "resource_type": "image", "candidate": false}
+{"captured_at": "2026-10-20T19:22:48-04:00", "method": "GET", "url": "https://fantasy-media.cbssports.com/football/kjfha/hHeqSVhOwyh5Wpl6.jpg", "resource_type": "image", "candidate": false}
+{"captured_at": "2026-10-20T19:22:48-04:00", "method": "GET", "url": "https://fantasy-media.cbssports.com/football/kjfha/team_logo/8-1785477936.jpg?width=100&height=100", "resource_type": "image", "candidate": false}
+{"event": "response", "url": "https://kjfha.football.cbssports.com/ownerlogo?size=36x36&teamname=3MTA3&id=%5BREDACTED%5D&id=%5BREDACTED%5D", "method": "GET", "status": 302}
+{"captured_at": "2026-10-20T19:22:48-04:00", "method": "GET", "url": "https://fantasy-media.cbssports.com/football/kjfha/team_logo/8-1785477936.jpg?size=36x36&teamname=3MTA3&id=%5BREDACTED%5D&id=%5BREDACTED%5D", "resource_type": "image", "candidate": false}
+{"event": "response", "url": "https://fantasy-media.cbssports.com/football/kjfha/team_logo/8-1785477936.jpg", "method": "GET", "status": 200}
+{"event": "response", "url": "https://fantasy-media.cbssports.com/football/kjfha/team_logo/8-1785477936.jpg?size=36x36&teamname=3MTA3&id=%5BREDACTED%5D&id=%5BREDACTED%5D", "method": "GET", "status": 200}
+{"event": "response", "url": "https://fantasy-media.cbssports.com/football/kjfha/hHeqSVhOwyh5Wpl6.jpg", "method": "GET", "status": 200}
+{"captured_at": "2026-10-20T19:22:48-04:00", "method": "GET", "url": "https://embed.cbssports.com/player/avia/?args=player_id%3D1350103030265%26channel%3Dnfl-fantasy%2Cnfl%26autoplay%3Dtrue%26forceMute%3Dtrue%26comp_ads_enabled%3Dfalse%26resizable%3Dtrue%26domain%3Dcbssports.com", "resource_type": "document", "candidate": false}
+{"event": "response", "url": "https://embed.cbssports.com/player/avia/?args=player_id%3D1350103030265%26channel%3Dnfl-fantasy%2Cnfl%26autoplay%3Dtrue%26forceMute%3Dtrue%26comp_ads_enabled%3Dfalse%26resizable%3Dtrue%26domain%3Dcbssports.com", "method": "GET", "status": 200}
+{"event": "response", "url": "https://fantasy-media.cbssports.com/football/kjfha/team_logo/8-1785477936.jpg?width=100&height=100", "method": "GET", "status": 200}
+{"captured_at": "2026-10-20T19:22:48-04:00", "method": "GET", "url": "https://avia.cbssports.com/latest/video-avia-wrapper.min.js", "resource_type": "script", "candidate": false}
+{"captured_at": "2026-10-20T19:22:48-04:00", "method": "GET", "url": "https://kjfha.football.cbssports.com/component/homepage/roster-trends/added", "resource_type": "xhr", "candidate": false}
+{"captured_at": "2026-10-20T19:22:48-04:00", "method": "GET", "url": "https://kjfha.football.cbssports.com/data/common/fantasy/wdis/get-question/?_=1792538568800", "resource_type": "xhr", "candidate": false}
+{"captured_at": "2026-10-20T19:22:48-04:00", "method": "GET", "url": "https://kjfha.football.cbssports.com/api/league/feed?version=3.0&response_format=json&access_token=%5BREDACTED%5D&content_type=all", "resource_type": "xhr", "candidate": false}
+{"captured_at": "2026-10-20T19:22:48-04:00", "method": "GET", "url": "https://kjfha.football.cbssports.com/saag-fantasy/league", "resource_type": "xhr", "candidate": false}
+{"event": "response", "url": "https://kjfha.football.cbssports.com/saag-fantasy/league", "method": "GET", "status": 200}
+{"captured_at": "2026-10-20T19:22:49-04:00", "method": "GET", "url": "https://fantasy-media.cbssports.com/football/kjfha/team_logo/15-29823.png?width=100&height=100", "resource_type": "image", "candidate": false}
+{"captured_at": "2026-10-20T19:22:49-04:00", "method": "GET", "url": "https://fantasy-media.cbssports.com/football/kjfha/team_logo/16-9106.jpg?width=100&height=100", "resource_type": "image", "candidate": false}
+{"captured_at": "2026-10-20T19:22:49-04:00", "method": "GET", "url": "https://fantasy-media.cbssports.com/football/kjfha/team_logo/6-1730738989.jpg?width=100&height=100", "resource_type": "image", "candidate": false}
+{"captured_at": "2026-10-20T19:22:49-04:00", "method": "GET", "url": "https://fantasy-media.cbssports.com/football/kjfha/team_logo/17-7875.jpg?width=100&height=100", "resource_type": "image", "candidate": false}
+{"captured_at": "2026-10-20T19:22:49-04:00", "method": "GET", "url": "https://fantasy-media.cbssports.com/football/kjfha/team_logo/14-60063.jpg?width=100&height=100", "resource_type": "image", "candidate": false}
+{"captured_at": "2026-10-20T19:22:49-04:00", "method": "GET", "url": "https://fantasy-media.cbssports.com/football/kjfha/team_logo/2-3434.jpg?width=100&height=100", "resource_type": "image", "candidate": false}
+{"captured_at": "2026-10-20T19:22:49-04:00", "method": "GET", "url": "https://kjfha.football.cbssports.com/team-logo?logo_type=logo%3Atext&captype=helmet&capcolor=blk&logo=saint.gif&minilogo=18wheel.gif&flipbg=&fgtype=&flipfg=&bgtype=&bgcolor=&letters=Schoolboy&text_color=aliceblue&text_position=bottom&button_type=flat&button_color=none&%3Fwidth=100&height=100", "resource_type": "image", "candidate": false}
+{"captured_at": "2026-10-20T19:22:49-04:00", "method": "GET", "url": "https://fantasy-media.cbssports.com/football/kjfha/team_logo/4-3466.jpg?width=100&height=100", "resource_type": "image", "candidate": false}
+{"captured_at": "2026-10-20T19:22:49-04:00", "method": "GET", "url": "https://fantasy-media.cbssports.com/football/kjfha/team_logo/18-94953.jpg?width=100&height=100", "resource_type": "image", "candidate": false}
+{"event": "response", "url": "https://kjfha.football.cbssports.com/component/homepage/roster-trends/added", "method": "GET", "status": 200}
+{"event": "response", "url": "https://fantasy-media.cbssports.com/football/kjfha/team_logo/6-1730738989.jpg?width=100&height=100", "method": "GET", "status": 200}
+{"event": "response", "url": "https://fantasy-media.cbssports.com/football/kjfha/team_logo/16-9106.jpg?width=100&height=100", "method": "GET", "status": 200}
+{"event": "response", "url": "https://fantasy-media.cbssports.com/football/kjfha/team_logo/15-29823.png?width=100&height=100", "method": "GET", "status": 200}
+{"event": "response", "url": "https://fantasy-media.cbssports.com/football/kjfha/team_logo/14-60063.jpg?width=100&height=100", "method": "GET", "status": 200}
+{"event": "response", "url": "https://fantasy-media.cbssports.com/football/kjfha/team_logo/17-7875.jpg?width=100&height=100", "method": "GET", "status": 200}
+{"event": "response", "url": "https://fantasy-media.cbssports.com/football/kjfha/team_logo/2-3434.jpg?width=100&height=100", "method": "GET", "status": 200}
+{"event": "response", "url": "https://fantasy-media.cbssports.com/football/kjfha/team_logo/4-3466.jpg?width=100&height=100", "method": "GET", "status": 200}
+{"event": "response", "url": "https://fantasy-media.cbssports.com/football/kjfha/team_logo/18-94953.jpg?width=100&height=100", "method": "GET", "status": 200}
+{"event": "response", "url": "https://kjfha.football.cbssports.com/team-logo?logo_type=logo%3Atext&captype=helmet&capcolor=blk&logo=saint.gif&minilogo=18wheel.gif&flipbg=&fgtype=&flipfg=&bgtype=&bgcolor=&letters=Schoolboy&text_color=aliceblue&text_position=bottom&button_type=flat&button_color=none&%3Fwidth=100&height=100", "method": "GET", "status": 200}
+{"event": "response", "url": "https://kjfha.football.cbssports.com/api/league/feed?version=3.0&response_format=json&access_token=%5BREDACTED%5D&content_type=all", "method": "GET", "status": 200}
+{"captured_at": "2026-10-20T19:28:28-04:00", "method": "GET", "url": "https://fantasy.img.cbssports.com/fantasy-journalist/football/ChristianMcCaffrey102026-160x134.jpg", "resource_type": "image", "candidate": false}
+{"captured_at": "2026-10-20T19:28:28-04:00", "method": "GET", "url": "https://fantasy.img.cbssports.com/fantasy-journalist/football/MalikNabers091525-160x134.jpg", "resource_type": "image", "candidate": false}
+{"event": "response", "url": "https://kjfha.football.cbssports.com/data/common/fantasy/wdis/get-question/?_=1792538568800", "method": "GET", "status": 200}
+{"event": "response", "url": "https://avia.cbssports.com/latest/video-avia-wrapper.min.js", "method": "GET", "status": 200}
+{"captured_at": "2026-10-20T19:28:28-04:00", "method": "GET", "url": "https://www.cbssports.com/api/content/video/config/?cfg=avia_embed_cbssports_v1&env=prod", "resource_type": "fetch", "candidate": false}
+{"event": "response", "url": "https://fantasy.img.cbssports.com/fantasy-journalist/football/ChristianMcCaffrey102026-160x134.jpg", "method": "GET", "status": 200}
+{"event": "response", "url": "https://fantasy.img.cbssports.com/fantasy-journalist/football/MalikNabers091525-160x134.jpg", "method": "GET", "status": 200}
+{"event": "response", "url": "https://www.cbssports.com/api/content/video/config/?cfg=avia_embed_cbssports_v1&env=prod", "method": "GET", "status": 200}
+{"captured_at": "2026-10-20T19:28:28-04:00", "method": "POST", "url": "https://video-api-ipv4.cbssports.com/vms/fms/proxy/v2", "resource_type": "xhr", "candidate": false}
+{"captured_at": "2026-10-20T19:28:28-04:00", "method": "POST", "url": "https://video-api-ipv4.cbssports.com/vms/fms/proxy/v2", "resource_type": "xhr", "candidate": false}
+{"captured_at": "2026-10-20T19:28:28-04:00", "method": "GET", "url": "https://www.cbssports.com/api/content/video/?playlist=nfl-fantasy%2Cnfl&transform=direct&callback=VideoAviaWrapper.getDataCallback", "resource_type": "script", "candidate": false}
+{"event": "response", "url": "https://www.cbssports.com/api/content/video/?playlist=nfl-fantasy%2Cnfl&transform=direct&callback=VideoAviaWrapper.getDataCallback", "method": "GET", "status": 200}
+{"event": "response", "url": "https://video-api-ipv4.cbssports.com/vms/fms/proxy/v2", "method": "POST", "status": 200}
+{"event": "response", "url": "https://video-api-ipv4.cbssports.com/vms/fms/proxy/v2", "method": "POST", "status": 200}

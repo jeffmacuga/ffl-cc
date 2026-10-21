@@ -1,6 +1,7 @@
 import sqlite3
+from pathlib import Path
 
-DB_FILE = "C:\\Users\\User\\source\\repos\\ffl-cc\\fantasy.db"
+DB_FILE = Path(__file__).resolve().parent.parent / "fantasy.db"
 
 
 def get_connection():
