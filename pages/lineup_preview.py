@@ -1,3 +1,5 @@
+import unicodedata
+
 import pandas as pd
 import streamlit as st
 
@@ -45,6 +47,68 @@ def _find_espn_owned_team(league, swid):
 def _style_total_row(row):
     style = "color: #007FFF; font-weight: bold"
     return [style if row.get("Player") == "Total" else "" for _ in row]
+
+
+def _normalize_name_for_lookup(value):
+    normalized = unicodedata.normalize("NFKD", str(value or "")).casefold()
+    return "".join(character for character in normalized if character.isalnum())
+
+
+def _round_projection_columns(frame, columns=None):
+    rounded = frame.copy()
+    target_columns = columns or [
+        column
+        for column in rounded.columns
+        if column.lower().endswith("projection")
+        or column.lower().endswith("points")
+        or column.lower() == "score"
+    ]
+    for column in target_columns:
+        if column in rounded.columns:
+            rounded[column] = pd.to_numeric(rounded[column], errors="coerce").round(2)
+    return rounded
+
+
+def _projection_column_config(columns):
+    return {
+        column: st.column_config.NumberColumn(format="%.2f")
+        for column in columns
+    }
+
+
+def _add_bye_week_column(frame, player_records, player_column="Player"):
+    if frame.empty or not player_records:
+        return frame
+
+    bye_lookup = {}
+    for player in player_records:
+        name = (
+            player.get("player_name")
+            if isinstance(player, dict)
+            else getattr(player, "player_name", None)
+        )
+        if name is None:
+            name = (
+                player.get("name")
+                if isinstance(player, dict)
+                else getattr(player, "name", None)
+            )
+        bye_week = (
+            player.get("bye_week")
+            if isinstance(player, dict)
+            else getattr(player, "bye_week", None)
+        )
+        if name is None or bye_week is None:
+            continue
+        bye_lookup[_normalize_name_for_lookup(name)] = bye_week
+
+    with_bye_weeks = frame.copy()
+    with_bye_weeks["Bye Week"] = with_bye_weeks[player_column].map(
+        lambda player_name: bye_lookup.get(
+            _normalize_name_for_lookup(player_name), ""
+        )
+    )
+    return with_bye_weeks
 
 
 def _load_espn_projection_lookups(
@@ -126,8 +190,12 @@ def show_espn_lineup_preview(selected_league):
     ]
     lineup_df = append_projection_totals(lineup_df, total_columns)
     display_df = lineup_df[["Slot", "Player", *total_columns]]
+    display_df = _add_bye_week_column(display_df, selected_team.roster)
+    display_df = _round_projection_columns(display_df)
+    display_df = display_df[["Slot", "Player", "Bye Week", *total_columns]]
     st.dataframe(
         display_df.style.apply(_style_total_row, axis=1),
+        column_config=_projection_column_config(total_columns),
         use_container_width=True,
         hide_index=True,
     )
@@ -139,6 +207,7 @@ def show_cbs_lineup_preview():
         "can be submitted only after explicit confirmation."
     )
     authenticated_team = st.session_state.get("cbs_authenticated_team")
+    authenticated_roster = None
     if authenticated_team is None:
         try:
             authenticated_roster = fetch_my_cbs_roster()
@@ -178,7 +247,7 @@ def show_cbs_lineup_preview():
     ):
         try:
             if selected_preview_team == authenticated_team_id:
-                live_roster = fetch_my_cbs_roster()
+                live_roster = authenticated_roster or fetch_my_cbs_roster()
             else:
                 live_roster = fetch_cbs_team_roster(selected_preview_team)
             projection_lookups = _load_espn_projection_lookups()
@@ -242,8 +311,12 @@ def show_cbs_lineup_preview():
     ]
     lineup_df = append_projection_totals(lineup_df, total_columns)
     display_df = lineup_df[["Slot", "Player", *total_columns]]
+    display_df = _add_bye_week_column(display_df, preview["players"])
+    display_df = _round_projection_columns(display_df)
+    display_df = display_df[["Slot", "Player", "Bye Week", *total_columns]]
     st.dataframe(
         display_df.style.apply(_style_total_row, axis=1),
+        column_config=_projection_column_config(total_columns),
         use_container_width=True,
         hide_index=True,
     )
@@ -279,7 +352,16 @@ def show_cbs_lineup_preview():
             "projected_points": "Projected Points",
         }
     )
-    st.dataframe(moves_df, use_container_width=True, hide_index=True)
+    if "Projected Points" in moves_df.columns:
+        moves_df["Projected Points"] = pd.to_numeric(
+            moves_df["Projected Points"], errors="coerce"
+        ).round(2)
+    st.dataframe(
+        moves_df,
+        column_config=_projection_column_config(["Projected Points"]),
+        use_container_width=True,
+        hide_index=True,
+    )
 
     if not can_submit:
         st.info(

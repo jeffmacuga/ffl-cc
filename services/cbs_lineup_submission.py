@@ -7,12 +7,16 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import parse_qsl, urlencode, urlsplit
 
-from playwright.sync_api import Request, sync_playwright
+from playwright.sync_api import (
+    Request,
+    TimeoutError as PlaywrightTimeoutError,
+    sync_playwright,
+)
 
 
 LEAGUE_HOST = "kjfha.football.cbssports.com"
 BASE_URL = f"https://{LEAGUE_HOST}"
-AUTH_STATE = Path(".auth/cbs_state.json")
+AUTH_STATE = Path(__file__).resolve().parents[1] / ".auth" / "cbs_state.json"
 MY_ROSTER_URL = (
     f"{BASE_URL}/api/league/rosters"
     "?league_id=kjfha&version=3.0&response_format=json"
@@ -84,10 +88,22 @@ def _is_locked(value: Any) -> bool:
 def _fetch_live_team(
     page,
     team_id: str | None = None,
+    *,
+    access_token: str,
 ) -> tuple[dict[str, Any], str]:
+    if not access_token:
+        raise CBSLineupError(
+            "CBS roster authorization token is missing; "
+            "no roster request was sent."
+        )
+
     roster_url = MY_ROSTER_URL
+    query = {}
     if team_id is not None:
-        roster_url += f"&team_id={team_id}"
+        query["team_id"] = team_id
+    query["access_token"] = access_token
+    if query:
+        roster_url += f"&{urlencode(query)}"
     result = page.evaluate(
         """async (url) => {
             const response = await fetch(url, {credentials: 'include'});
@@ -128,6 +144,41 @@ def _fetch_live_team(
         )
     _merge_page_projections(team, _fetch_page_projections(page))
     return team, week
+
+
+def _open_cbs_teams_page(
+    page,
+    team_id: str | None = None,
+) -> str:
+    page_url = (
+        f"{BASE_URL}/teams/{team_id}"
+        if team_id is not None
+        else f"{BASE_URL}/teams"
+    )
+    try:
+        with page.context.expect_event(
+            "request",
+            lambda request: _get_access_token(request) is not None,
+            timeout=120000,
+        ) as token_request:
+            page.goto(
+                page_url,
+                wait_until="domcontentloaded",
+                timeout=60000,
+            )
+    except PlaywrightTimeoutError as exc:
+        raise CBSLineupError(
+            "CBS did not issue a fresh roster authorization request within "
+            "two minutes. Complete any CAPTCHA or login challenge in the "
+            "opened browser, then retry the roster preview."
+        ) from exc
+
+    token = _get_access_token(token_request.value)
+    if token is None:
+        raise CBSLineupError(
+            "CBS roster authorization request did not include a token."
+        )
+    return token
 
 
 def _fetch_page_projections(page) -> dict[str, str]:
@@ -234,16 +285,21 @@ def fetch_my_cbs_roster() -> dict[str, Any]:
     """Read the authenticated user's live CBS roster without changing it."""
     if not AUTH_STATE.is_file():
         raise CBSLineupError(
-            f"CBS login state not found: {AUTH_STATE}. Run cbs_session.py first."
+            f"CBS login state not found: {AUTH_STATE}. "
+            "Run `python archive\\legacy-cbs\\cbs_session.py` first."
         )
 
     with sync_playwright() as playwright:
-        browser = playwright.chromium.launch(headless=True)
+        browser = playwright.chromium.launch(
+            channel="msedge",
+            headless=False,
+            args=["--disable-popup-blocking"],
+        )
         try:
             context = browser.new_context(storage_state=str(AUTH_STATE))
             page = context.new_page()
-            page.goto(f"{BASE_URL}/teams", wait_until="domcontentloaded", timeout=60000)
-            team, week = _fetch_live_team(page)
+            access_token = _open_cbs_teams_page(page)
+            team, week = _fetch_live_team(page, access_token=access_token)
             return {
                 "team_id": str(team["id"]),
                 "team_name": str(team.get("name") or team["id"]),
@@ -262,20 +318,25 @@ def fetch_cbs_team_roster(team_id: str) -> dict[str, Any]:
         raise CBSLineupError("CBS team ID must be numeric.")
     if not AUTH_STATE.is_file():
         raise CBSLineupError(
-            f"CBS login state not found: {AUTH_STATE}. Run cbs_session.py first."
+            f"CBS login state not found: {AUTH_STATE}. "
+            "Run `python archive\\legacy-cbs\\cbs_session.py` first."
         )
 
     with sync_playwright() as playwright:
-        browser = playwright.chromium.launch(headless=True)
+        browser = playwright.chromium.launch(
+            channel="msedge",
+            headless=False,
+            args=["--disable-popup-blocking"],
+        )
         try:
             context = browser.new_context(storage_state=str(AUTH_STATE))
             page = context.new_page()
-            page.goto(
-                f"{BASE_URL}/teams/{team_id}",
-                wait_until="domcontentloaded",
-                timeout=60000,
+            access_token = _open_cbs_teams_page(page, team_id)
+            team, week = _fetch_live_team(
+                page,
+                str(team_id),
+                access_token=access_token,
             )
-            team, week = _fetch_live_team(page, str(team_id))
             return {
                 "team_id": str(team["id"]),
                 "team_name": str(team.get("name") or team["id"]),
@@ -345,24 +406,24 @@ def apply_confirmed_lineup(
         raise CBSLineupError("There are no lineup changes to submit.")
     if not AUTH_STATE.is_file():
         raise CBSLineupError(
-            f"CBS login state not found: {AUTH_STATE}. Run cbs_session.py first."
+            f"CBS login state not found: {AUTH_STATE}. "
+            "Run `python archive\\legacy-cbs\\cbs_session.py` first."
         )
 
     with sync_playwright() as playwright:
-        browser = playwright.chromium.launch(headless=True)
+        browser = playwright.chromium.launch(
+            channel="msedge",
+            headless=False,
+            args=["--disable-popup-blocking"],
+        )
         try:
             context = browser.new_context(storage_state=str(AUTH_STATE))
             page = context.new_page()
-            access_tokens: list[str] = []
-
-            def capture_access_token(request: Request) -> None:
-                token = _get_access_token(request)
-                if token:
-                    access_tokens.append(token)
-
-            page.on("request", capture_access_token)
-            page.goto(f"{BASE_URL}/teams", wait_until="domcontentloaded", timeout=60000)
-            team, current_week = _fetch_live_team(page)
+            access_token = _open_cbs_teams_page(page)
+            team, current_week = _fetch_live_team(
+                page,
+                access_token=access_token,
+            )
 
             if str(team["id"]) != str(team_id) or current_week != str(week):
                 raise CBSLineupError(
@@ -393,18 +454,12 @@ def apply_confirmed_lineup(
                         f"{move['player']} is locked in CBS; no changes were sent."
                     )
 
-            if not access_tokens:
-                raise CBSLineupError(
-                    "CBS did not provide a fresh lineup authorization token; "
-                    "no changes were sent."
-                )
-
             form_data = {
                 "payload": json.dumps(
                     build_lineup_payload(team_id, week, moves),
                     separators=(",", ":"),
                 ),
-                "access_token": access_tokens[-1],
+                "access_token": access_token,
                 "version": "2.0",
                 "resultFormat": "json",
                 "responseFormat": "json",
@@ -425,7 +480,10 @@ def apply_confirmed_lineup(
                 }""",
                 {"url": LINEUP_URL, "form": form_data},
             )
-            verified_team, verified_week = _fetch_live_team(page)
+            verified_team, verified_week = _fetch_live_team(
+                page,
+                access_token=access_token,
+            )
             if str(verified_team["id"]) != str(team_id) or verified_week != str(week):
                 raise CBSLineupError(
                     "CBS lineup update response was received, but the roster "

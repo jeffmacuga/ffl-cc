@@ -1,8 +1,7 @@
 import streamlit as st
 import pandas as pd
-from espn_api.football import League
-from services.database import save_league_snapshot, save_rosters
 from cbs_get_league import get_cbs_teams, get_cbs_roster
+from pages.standings import load_espn_league
 
 # Position maps for each platform
 ESPN_POSITION_MAP = {
@@ -27,16 +26,6 @@ CBS_POSITION_MAP = {
     "SFLEX": ["QB", "RB", "WR", "TE"]
 }
 
-def load_espn_league(selected_league):
-    league = League(
-        league_id=selected_league["league_id"],
-        year=selected_league["year"],
-        swid=selected_league["swid"],
-        espn_s2=selected_league["espn_s2"]
-    )
-    save_league_snapshot(league)
-    save_rosters(league)
-    return league
 
 def reorder_roster_df(roster_df, platform):
     if platform == "ESPN":

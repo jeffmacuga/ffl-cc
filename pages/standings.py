@@ -25,6 +25,19 @@ def get_cbs_team_options():
 
 
 def load_espn_league(selected_league):
+    missing_credentials = [
+        name
+        for name, key in (("ESPN_SWID", "swid"), ("ESPN_S2", "espn_s2"))
+        if not selected_league.get(key)
+    ]
+    if missing_credentials:
+        st.error(
+            f"Missing ESPN credentials: {', '.join(missing_credentials)}. "
+            "Configure them in Streamlit secrets or as environment variables, "
+            "then restart the app."
+        )
+        st.stop()
+
     league = League(
         league_id=selected_league["league_id"],
         year=selected_league["year"],

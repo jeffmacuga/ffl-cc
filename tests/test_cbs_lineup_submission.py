@@ -1,11 +1,15 @@
 import json
 import unittest
+from contextlib import contextmanager
+from types import SimpleNamespace
 
+from playwright.sync_api import TimeoutError as PlaywrightTimeoutError
 from services.cbs_lineup_submission import (
     CBSLineupError,
     _fetch_live_team,
     _is_locked,
     _merge_page_projections,
+    _open_cbs_teams_page,
     _roster_fingerprint,
     _verify_assignments,
     build_lineup_payload,
@@ -13,6 +17,67 @@ from services.cbs_lineup_submission import (
 
 
 class CBSLineupSubmissionTests(unittest.TestCase):
+    def test_opens_team_page_and_captures_fresh_roster_token(self):
+        class FakeContext:
+            @contextmanager
+            def expect_event(self, event, predicate, timeout):
+                self.event = event
+                self.predicate = predicate
+                self.timeout = timeout
+                self.request = None
+                yield self
+                if self.request is None:
+                    raise PlaywrightTimeoutError("No matching request")
+
+            @property
+            def value(self):
+                return self.request
+
+        class FakePage:
+            def __init__(self):
+                self.context = FakeContext()
+                self.page_url = None
+
+            def goto(self, url, **kwargs):
+                self.page_url = url
+                request = SimpleNamespace(
+                    url=(
+                        "https://kjfha.football.cbssports.com/api/league/feed"
+                        "?access_token=fresh-token"
+                    )
+                )
+                if self.context.predicate(request):
+                    self.context.request = request
+
+        page = FakePage()
+
+        token = _open_cbs_teams_page(page, "6")
+
+        self.assertEqual(token, "fresh-token")
+        self.assertEqual(page.context.event, "request")
+        self.assertEqual(page.context.timeout, 120000)
+        self.assertEqual(
+            page.page_url,
+            "https://kjfha.football.cbssports.com/teams/6",
+        )
+
+    def test_reports_when_cbs_never_issues_authorization_request(self):
+        class FakeContext:
+            @contextmanager
+            def expect_event(self, event, predicate, timeout):
+                yield self
+                raise PlaywrightTimeoutError("No matching request")
+
+        class FakePage:
+            def __init__(self):
+                self.context = FakeContext()
+
+            def goto(self, url, **kwargs):
+                self.page_url = url
+
+        with self.assertRaisesRegex(CBSLineupError, "Complete any CAPTCHA"):
+            _open_cbs_teams_page(FakePage())
+
     def test_team_specific_roster_read_checks_requested_team_id(self):
         class FakePage:
             def __init__(self):
@@ -42,13 +107,22 @@ class CBSLineupSubmissionTests(unittest.TestCase):
                 }
 
         page = FakePage()
-        team, week = _fetch_live_team(page, "6")
+        team, week = _fetch_live_team(
+            page,
+            "6",
+            access_token="fresh-token",
+        )
 
         self.assertEqual((team["id"], week), ("6", "7"))
         self.assertEqual(team["players"][0]["projected_points"], 11.34)
         self.assertIn("team_id=6", page.roster_url)
+        self.assertIn("access_token=fresh-token", page.roster_url)
         with self.assertRaises(CBSLineupError):
-            _fetch_live_team(FakePage(), "8")
+            _fetch_live_team(
+                FakePage(),
+                "8",
+                access_token="fresh-token",
+            )
 
     def test_merges_displayed_projections_by_cbs_player_id(self):
         team = {
