@@ -1,0 +1,3 @@
+-r requirements-automation.txt
+pandas
+playwright
