@@ -8,6 +8,7 @@ from typing import Any
 from urllib.parse import parse_qsl, urlencode, urlsplit
 
 from playwright.sync_api import (
+    Error as PlaywrightError,
     Request,
     TimeoutError as PlaywrightTimeoutError,
     sync_playwright,
@@ -26,6 +27,20 @@ LINEUP_URL = f"{BASE_URL}/api/league/transactions/lineup"
 
 class CBSLineupError(RuntimeError):
     """Raised when CBS state cannot be safely read, changed, or verified."""
+
+
+def _launch_browser(playwright):
+    try:
+        return playwright.chromium.launch(
+            headless=True,
+            args=["--disable-popup-blocking"],
+        )
+    except PlaywrightError as exc:
+        raise CBSLineupError(
+            "Could not launch Playwright Chromium. Install the Playwright "
+            "Chromium browser in this environment "
+            "(`python -m playwright install chromium`) and retry."
+        ) from exc
 
 
 def _roster_fingerprint(team: dict[str, Any], week: str) -> str:
@@ -169,8 +184,8 @@ def _open_cbs_teams_page(
     except PlaywrightTimeoutError as exc:
         raise CBSLineupError(
             "CBS did not issue a fresh roster authorization request within "
-            "two minutes. Complete any CAPTCHA or login challenge in the "
-            "opened browser, then retry the roster preview."
+            "two minutes. Verify your saved CBS login state and resolve any "
+            "CAPTCHA or login challenge, then retry the roster preview."
         ) from exc
 
     token = _get_access_token(token_request.value)
@@ -290,11 +305,7 @@ def fetch_my_cbs_roster() -> dict[str, Any]:
         )
 
     with sync_playwright() as playwright:
-        browser = playwright.chromium.launch(
-            channel="msedge",
-            headless=False,
-            args=["--disable-popup-blocking"],
-        )
+        browser = _launch_browser(playwright)
         try:
             context = browser.new_context(storage_state=str(AUTH_STATE))
             page = context.new_page()
@@ -323,11 +334,7 @@ def fetch_cbs_team_roster(team_id: str) -> dict[str, Any]:
         )
 
     with sync_playwright() as playwright:
-        browser = playwright.chromium.launch(
-            channel="msedge",
-            headless=False,
-            args=["--disable-popup-blocking"],
-        )
+        browser = _launch_browser(playwright)
         try:
             context = browser.new_context(storage_state=str(AUTH_STATE))
             page = context.new_page()
@@ -411,11 +418,7 @@ def apply_confirmed_lineup(
         )
 
     with sync_playwright() as playwright:
-        browser = playwright.chromium.launch(
-            channel="msedge",
-            headless=False,
-            args=["--disable-popup-blocking"],
-        )
+        browser = _launch_browser(playwright)
         try:
             context = browser.new_context(storage_state=str(AUTH_STATE))
             page = context.new_page()

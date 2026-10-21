@@ -3,11 +3,15 @@ import unittest
 from contextlib import contextmanager
 from types import SimpleNamespace
 
-from playwright.sync_api import TimeoutError as PlaywrightTimeoutError
+from playwright.sync_api import (
+    Error as PlaywrightError,
+    TimeoutError as PlaywrightTimeoutError,
+)
 from services.cbs_lineup_submission import (
     CBSLineupError,
     _fetch_live_team,
     _is_locked,
+    _launch_browser,
     _merge_page_projections,
     _open_cbs_teams_page,
     _roster_fingerprint,
@@ -17,6 +21,35 @@ from services.cbs_lineup_submission import (
 
 
 class CBSLineupSubmissionTests(unittest.TestCase):
+    def test_launches_bundled_chromium_headless(self):
+        class FakeChromium:
+            def launch(self, **options):
+                self.options = options
+                return "browser"
+
+        playwright = SimpleNamespace(chromium=FakeChromium())
+
+        browser = _launch_browser(playwright)
+
+        self.assertEqual(browser, "browser")
+        self.assertEqual(
+            playwright.chromium.options,
+            {"headless": True, "args": ["--disable-popup-blocking"]},
+        )
+
+    def test_reports_missing_playwright_browser(self):
+        class FakeChromium:
+            def launch(self, **options):
+                raise PlaywrightError("browser executable missing")
+
+        with self.assertRaisesRegex(
+            CBSLineupError,
+            "Install the Playwright Chromium browser",
+        ) as raised:
+            _launch_browser(SimpleNamespace(chromium=FakeChromium()))
+
+        self.assertIsInstance(raised.exception.__cause__, PlaywrightError)
+
     def test_opens_team_page_and_captures_fresh_roster_token(self):
         class FakeContext:
             @contextmanager
@@ -75,7 +108,7 @@ class CBSLineupSubmissionTests(unittest.TestCase):
             def goto(self, url, **kwargs):
                 self.page_url = url
 
-        with self.assertRaisesRegex(CBSLineupError, "Complete any CAPTCHA"):
+        with self.assertRaisesRegex(CBSLineupError, "resolve any CAPTCHA"):
             _open_cbs_teams_page(FakePage())
 
     def test_team_specific_roster_read_checks_requested_team_id(self):
