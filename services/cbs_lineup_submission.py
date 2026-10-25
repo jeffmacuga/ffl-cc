@@ -3,6 +3,8 @@
 import hashlib
 import json
 import math
+import subprocess
+import sys
 from pathlib import Path
 from typing import Any
 from urllib.parse import parse_qsl, urlencode, urlsplit
@@ -29,7 +31,35 @@ class CBSLineupError(RuntimeError):
     """Raised when CBS state cannot be safely read, changed, or verified."""
 
 
+def _ensure_chromium_installed(playwright) -> None:
+    executable = Path(playwright.chromium.executable_path)
+    if executable.is_file():
+        return
+
+    try:
+        subprocess.run(
+            [sys.executable, "-m", "playwright", "install", "chromium"],
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+    except (OSError, subprocess.CalledProcessError) as exc:
+        output = getattr(exc, "stderr", None) or getattr(exc, "stdout", None)
+        detail = f" Details: {output.strip()}" if output and output.strip() else ""
+        raise CBSLineupError(
+            "Playwright Chromium is missing and could not be installed "
+            f"automatically.{detail}"
+        ) from exc
+
+    if not executable.is_file():
+        raise CBSLineupError(
+            "Playwright Chromium installation completed, but its browser "
+            f"executable was not found at {executable}."
+        )
+
+
 def _launch_browser(playwright):
+    _ensure_chromium_installed(playwright)
     try:
         return playwright.chromium.launch(
             headless=True,
@@ -37,9 +67,9 @@ def _launch_browser(playwright):
         )
     except PlaywrightError as exc:
         raise CBSLineupError(
-            "Could not launch Playwright Chromium. Install the Playwright "
-            "Chromium browser in this environment "
-            "(`python -m playwright install chromium`) and retry."
+            "Playwright Chromium is installed but could not start. Ensure "
+            "the deployment has the Linux libraries listed in the root "
+            "`packages.txt`, then redeploy."
         ) from exc
 
 

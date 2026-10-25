@@ -1,7 +1,10 @@
 import json
+import tempfile
 import unittest
 from contextlib import contextmanager
+from pathlib import Path
 from types import SimpleNamespace
+from unittest.mock import patch
 
 from playwright.sync_api import (
     Error as PlaywrightError,
@@ -23,6 +26,8 @@ from services.cbs_lineup_submission import (
 class CBSLineupSubmissionTests(unittest.TestCase):
     def test_launches_bundled_chromium_headless(self):
         class FakeChromium:
+            executable_path = __file__
+
             def launch(self, **options):
                 self.options = options
                 return "browser"
@@ -37,14 +42,37 @@ class CBSLineupSubmissionTests(unittest.TestCase):
             {"headless": True, "args": ["--disable-popup-blocking"]},
         )
 
-    def test_reports_missing_playwright_browser(self):
+    def test_installs_missing_playwright_browser_before_launch(self):
+        with tempfile.TemporaryDirectory() as directory:
+            executable = Path(directory) / "chromium"
+
+            def install_browser(*args, **kwargs):
+                executable.touch()
+
+            chromium = SimpleNamespace(
+                executable_path=str(executable),
+                launch=lambda **options: "browser",
+            )
+            playwright = SimpleNamespace(chromium=chromium)
+            with patch(
+                "services.cbs_lineup_submission.subprocess.run",
+                side_effect=install_browser,
+            ) as run:
+                browser = _launch_browser(playwright)
+
+        self.assertEqual(browser, "browser")
+        run.assert_called_once()
+
+    def test_reports_browser_launch_dependency_failure(self):
         class FakeChromium:
+            executable_path = __file__
+
             def launch(self, **options):
-                raise PlaywrightError("browser executable missing")
+                raise PlaywrightError("shared library missing")
 
         with self.assertRaisesRegex(
             CBSLineupError,
-            "Install the Playwright Chromium browser",
+            "Linux libraries listed in the root `packages.txt`",
         ) as raised:
             _launch_browser(SimpleNamespace(chromium=FakeChromium()))
 
