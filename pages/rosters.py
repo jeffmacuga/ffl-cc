@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 from cbs_get_league import get_cbs_teams, get_cbs_roster
 from pages.standings import load_espn_league
+from services.database import format_last_data_sync
 
 # Position maps for each platform
 ESPN_POSITION_MAP = {
@@ -85,6 +86,7 @@ def show_team_rosters(selected_league, selected_league_name):
     st.header("Team Rosters")
     if selected_league["platform"] == "ESPN":
         league = load_espn_league(selected_league)
+        st.caption(format_last_data_sync("ESPN", selected_league_name))
         espn_rows = []
         for team in league.teams:
             espn_rows.append({
@@ -94,6 +96,7 @@ def show_team_rosters(selected_league, selected_league_name):
             })
         teams_df = pd.DataFrame(espn_rows)
     elif selected_league["platform"] == "CBS":
+        st.caption(format_last_data_sync("CBS", selected_league_name))
         cbs_df = get_cbs_teams()
         cbs_df["platform"] = "CBS"
         teams_df = cbs_df.rename(columns={"team_name": "team_name", "team_id": "provider_team_id"})
@@ -106,7 +109,6 @@ def show_team_rosters(selected_league, selected_league_name):
     selected_team = teams_df[teams_df["label"] == selected_label].iloc[0]
 
     if selected_league["platform"] == "ESPN":
-        league = load_espn_league(selected_league)
         team_obj = next(
             (t for t in league.teams if str(t.team_id) == str(selected_team["provider_team_id"])),
             None

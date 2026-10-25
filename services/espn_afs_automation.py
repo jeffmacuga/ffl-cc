@@ -6,6 +6,7 @@ import os
 import re
 from collections import Counter
 from datetime import date, datetime, timedelta, timezone
+from types import SimpleNamespace
 from zoneinfo import ZoneInfo
 
 import requests
@@ -30,9 +31,9 @@ WRITE_HEADERS = {
 }
 RESERVE_SLOT_IDS = {20, 21, 24, 25}
 POSITION_NAME_TO_ID = {
-    label: slot_id
+    label.upper(): slot_id
     for slot_id, label in POSITION_MAP.items()
-    if isinstance(slot_id, int)
+    if isinstance(slot_id, int) and label
 }
 
 
@@ -120,7 +121,7 @@ def get_refresh_phase(
 
 def _slot_id(position: str) -> int:
     normalized = str(position).strip().upper()
-    if normalized == "DST":
+    if normalized in {"DST", "DEF"}:
         normalized = "D/ST"
     if normalized == "FLEX":
         normalized = "RB/WR/TE"
@@ -162,6 +163,55 @@ def _expected_active_slot_counts(league) -> Counter:
         if slot_id not in RESERVE_SLOT_IDS:
             counts[slot_id] += count
     return counts
+
+
+def _optimizer_lineup_requirements(league) -> dict[str, int]:
+    slot_counts = getattr(league.settings, "position_slot_counts", None)
+    if not isinstance(slot_counts, dict) or not slot_counts:
+        raise ESPNLineupAutomationError(
+            "ESPN did not provide lineup requirements for this league."
+        )
+
+    supported_positions = (
+        "QB",
+        "RB",
+        "WR",
+        "TE",
+        "K",
+        "DST",
+        "LB",
+        "DL",
+        "DB",
+        "RB/WR/TE",
+    )
+    requirements = dict.fromkeys(supported_positions, 0)
+    for position, count in slot_counts.items():
+        try:
+            count = int(count)
+        except (TypeError, ValueError) as exc:
+            raise ESPNLineupAutomationError(
+                "ESPN returned an invalid lineup requirement."
+            ) from exc
+        if count < 0:
+            raise ESPNLineupAutomationError(
+                "ESPN returned an invalid lineup requirement."
+            )
+        normalized = str(position).strip().upper()
+        if normalized in {"BE", "IR", "ER", "ROOKIE", ""}:
+            continue
+        if normalized in {"D/ST", "DEF"}:
+            normalized = "DST"
+        elif normalized == "FLEX":
+            normalized = "RB/WR/TE"
+        if normalized not in requirements:
+            if count:
+                raise ESPNLineupAutomationError(
+                    f"The {position} lineup slot is not supported for "
+                    "automatic optimization; no changes were sent."
+                )
+            continue
+        requirements[normalized] += count
+    return requirements
 
 
 def _current_slot_id(player) -> int:
@@ -209,13 +259,63 @@ def _team_game_times(
     return game_times
 
 
+def _teams_on_bye(schedule_data: dict, scoring_period: int) -> set[str]:
+    pro_teams = schedule_data.get("settings", {}).get("proTeams")
+    if not isinstance(pro_teams, list):
+        raise ESPNLineupAutomationError(
+            "ESPN's professional schedule is missing its team list."
+        )
+
+    period = str(scoring_period)
+    bye_teams = set()
+    for pro_team in pro_teams:
+        abbrev = pro_team.get("abbrev")
+        periods = pro_team.get("proGamesByScoringPeriod", {})
+        if not abbrev:
+            continue
+        if str(pro_team.get("byeWeek", "")) == period:
+            bye_teams.add(str(abbrev).upper())
+            continue
+        if not isinstance(periods, dict) or period not in periods:
+            continue
+        games = periods[period]
+        if isinstance(games, list) and not games:
+            bye_teams.add(str(abbrev).upper())
+    return bye_teams
+
+
+def get_espn_optimal_lineup(league, team, schedule_data: dict):
+    roster = getattr(team, "roster", None)
+    if not isinstance(roster, list) or not roster:
+        raise ESPNLineupAutomationError(
+            "ESPN did not return a usable roster."
+        )
+
+    bye_teams = _teams_on_bye(schedule_data, league.nfl_week)
+    available_roster = [
+        player
+        for player in roster
+        if str(getattr(player, "proTeam", "")).upper() not in bye_teams
+    ]
+    return get_optimal_lineup(
+        SimpleNamespace(roster=available_roster),
+        lineup_requirements=_optimizer_lineup_requirements(league),
+    )
+
+
 def build_lineup_changes(
     league,
     team,
     schedule_data: dict,
     now: datetime,
 ) -> tuple[dict[int, int], list[dict[str, int]]]:
-    lineup_result = get_optimal_lineup(team)
+    roster = getattr(team, "roster", None)
+    if not isinstance(roster, list) or not roster:
+        raise ESPNLineupAutomationError(
+            "ESPN did not return a usable roster."
+        )
+
+    lineup_result = get_espn_optimal_lineup(league, team, schedule_data)
     if isinstance(lineup_result, tuple):
         lineup_result = lineup_result[0]
     if not isinstance(lineup_result, dict):
@@ -227,14 +327,8 @@ def build_lineup_changes(
     required_counts = _expected_active_slot_counts(league)
     if actual_counts != required_counts:
         raise ESPNLineupAutomationError(
-            "The optimizer's lineup slots do not match the AFS league "
+            "The optimizer's lineup slots do not match the league "
             "requirements; no changes were sent."
-        )
-
-    roster = getattr(team, "roster", None)
-    if not isinstance(roster, list) or not roster:
-        raise ESPNLineupAutomationError(
-            "ESPN did not return a usable roster."
         )
 
     selected_players = {}
@@ -297,8 +391,6 @@ def build_lineup_changes(
             "type": "LINEUP",
             "fromLineupSlotId": current_slot,
             "toLineupSlotId": target_slot,
-            "fromTeamId": 0,
-            "toTeamId": 0,
         })
 
     if len(seen_ids) != len(roster):
@@ -343,7 +435,7 @@ def _owned_team(league, swid: str):
     if len(matches) != 1:
         raise ESPNLineupAutomationError(
             "The authenticated ESPN account did not resolve to exactly one "
-            "AFS team; no changes were sent."
+            "team; no changes were sent."
         )
     return matches[0]
 
@@ -481,7 +573,7 @@ def run_scheduled_refresh(
     latest_team = _owned_team(latest, config["swid"])
     if _lineup_fingerprint(team) != _lineup_fingerprint(latest_team):
         raise ESPNLineupAutomationError(
-            "The AFS roster changed after optimization; no lineup was sent."
+            "The roster changed after optimization; no lineup was sent."
         )
     expected_slots, changes = build_lineup_changes(
         latest,

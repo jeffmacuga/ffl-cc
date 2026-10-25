@@ -143,6 +143,8 @@ def get_optimal_lineup(
 
                
         required_count = lineup_requirements.get(position, 0)
+        if required_count <= 0:
+            continue
 
         candidates = position_groups.get(position, [])
 
@@ -196,11 +198,9 @@ def get_optimal_lineup(
             skill_players.append(player)
 
 
-    skill_slots = (
-        lineup_requirements["RB"]
-        + lineup_requirements["WR"]
-        + lineup_requirements["TE"]
-        + lineup_requirements["RB/WR/TE"]
+    skill_slots = sum(
+        lineup_requirements.get(position, 0)
+        for position in ("RB", "WR", "TE", "RB/WR/TE")
     )
 
     best_combo = None
@@ -291,14 +291,24 @@ def get_optimal_lineup(
         for player in remaining[:]:
             if player["position"] == "TE" and te_needed:
 
-                lineup["TE"] = player
+                slot = (
+                    f"TE{lineup_requirements['TE'] - te_needed + 1}"
+                    if lineup_requirements["TE"] > 1
+                    else "TE"
+                )
+                lineup[slot] = player
 
                 remaining.remove(player)
 
                 te_needed -= 1
 
-        if remaining:
-            lineup["RB/WR/TE"] = remaining[0]
+        for index, player in enumerate(remaining[:lineup_requirements["RB/WR/TE"]]):
+            slot = (
+                f"RB/WR/TE{index + 1}"
+                if lineup_requirements["RB/WR/TE"] > 1
+                else "RB/WR/TE"
+            )
+            lineup[slot] = player
     
 
     projected_total = sum(

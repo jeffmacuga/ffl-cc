@@ -5,6 +5,7 @@ import json
 import math
 import subprocess
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 from urllib.parse import parse_qsl, urlencode, urlsplit
@@ -14,6 +15,11 @@ from playwright.sync_api import (
     Request,
     TimeoutError as PlaywrightTimeoutError,
     sync_playwright,
+)
+
+from services.cbs_lineup_optimizer import (
+    is_player_locked,
+    is_player_unlocked,
 )
 
 
@@ -125,9 +131,7 @@ def build_lineup_payload(
 
 
 def _is_locked(value: Any) -> bool:
-    if value is True or value == 1:
-        return True
-    return str(value).strip().lower() in {"1", "true", "yes", "locked"}
+    return is_player_locked(value)
 
 
 def _fetch_live_team(
@@ -353,6 +357,9 @@ def fetch_my_cbs_roster() -> dict[str, Any]:
                 "lineup_status": team.get("lineup_status"),
                 "players": _normalized_players(team),
                 "fingerprint": _roster_fingerprint(team, week),
+                "synced_at": datetime.now(timezone.utc).isoformat(
+                    timespec="seconds"
+                ),
             }
         finally:
             browser.close()
@@ -386,6 +393,9 @@ def fetch_cbs_team_roster(team_id: str) -> dict[str, Any]:
                 "lineup_status": team.get("lineup_status"),
                 "players": _normalized_players(team),
                 "fingerprint": _roster_fingerprint(team, week),
+                "synced_at": datetime.now(timezone.utc).isoformat(
+                    timespec="seconds"
+                ),
             }
         finally:
             browser.close()
@@ -490,6 +500,11 @@ def apply_confirmed_lineup(
                 if _is_locked(player["is_locked"]):
                     raise CBSLineupError(
                         f"{move['player']} is locked in CBS; no changes were sent."
+                    )
+                if not is_player_unlocked(player["is_locked"]):
+                    raise CBSLineupError(
+                        "CBS did not provide a recognized unlocked status; "
+                        "no changes were sent."
                     )
 
             form_data = {

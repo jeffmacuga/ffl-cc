@@ -175,6 +175,10 @@ class ESPNLineupAutomationTests(unittest.TestCase):
         self.assertTrue(all(
             change["fromLineupSlotId"] == 20 for change in changes
         ))
+        self.assertTrue(all(
+            "fromTeamId" not in change and "toTeamId" not in change
+            for change in changes
+        ))
         self.assertEqual(Counter(target_slots.values()), Counter({
             0: 1,
             2: 2,
@@ -211,6 +215,64 @@ class ESPNLineupAutomationTests(unittest.TestCase):
         ):
             build_lineup_changes(league, team, schedule, now)
 
+    def test_optimizer_benches_josh_allen_during_bills_bye_week(self):
+        league, team = _optimizer_roster()
+        league.nfl_week = 7
+        now = datetime(2026, 10, 25, 10, tzinfo=EASTERN)
+        bye_player = team.roster[0]
+        bye_player.name = "Josh Allen"
+        bye_player.proTeam = "BUF"
+        bye_player.lineupSlot = "QB"
+        bye_player.projected_avg_points = 100
+        for player in team.roster:
+            if player is not bye_player:
+                player.proTeam = "NYG"
+        replacement = SimpleNamespace(
+            playerId=13,
+            name="Replacement QB",
+            position="QB",
+            eligibleSlots=["QB"],
+            lineupSlot="BE",
+            proTeam="NYG",
+            projected_avg_points=10,
+            projected_points=0,
+            avg_points=0,
+            injuryStatus="",
+        )
+        team.roster.append(replacement)
+        schedule = {
+            "settings": {
+                "proTeams": [
+                    {
+                        "abbrev": "BUF",
+                        "byeWeek": 7,
+                        "proGamesByScoringPeriod": {},
+                    },
+                    {
+                        "abbrev": "NYG",
+                        "proGamesByScoringPeriod": {
+                            "7": [_game(1, now + timedelta(hours=3))]
+                        },
+                    },
+                ]
+            }
+        }
+
+        target_slots, changes = build_lineup_changes(
+            league,
+            team,
+            schedule,
+            now,
+        )
+
+        self.assertEqual(target_slots[bye_player.playerId], 20)
+        self.assertEqual(target_slots[replacement.playerId], 0)
+        self.assertTrue(any(
+            change["playerId"] == bye_player.playerId
+            and change["toLineupSlotId"] == 20
+            for change in changes
+        ))
+
     def test_refuses_lineup_that_does_not_match_afs_settings(self):
         league, team = _optimizer_roster()
         league.settings.position_slot_counts["QB"] = 2
@@ -226,14 +288,52 @@ class ESPNLineupAutomationTests(unittest.TestCase):
                 datetime(2026, 10, 22, 17, tzinfo=EASTERN),
             )
 
+    def test_builds_a_standard_espn_lineup_from_league_settings(self):
+        league, team = _optimizer_roster()
+        league.settings.position_slot_counts = {
+            "QB": 1,
+            "RB": 2,
+            "WR": 2,
+            "TE": 1,
+            "K": 1,
+            "D/ST": 1,
+            "RB/WR/TE": 1,
+            "BE": 5,
+            "Rookie": 1,
+        }
+        now = datetime(2026, 10, 22, 17, tzinfo=EASTERN)
+        schedule = _schedule_for([
+            (now + timedelta(hours=3), False)
+        ])
+
+        target_slots, _ = build_lineup_changes(
+            league,
+            team,
+            schedule,
+            now,
+        )
+
+        active_slot_ids = Counter(
+            slot_id
+            for slot_id in target_slots.values()
+            if slot_id != 20
+        )
+        self.assertEqual(active_slot_ids, Counter({
+            0: 1,
+            2: 2,
+            4: 2,
+            6: 1,
+            17: 1,
+            16: 1,
+            23: 1,
+        }))
+
     def test_transaction_payload_has_only_required_lineup_write_fields(self):
         changes = [{
             "playerId": 101,
             "type": "LINEUP",
             "fromLineupSlotId": 20,
             "toLineupSlotId": 0,
-            "fromTeamId": 0,
-            "toTeamId": 0,
         }]
 
         payload = build_transaction_payload(5, 8, "{member-id}", changes)

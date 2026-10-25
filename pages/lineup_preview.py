@@ -2,16 +2,26 @@ import unicodedata
 
 import pandas as pd
 import streamlit as st
+from espn_api.football.constant import POSITION_MAP
 
 from config import LEAGUES
-from optimizer import get_optimal_lineup, lineup_to_dataframe
 from pages.standings import get_cbs_team_options, load_espn_league
-from services.cbs_lineup_optimizer import optimize_cbs_lineup
+from services.cbs_lineup_optimizer import (
+    is_player_locked,
+    is_player_unlocked,
+    optimize_cbs_lineup,
+)
+from services.database import format_last_data_sync, format_sync_timestamp
 from services.cbs_lineup_submission import (
     CBSLineupError,
     apply_confirmed_lineup,
     fetch_cbs_team_roster,
     fetch_my_cbs_roster,
+)
+from services.espn_lineup_submission import (
+    ESPNLineupSubmissionError,
+    apply_confirmed_espn_lineup,
+    build_espn_lineup_proposal,
 )
 from services.projection_comparison import (
     add_projection_columns,
@@ -26,6 +36,26 @@ ESPN_PROJECTION_COLUMN_NAMES = {
     "Kick-Butt Football": "KickButt Optimized Projection",
     "AFS": "AFS Optimized Projection",
 }
+AFS_LINEUP_SLOT_ORDER = (
+    "QB",
+    "RB",
+    "WR",
+    "TE",
+    "RB/WR/TE",
+    "K",
+    "D/ST",
+)
+KICKBUTT_LINEUP_SLOT_ORDER = (
+    "QB",
+    "RB",
+    "WR",
+    "TE",
+    "RB/WR/TE",
+    "K",
+    "DL",
+    "LB",
+    "DB",
+)
 
 
 def _find_espn_owned_team(league, swid):
@@ -67,6 +97,20 @@ def _round_projection_columns(frame, columns=None):
         if column in rounded.columns:
             rounded[column] = pd.to_numeric(rounded[column], errors="coerce").round(2)
     return rounded
+
+
+def _sort_espn_lineup_preview(frame, slot_order):
+    slot_order = {
+        slot: index for index, slot in enumerate(slot_order)
+    }
+    return (
+        frame.assign(
+            _slot_order=frame["Slot"].map(slot_order).fillna(len(slot_order))
+        )
+        .sort_values("_slot_order", kind="stable")
+        .drop(columns="_slot_order")
+        .reset_index(drop=True)
+    )
 
 
 def _projection_column_config(columns):
@@ -133,6 +177,7 @@ def _load_espn_projection_lookups(
 
 def show_espn_lineup_preview(selected_league):
     league = load_espn_league(selected_league)
+    st.caption(format_last_data_sync("ESPN", selected_league["name"]))
     teams_by_id = {str(team.team_id): team for team in league.teams}
     owned_team = _find_espn_owned_team(league, selected_league["swid"])
     if (
@@ -164,18 +209,60 @@ def show_espn_lineup_preview(selected_league):
         key="espn_lineup_preview_team",
     )
     selected_team = teams_by_id[team_id]
+    can_submit = (
+        owned_team is not None
+        and str(selected_team.team_id) == str(owned_team.team_id)
+    )
+    proposal = None
+    proposal_error = None
+    try:
+        proposal = build_espn_lineup_proposal(league, selected_team)
+    except ESPNLineupSubmissionError as exc:
+        proposal_error = exc
+
     st.write(f"Optimal lineup for **{selected_team.team_name}**")
     st.caption(
         "The lineup uses this ESPN league's optimized projections. The "
         "aggregate is the mean of available projections from KickButt, AFS, "
         "and CBS. Player matches use normalized names."
     )
-    optimal_lineup = get_optimal_lineup(selected_team)
-    if isinstance(optimal_lineup, tuple):
-        optimal_lineup = optimal_lineup[0]
-    lineup_df = pd.DataFrame(lineup_to_dataframe(optimal_lineup))[
-        ["Slot", "Player"]
-    ]
+    if proposal_error is not None:
+        st.error(str(proposal_error))
+        return
+
+    assert proposal is not None
+    slot_names = {
+        slot_id: slot_name
+        for slot_id, slot_name in POSITION_MAP.items()
+        if isinstance(slot_id, int) and slot_name
+    }
+    reserve_slots = {
+        slot_id
+        for slot_id, slot_name in slot_names.items()
+        if slot_name in {"BE", "IR", "ER", "Rookie"}
+    }
+    lineup_df = pd.DataFrame([
+        {
+            "Slot": slot_names.get(slot_id, str(slot_id)),
+            "Player": player.name,
+        }
+        for player in selected_team.roster
+        if (
+            slot_id := proposal["expected_slots"][
+                int(player.playerId)
+            ]
+        ) not in reserve_slots
+    ])
+    if selected_league["name"] == "AFS":
+        lineup_df = _sort_espn_lineup_preview(
+            lineup_df,
+            AFS_LINEUP_SLOT_ORDER,
+        )
+    elif selected_league["name"] == "Kick-Butt Football":
+        lineup_df = _sort_espn_lineup_preview(
+            lineup_df,
+            KICKBUTT_LINEUP_SLOT_ORDER,
+        )
     projection_lookups = _load_espn_projection_lookups(
         current_league_name=selected_league["name"],
         current_league=league,
@@ -199,6 +286,71 @@ def show_espn_lineup_preview(selected_league):
         use_container_width=True,
         hide_index=True,
     )
+
+    if not can_submit:
+        st.info(
+            "Lineup changes can only be submitted for the authenticated "
+            "ESPN account's team."
+        )
+        return
+
+    if not proposal["changes"]:
+        st.success("The optimized lineup already matches the active lineup.")
+        return
+
+    player_names = {
+        int(player.playerId): player.name
+        for player in selected_team.roster
+    }
+    moves_df = pd.DataFrame([
+        {
+            "Player": player_names.get(move["playerId"], "Unknown player"),
+            "Current Assignment": slot_names.get(
+                move["fromLineupSlotId"],
+                str(move["fromLineupSlotId"]),
+            ),
+            "Suggested Assignment": slot_names.get(
+                move["toLineupSlotId"],
+                str(move["toLineupSlotId"]),
+            ),
+        }
+        for move in proposal["changes"]
+    ])
+    st.subheader("Suggested lineup changes")
+    st.dataframe(moves_df, use_container_width=True, hide_index=True)
+    st.warning(
+        "Submitting immediately updates your ESPN lineup. Players whose "
+        "games have started and stale previews are rejected; review every "
+        "move before continuing."
+    )
+    confirmation_key = (
+        f"espn_confirm_{selected_league['name']}_{proposal['team_id']}_"
+        f"{proposal['fingerprint']}"
+    )
+    confirmation = st.checkbox(
+        f"I reviewed these changes for {selected_team.team_name} and want "
+        "to submit them to ESPN.",
+        key=confirmation_key,
+    )
+    if st.button(
+        "Submit confirmed lineup changes to ESPN",
+        key=f"espn_submit_{selected_league['name']}_{proposal['team_id']}",
+        disabled=not confirmation,
+    ):
+        try:
+            apply_confirmed_espn_lineup(
+                selected_league,
+                proposal["team_id"],
+                proposal["fingerprint"],
+                proposal["expected_slots"],
+                proposal["changes"],
+            )
+            st.success(
+                "ESPN lineup changes were submitted and verified. "
+                "Refresh the preview to see the updated lineup."
+            )
+        except ESPNLineupSubmissionError as exc:
+            st.error(str(exc))
 
 
 def show_cbs_lineup_preview():
@@ -278,6 +430,7 @@ def show_cbs_lineup_preview():
         f"**{preview['team_name']}** — CBS week {preview['week']} "
         f"(CBS lineup status: {preview['lineup_status'] or 'unknown'})"
     )
+    st.caption(format_sync_timestamp(preview["synced_at"]))
     st.caption(
         "The lineup and submission proposal use CBS projections. The "
         "aggregate is the mean of available projections from KickButt, AFS, "
@@ -287,12 +440,12 @@ def show_cbs_lineup_preview():
     if not result["complete"]:
         st.warning(
             "The current CBS lineup status does not block optimization. "
-            "However, the roster does not have an eligible player for every "
-            "required starter slot, so a complete proposal cannot be prepared."
+            "However, the available roster cannot fill every required "
+            "starter slot, so a complete proposal cannot be prepared."
         )
         if result["missing_slots"]:
             st.error(
-                "No rostered eligible player is available for: "
+                "Rostered eligible players cannot fill: "
                 + ", ".join(result["missing_slots"])
             )
         return
@@ -372,13 +525,12 @@ def show_cbs_lineup_preview():
 
     locked_moves = [
         move for move in result["moves"]
-        if move["is_locked"] is not None
-        and str(move["is_locked"]).strip().lower()
-        in {"1", "true", "yes", "locked"}
+        if is_player_locked(move["is_locked"])
     ]
     unknown_lock_moves = [
         move for move in result["moves"]
-        if move["is_locked"] is None
+        if not is_player_locked(move["is_locked"])
+        and not is_player_unlocked(move["is_locked"])
     ]
     if locked_moves:
         st.error(
@@ -387,13 +539,19 @@ def show_cbs_lineup_preview():
         )
     if unknown_lock_moves:
         st.error(
-            "CBS did not provide lock status for every proposed player. "
+            "CBS did not provide a recognized unlocked status for every "
+            "proposed player. "
             "No changes can be submitted."
         )
 
+    st.info(
+        "CBS-locked players and players without an explicit unlocked status "
+        "are held in their current assignments. Only unlocked players are "
+        "included in the proposed changes."
+    )
     st.warning(
         "Submitting changes immediately updates your CBS lineup. "
-        "Review every move; locked players and stale previews are rejected."
+        "Review every move; stale previews are rejected."
     )
     confirmation = st.checkbox(
         f"I reviewed these changes for {preview['team_name']} in week "

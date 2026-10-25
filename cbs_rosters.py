@@ -8,7 +8,7 @@ from cbs_normalize import (
     normalize_cbs_rosters,
     upsert_cbs_data,
 )
-from services.database import DB_FILE
+from services.database import DB_FILE, record_data_sync
 
 DB_PATH = DB_FILE
 
@@ -223,6 +223,7 @@ def main():
        
             fetch_and_store_cbs_standings(page, conn)
 
+        record_data_sync("CBS", "CBS")
         browser.close()
 
     print()

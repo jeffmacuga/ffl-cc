@@ -11,8 +11,8 @@ LINEUP_SLOTS = (
     ("RB2", "RB"),
     ("WR-TE1", "WR-TE"),
     ("WR-TE2", "WR-TE"),
-    ("WR-TE3", "WR-TE"),
-    ("RB-WR-TE", "RB-WR-TE"),
+    ("SUPER FLEX", "SUPER FLEX"),
+    ("FLEX", "FLEX"),
     ("K", "K"),
     ("DST", "DST"),
 )
@@ -21,6 +21,8 @@ SLOT_ELIGIBILITY = {
     "QB": {"QB"},
     "RB": {"RB"},
     "WR-TE": {"WR", "TE"},
+    "SUPER FLEX": {"QB", "RB", "WR", "TE"},
+    "FLEX": {"RB", "WR", "TE"},
     "RB-WR-TE": {"RB", "WR", "TE"},
     "K": {"K"},
     "DST": {"DST"},
@@ -31,6 +33,20 @@ POSITION_ALIASES = {
     "D/ST": "DST",
 }
 INJURED_STATUSES = {"I", "IR", "INJ", "INJURED"}
+LOCKED_VALUES = {"1", "true", "yes", "locked"}
+UNLOCKED_VALUES = {"0", "false", "no", "unlocked"}
+
+
+def is_player_locked(value):
+    if value is True or value == 1:
+        return True
+    return str(value).strip().lower() in LOCKED_VALUES
+
+
+def is_player_unlocked(value):
+    if value is False or value == 0:
+        return True
+    return str(value).strip().lower() in UNLOCKED_VALUES
 
 
 def _positions(value, fallback):
@@ -93,6 +109,14 @@ def _current_assignment(player):
     return "Bench"
 
 
+def _cbs_roster_position(slot_type, player):
+    if slot_type == "SUPER FLEX":
+        return "QB" if "QB" in player["eligible_positions"] else "RB-WR-TE"
+    if slot_type == "FLEX":
+        return "RB-WR-TE"
+    return slot_type
+
+
 def optimize_cbs_lineup(roster, allow_average_fallback=False):
     """Return a maximum-projection legal lineup and the moves needed to reach it."""
     candidates = []
@@ -129,6 +153,19 @@ def optimize_cbs_lineup(roster, allow_average_fallback=False):
             player.get("eligible_positions"),
             position,
         )
+        lock_status = player.get("is_locked")
+        current_status = str(
+            player.get("roster_status") or ""
+        ).strip().upper()
+        fixed_assignment = not is_player_unlocked(lock_status)
+        if fixed_assignment:
+            if current_status == "A":
+                current_slot = str(
+                    player.get("roster_position") or ""
+                ).strip().upper()
+                eligible_positions &= SLOT_ELIGIBILITY.get(current_slot, set())
+            else:
+                eligible_positions = set()
         candidates.append({
             "player_id": str(player.get("provider_player_id", player.get("player_name"))),
             "name": str(player.get("player_name") or "Unknown player"),
@@ -137,7 +174,8 @@ def optimize_cbs_lineup(roster, allow_average_fallback=False):
             "score": score,
             "roster_status": str(player.get("roster_status") or "").strip().upper(),
             "roster_position": str(player.get("roster_position") or ""),
-            "is_locked": player.get("is_locked"),
+            "is_locked": lock_status,
+            "must_start": fixed_assignment and current_status == "A",
         })
 
     if not candidates:
@@ -190,6 +228,12 @@ def optimize_cbs_lineup(roster, allow_average_fallback=False):
     @lru_cache(maxsize=None)
     def best_assignment(slot_index, used_players):
         if slot_index == len(slot_options):
+            if any(
+                player["must_start"]
+                and not used_players & (1 << index)
+                for index, player in enumerate(candidates)
+            ):
+                return float("-inf"), ()
             return 0.0, ()
 
         best_score = float("-inf")
@@ -218,10 +262,27 @@ def optimize_cbs_lineup(roster, allow_average_fallback=False):
 
     optimal_score, assignment = best_assignment(0, 0)
     if optimal_score == float("-inf"):
+        unfilled_slots = []
+        for slot_type in dict.fromkeys(
+            slot_type for _, slot_type, _ in slot_options
+        ):
+            slot_names = [
+                slot_name
+                for slot_name, candidate_type, _ in slot_options
+                if candidate_type == slot_type
+            ]
+            eligible_players = {
+                player_index
+                for _, candidate_type, player_indexes in slot_options
+                if candidate_type == slot_type
+                for player_index in player_indexes
+            }
+            unfilled_slots.extend(slot_names[len(eligible_players):])
+
         return {
             "lineup": [],
             "moves": [],
-            "missing_slots": [],
+            "missing_slots": unfilled_slots,
             "projected_points": 0.0,
             "current_projected_points": sum(
                 _player_score(player, allow_average_fallback)
@@ -239,7 +300,10 @@ def optimize_cbs_lineup(roster, allow_average_fallback=False):
     selected_assignments = {}
     for (slot_name, slot_type, _), player_index in zip(slot_options, assignment):
         player = candidates[player_index]
-        selected_assignments[player["player_id"]] = slot_type
+        selected_assignments[player["player_id"]] = (
+            slot_type,
+            _cbs_roster_position(slot_type, player),
+        )
         lineup.append({
             "slot": slot_name,
             "player_id": player["player_id"],
@@ -271,12 +335,19 @@ def optimize_cbs_lineup(roster, allow_average_fallback=False):
 
     moves = []
     for player in candidates:
-        proposed_assignment = selected_assignments.get(player["player_id"], "Bench")
+        selected_assignment = selected_assignments.get(player["player_id"])
+        proposed_assignment = (
+            "Bench" if selected_assignment is None else selected_assignment[0]
+        )
+        proposed_roster_position = (
+            None if selected_assignment is None else selected_assignment[1]
+        )
         current_status = player["roster_status"]
         current_slot_type = player["roster_position"].upper()
         is_current_starter = current_status == "A"
         unchanged = (
-            is_current_starter and current_slot_type == proposed_assignment
+            is_current_starter
+            and current_slot_type == proposed_roster_position
         ) or (
             not is_current_starter
             and proposed_assignment == "Bench"
@@ -294,7 +365,7 @@ def optimize_cbs_lineup(roster, allow_average_fallback=False):
             "suggested_roster_position": (
                 player["roster_position"]
                 if proposed_assignment == "Bench"
-                else proposed_assignment
+                else proposed_roster_position
             ),
             "projected_points": player["score"],
             "is_locked": player["is_locked"],

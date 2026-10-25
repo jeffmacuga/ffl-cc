@@ -4,7 +4,13 @@ import streamlit as st
 import pandas as pd
 import sqlite3
 from espn_api.football import League
-from services.database import DB_FILE, save_league_snapshot, save_rosters
+from services.database import (
+    DB_FILE,
+    format_last_data_sync,
+    record_data_sync,
+    save_league_snapshot,
+    save_rosters,
+)
 
 
 def get_cbs_standings():
@@ -46,12 +52,15 @@ def load_espn_league(selected_league):
     )
     save_league_snapshot(league)
     save_rosters(league)
+    record_data_sync("ESPN", selected_league["name"])
     return league
+
 
 def show_standings(selected_league, selected_league_name):
     st.header("Standings")
     if selected_league["platform"] == "ESPN":
         league = load_espn_league(selected_league)
+        st.caption(format_last_data_sync("ESPN", selected_league_name))
         teams = league.teams
         rows = [
             {
@@ -64,11 +73,14 @@ def show_standings(selected_league, selected_league_name):
         ]
         df = pd.DataFrame(rows)
         df = df.sort_values(["Wins", "Points For"], ascending=False)
-        st.dataframe(df, use_container_width=True)
+        df.insert(0, "Rank", range(1, len(df) + 1))
+        st.dataframe(df, use_container_width=True, hide_index=True)
     elif selected_league["platform"] == "CBS":
+        st.caption(format_last_data_sync("CBS", selected_league_name))
         cbs_df = get_cbs_standings()
         if not cbs_df.empty:
             cbs_df = cbs_df.sort_values(["Wins", "Points For"], ascending=False)
-            st.dataframe(cbs_df, use_container_width=True)
+            cbs_df.insert(0, "Rank", range(1, len(cbs_df) + 1))
+            st.dataframe(cbs_df, use_container_width=True, hide_index=True)
         else:
             st.info("No CBS standings data available.")

@@ -14,6 +14,7 @@ from services.cbs_lineup_submission import (
     CBSLineupError,
     _fetch_live_team,
     _is_locked,
+    is_player_unlocked,
     _launch_browser,
     _merge_page_projections,
     _open_cbs_teams_page,
@@ -351,6 +352,10 @@ class CBSLineupSubmissionTests(unittest.TestCase):
         self.assertTrue(_is_locked(True))
         self.assertFalse(_is_locked("0"))
         self.assertFalse(_is_locked(None))
+        self.assertTrue(is_player_unlocked("0"))
+        self.assertTrue(is_player_unlocked(False))
+        self.assertFalse(is_player_unlocked(None))
+        self.assertFalse(is_player_unlocked("unknown"))
 
 
 if __name__ == "__main__":
