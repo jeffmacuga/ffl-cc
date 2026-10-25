@@ -53,6 +53,55 @@ jobs:
           printf '%s' "$CBS_STORAGE_STATE" > .auth/cbs_state.json
           python -c 'import json; json.load(open(".auth/cbs_state.json", encoding="utf-8"))'
 
+      - name: Health check CBS login state
+        run: |
+          python - <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+
+          state_path = Path('.auth/cbs_state.json')
+          if not state_path.exists():
+              print('CBS storage state file is missing.', file=sys.stderr)
+              sys.exit(1)
+
+          try:
+              with state_path.open('r', encoding='utf-8') as fh:
+                  state = json.load(fh)
+          except Exception as exc:
+              print(f'Malformed CBS storage state: {exc}', file=sys.stderr)
+              sys.exit(1)
+
+          cookies = state.get('cookies', [])
+          if not isinstance(cookies, list) or not cookies:
+              print('CBS storage state has no cookies; the saved CBS session is likely stale or empty.', file=sys.stderr)
+              sys.exit(1)
+
+          has_valid_cookie = any(bool(cookie.get('name')) and bool(cookie.get('value')) for cookie in cookies)
+          if not has_valid_cookie:
+              print('CBS storage state contains no usable cookie values; the saved session is likely stale.', file=sys.stderr)
+              sys.exit(1)
+
+          from playwright.sync_api import sync_playwright
+
+          with sync_playwright() as p:
+              browser = p.chromium.launch(headless=True)
+              context = browser.new_context(storage_state=str(state_path))
+              page = context.new_page()
+              page.goto('https://www.cbssports.com/fantasy/football/', wait_until='domcontentloaded', timeout=30000)
+              url = page.url.lower()
+              body = page.locator('body').inner_text().lower()
+
+              if '/login' in url or 'sign in' in body or 'log in' in body:
+                  print('CBS storage state appears stale or logged out; the login challenge is still active.', file=sys.stderr)
+                  browser.close()
+                  sys.exit(1)
+
+              print(f'CBS storage state health check passed: landed on {page.url}')
+              browser.close()
+          PY
+
+
       - name: Refresh and optimize CBS lineup
         env:
           MANUAL_SUBMIT: ${{ inputs.submit }}
