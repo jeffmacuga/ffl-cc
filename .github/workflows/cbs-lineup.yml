@@ -2,9 +2,10 @@ name: CBS lineup refresh
 
 on:
   schedule:
-    # Sunday morning Eastern; the workflow gates Thursday's dual UTC entries
-    # below so only the one that lands at 4 PM Eastern proceeds.
-    - cron: "0 13 * * 0"
+    # Sunday at 5:30 AM Eastern and Thursday at 4 PM Eastern; dual UTC
+    # entries are gated below to account for daylight saving time.
+    - cron: "30 9 * * 0"
+    - cron: "30 10 * * 0"
     - cron: "0 20 * * 4"
     - cron: "0 21 * * 4"
   workflow_dispatch:
@@ -44,16 +45,25 @@ jobs:
           if os.environ["EVENT_NAME"] == "schedule":
               eastern = datetime.now(ZoneInfo("America/New_York"))
               cron = os.environ["SCHEDULE_CRON"]
-              expected_cron = "0 20 * * 4" if eastern.dst() else "0 21 * * 4"
-              if cron in {"0 20 * * 4", "0 21 * * 4"}:
+              if cron in {"30 9 * * 0", "30 10 * * 0"}:
+                  expected_cron = "30 9 * * 0" if eastern.dst() else "30 10 * * 0"
+                  run = (
+                      eastern.weekday() == 6
+                      and eastern.hour == 5
+                      and cron == expected_cron
+                  )
+              elif cron in {"0 20 * * 4", "0 21 * * 4"}:
+                  expected_cron = "0 20 * * 4" if eastern.dst() else "0 21 * * 4"
                   run = (
                       eastern.weekday() == 3
                       and eastern.hour == 16
                       and cron == expected_cron
                   )
+              else:
+                  run = False
           with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
               output.write(f"run={'true' if run else 'false'}\n")
-          print("Proceeding with lineup refresh." if run else "Skipping; this is not the 4 PM Eastern Thursday run.")
+          print("Proceeding with lineup refresh." if run else "Skipping; this cron entry does not match the intended Eastern run time.")
           PY
       - uses: actions/checkout@v4
         if: steps.schedule.outputs.run == 'true'
