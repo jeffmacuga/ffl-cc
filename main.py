@@ -3,6 +3,7 @@ from config import LEAGUES, set_streamlit_config
 from pages.lineup_preview import show_lineup_preview
 from pages.standings import show_standings
 from pages.rosters import show_team_rosters
+from pages.matchups import show_matchups
 from services.database import initialize_database
 
 
@@ -30,6 +31,11 @@ def render_lineup_preview():
     show_lineup_preview(selected_league, selected_league_name)
 
 
+def render_matchups():
+    selected_league, selected_league_name = get_selected_league()
+    show_matchups(selected_league, selected_league_name)
+
+
 initialize_database()
 set_streamlit_config()
 
@@ -37,6 +43,7 @@ page = st.navigation(
     {
         "League": [
             st.Page(render_standings, title="Standings", default=True),
+            st.Page(render_matchups, title="Weekly Matchups"),
             st.Page(render_team_rosters, title="Team Rosters"),
         ],
         "Tools": [
