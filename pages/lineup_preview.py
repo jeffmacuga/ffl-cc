@@ -43,7 +43,7 @@ AFS_LINEUP_SLOT_ORDER = (
     "TE",
     "RB/WR/TE",
     "K",
-    "D/ST",
+    "DL",
 )
 KICKBUTT_LINEUP_SLOT_ORDER = (
     "QB",
