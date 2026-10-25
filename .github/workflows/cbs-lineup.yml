@@ -1,0 +1,65 @@
+name: CBS lineup refresh
+
+on:
+  schedule:
+    - cron: "0 9-23 * * 0,1,4,6"
+    - cron: "0 0 * * 0,1,2,5"
+  workflow_dispatch:
+    inputs:
+      submit:
+        description: "Submit the optimized CBS lineup now"
+        type: boolean
+        required: true
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cbs-lineup
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      CBS_AUTO_SUBMIT: ${{ vars.CBS_AUTO_SUBMIT }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-automation.txt
+      - name: Install automation dependencies
+        run: python -m pip install -r requirements-automation.txt
+      - name: Install Chromium
+        run: python -m playwright install --with-deps chromium
+      - name: Restore CBS login state
+        env:
+          CBS_STORAGE_STATE: ${{ secrets.CBS_STORAGE_STATE }}
+        run: |
+          if [ -z "$CBS_STORAGE_STATE" ]; then
+            echo "Configure the CBS_STORAGE_STATE GitHub Actions secret." >&2
+            exit 1
+          fi
+          mkdir -p .auth
+          printf '%s' "$CBS_STORAGE_STATE" > .auth/cbs_state.json
+          python -c 'import json; json.load(open(".auth/cbs_state.json", encoding="utf-8"))'
+      - name: Refresh and optimize CBS lineup
+        env:
+          MANUAL_SUBMIT: ${{ inputs.submit }}
+        run: |
+          if [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
+            if [ "$MANUAL_SUBMIT" = "true" ]; then
+              python -m scripts.cbs_lineup_automation --manual --submit
+            else
+              python -m scripts.cbs_lineup_automation --manual
+            fi
+          else
+            python -m scripts.cbs_lineup_automation
+          fi
+      - name: Remove CBS login state
+        if: always()
+        run: rm -f .auth/cbs_state.json
