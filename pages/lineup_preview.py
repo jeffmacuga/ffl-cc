@@ -15,6 +15,8 @@ from services.cbs_lineup_optimizer import (
 from services.database import format_last_data_sync, format_sync_timestamp
 from services.fantasypros import (
     FantasyProsAPIError,
+    fetch_consensus_rankings,
+    fetch_injury_news,
     fetch_weekly_projections,
 )
 from services.cbs_lineup_submission import (
@@ -140,9 +142,9 @@ def _show_fantasypros_decision_center(preview):
     st.caption(
         "FantasyPros weekly projections are matched to CBS roster players "
         "by normalized player name. Recommendations are read-only and use "
-        "PPR projections. CBS injury details are shown when available; "
-        "FantasyPros news and ranking feeds are not yet connected. CBS "
-        "lineup submissions continue to use CBS data."
+        "PPR projections and consensus ranks. Recent FantasyPros injury "
+        "news is matched to rostered players; CBS injury details are shown "
+        "when available. CBS lineup submissions continue to use CBS data."
     )
     injury_notes = [
         f"{player.get('player_name')}: {player['injury']}"
@@ -185,13 +187,90 @@ def _show_fantasypros_decision_center(preview):
         except FantasyProsAPIError as exc:
             st.error(str(exc))
             return
+        enrichment_errors = []
+        try:
+            ranking_data = fetch_consensus_rankings(
+                data["roster"],
+                season=season,
+                scoring="PPR",
+            )
+            data["roster"] = ranking_data["roster"]
+            data["missing_consensus_rankings"] = (
+                ranking_data["missing_players"]
+            )
+        except FantasyProsAPIError as exc:
+            ranking_data = None
+            enrichment_errors.append(f"Consensus rankings unavailable: {exc}")
+
+        news = []
+        if ranking_data is not None:
+            fantasypros_ids = {
+                str(player.get("provider_player_id") or player.get("id") or ""):
+                    player.get("fantasypros_player_id")
+                for player in ranking_data["roster"]
+            }
+            try:
+                news = fetch_injury_news(
+                    ranking_data["roster"],
+                    fantasypros_ids,
+                )
+            except FantasyProsAPIError as exc:
+                enrichment_errors.append(f"FantasyPros news unavailable: {exc}")
         st.session_state[cache_state_key] = {
             "key": cache_key,
             "data": data,
+            "news": news,
+            "enrichment_errors": enrichment_errors,
             "loaded_at": datetime.now(timezone.utc),
         }
-    else:
-        data = cached["data"]
+    cached = st.session_state[cache_state_key]
+    data = cached["data"]
+    news = cached.get("news", []) if cached else []
+    for enrichment_error in (
+        cached.get("enrichment_errors", []) if cached else []
+    ):
+        st.warning(enrichment_error)
+
+    roster_by_id = {
+        str(player.get("provider_player_id") or player.get("id")): player
+        for player in data["roster"]
+    }
+    if news:
+        st.markdown("**FantasyPros player news and injuries**")
+        news_rows = []
+        for item in news:
+            news_rows.append({
+                "Player": roster_by_id.get(item["player_id"], {}).get(
+                    "player_name",
+                    "Rostered player",
+                ),
+                "Published": item["created"],
+                "Update": item["title"],
+                "Summary": item["description"],
+                "Fantasy impact": item["impact"],
+                "Article": item["link"],
+            })
+        st.dataframe(
+            pd.DataFrame(news_rows),
+            column_config={
+                "Article": st.column_config.LinkColumn(
+                    "Article",
+                    display_text="Open",
+                )
+            },
+            use_container_width=True,
+            hide_index=True,
+        )
+    elif not any("FantasyPros news unavailable:" in error for error in (
+        cached.get("enrichment_errors", []) if cached else []
+    )):
+        st.caption("No recent FantasyPros injury news matched rostered players.")
+    missing_rankings = data.get("missing_consensus_rankings", [])
+    if missing_rankings:
+        st.caption(
+            f"Consensus ranks were unavailable for "
+            f"{len(missing_rankings)} rostered player(s)."
+        )
 
     missing_players = data["missing_players"]
     if missing_players:
@@ -235,6 +314,9 @@ def _show_fantasypros_decision_center(preview):
         str(player.get("provider_player_id") or player.get("id")): player
         for player in data["roster"]
     }
+    news_by_player = {}
+    for item in news:
+        news_by_player.setdefault(item["player_id"], []).append(item["title"])
     lineup_rows = []
     for player in result["lineup"]:
         roster_player = roster_by_id[player["player_id"]]
@@ -244,7 +326,11 @@ def _show_fantasypros_decision_center(preview):
             "Position": player["position"],
             "FantasyPros PPR": player["projected_points"],
             "CBS Projection": roster_player.get("cbs_projected_points"),
+            "Consensus Rank": roster_player.get("consensus_rank"),
             "CBS Injury": roster_player.get("injury") or "",
+            "FantasyPros News": "; ".join(
+                news_by_player.get(player["player_id"], [])
+            ),
         })
     lineup_df = pd.DataFrame(lineup_rows)
     for column in ("FantasyPros PPR", "CBS Projection"):
@@ -256,7 +342,9 @@ def _show_fantasypros_decision_center(preview):
         lineup_df,
         column_config=_projection_column_config(
             ["FantasyPros PPR", "CBS Projection"]
-        ),
+        ) | {
+            "Consensus Rank": st.column_config.NumberColumn(format="%.0f")
+        },
         width="stretch",
         hide_index=True,
     )
@@ -283,6 +371,18 @@ def _show_fantasypros_decision_center(preview):
         moves_df["CBS Injury"] = moves_df["player_id"].map(
             injury_by_id
         ).fillna("")
+        news_by_id = {
+            player_id: "; ".join(titles)
+            for player_id, titles in news_by_player.items()
+        }
+        moves_df["FantasyPros News"] = moves_df["player_id"].map(
+            news_by_id
+        ).fillna("")
+        rank_by_id = {
+            str(player.get("provider_player_id")): player.get("consensus_rank")
+            for player in data["roster"]
+        }
+        moves_df["Consensus Rank"] = moves_df["player_id"].map(rank_by_id)
         st.dataframe(
             moves_df[[
                 "Player",
@@ -290,9 +390,14 @@ def _show_fantasypros_decision_center(preview):
                 "Current Assignment",
                 "Suggested Assignment",
                 "FantasyPros PPR",
+                "Consensus Rank",
                 "CBS Injury",
+                "FantasyPros News",
+                "FantasyPros News",
             ]],
-            column_config=_projection_column_config(["FantasyPros PPR"]),
+            column_config=_projection_column_config(["FantasyPros PPR"]) | {
+                "Consensus Rank": st.column_config.NumberColumn(format="%.0f")
+            },
             width="stretch",
             hide_index=True,
         )
