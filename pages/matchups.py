@@ -1,7 +1,12 @@
 import pandas as pd
 import streamlit as st
 
+from cbs_get_league import get_cbs_teams
 from pages.standings import load_espn_league
+from services.cbs_matchups import (
+    CBSMatchupError,
+    fetch_cbs_weekly_matchups,
+)
 from services.database import format_last_data_sync
 
 
@@ -50,13 +55,70 @@ def _format_matchup_label(box_score):
     return f"{_team_name(box_score.away_team)} at {_team_name(box_score.home_team)}"
 
 
+@st.cache_data(ttl=300)
+def _load_cbs_matchups(team_records):
+    return fetch_cbs_weekly_matchups(team_records)
+
+
+def _show_cbs_matchups(selected_league_name):
+    st.caption("CBS weekly matchup data is loaded from team schedules.")
+    try:
+        teams = get_cbs_teams()
+        matchups = _load_cbs_matchups(teams.to_dict("records"))
+    except CBSMatchupError as exc:
+        st.error(str(exc))
+        return
+
+    if not matchups:
+        st.info("No CBS weekly matchups are available.")
+        return
+
+    weeks = sorted({matchup["Week"] for matchup in matchups})
+    weeks_with_scores = [
+        matchup["Week"]
+        for matchup in matchups
+        if matchup["Team A Score"] is not None
+    ]
+    default_week = max(weeks_with_scores) if weeks_with_scores else weeks[-1]
+    week = st.selectbox(
+        "Scoring week",
+        options=weeks,
+        index=weeks.index(default_week),
+        key=f"matchups_week_{selected_league_name}",
+    )
+    week_matchups = [
+        matchup for matchup in matchups if matchup["Week"] == week
+    ]
+    matchup_df = pd.DataFrame([
+        {
+            "Team": matchup["Team A"],
+            "Opponent": matchup["Team B"],
+            "Team Score": matchup["Team A Score"],
+            "Opponent Score": matchup["Team B Score"],
+        }
+        for matchup in week_matchups
+    ])
+    st.subheader(f"All matchups — week {week}")
+    st.dataframe(
+        matchup_df,
+        use_container_width=True,
+        hide_index=True,
+    )
+    st.caption(
+        "Matchups and scores are from CBS team schedules. CBS player-level "
+        "matchup box scores are not available in the current integration."
+    )
+
+
 def show_matchups(selected_league, selected_league_name):
     st.header("Weekly Matchups")
+    if selected_league["platform"] == "CBS":
+        _show_cbs_matchups(selected_league_name)
+        return
     if selected_league["platform"] != "ESPN":
         st.info(
             "Weekly matchup data is not available for this platform yet. "
-            "The current CBS integration provides standings and rosters, "
-            "but not matchup scores or projections."
+            "It is currently available for ESPN and CBS leagues."
         )
         return
 
