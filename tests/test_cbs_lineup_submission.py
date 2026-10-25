@@ -50,7 +50,7 @@ class CBSLineupSubmissionTests(unittest.TestCase):
 
         self.assertIsInstance(raised.exception.__cause__, PlaywrightError)
 
-    def test_opens_team_page_and_captures_fresh_roster_token(self):
+    def test_opens_league_home_then_team_page_and_captures_fresh_token(self):
         class FakeContext:
             @contextmanager
             def expect_event(self, event, predicate, timeout):
@@ -69,10 +69,10 @@ class CBSLineupSubmissionTests(unittest.TestCase):
         class FakePage:
             def __init__(self):
                 self.context = FakeContext()
-                self.page_url = None
+                self.page_urls = []
 
             def goto(self, url, **kwargs):
-                self.page_url = url
+                self.page_urls.append(url)
                 request = SimpleNamespace(
                     url=(
                         "https://kjfha.football.cbssports.com/api/league/feed"
@@ -90,8 +90,11 @@ class CBSLineupSubmissionTests(unittest.TestCase):
         self.assertEqual(page.context.event, "request")
         self.assertEqual(page.context.timeout, 120000)
         self.assertEqual(
-            page.page_url,
-            "https://kjfha.football.cbssports.com/teams/6",
+            page.page_urls,
+            [
+                "https://kjfha.football.cbssports.com",
+                "https://kjfha.football.cbssports.com/teams/6",
+            ],
         )
 
     def test_reports_when_cbs_never_issues_authorization_request(self):

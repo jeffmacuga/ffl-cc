@@ -165,7 +165,7 @@ def _open_cbs_teams_page(
     page,
     team_id: str | None = None,
 ) -> str:
-    page_url = (
+    roster_page_url = (
         f"{BASE_URL}/teams/{team_id}"
         if team_id is not None
         else f"{BASE_URL}/teams"
@@ -177,7 +177,7 @@ def _open_cbs_teams_page(
             timeout=120000,
         ) as token_request:
             page.goto(
-                page_url,
+                BASE_URL,
                 wait_until="domcontentloaded",
                 timeout=60000,
             )
@@ -193,6 +193,11 @@ def _open_cbs_teams_page(
         raise CBSLineupError(
             "CBS roster authorization request did not include a token."
         )
+    page.goto(
+        roster_page_url,
+        wait_until="domcontentloaded",
+        timeout=60000,
+    )
     return token
 
 

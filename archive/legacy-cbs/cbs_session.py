@@ -7,7 +7,6 @@ AUTH.parent.mkdir(parents=True, exist_ok=True)
 
 with sync_playwright() as playwright:
     browser = playwright.chromium.launch(
-        channel="msedge",
         headless=False,
         args=["--disable-popup-blocking"],
     )
