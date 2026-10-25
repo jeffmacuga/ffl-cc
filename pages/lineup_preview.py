@@ -43,7 +43,8 @@ AFS_LINEUP_SLOT_ORDER = (
     "TE",
     "RB/WR/TE",
     "K",
-    "DL",
+    "DST",
+    "BE",
 )
 KICKBUTT_LINEUP_SLOT_ORDER = (
     "QB",
@@ -55,6 +56,7 @@ KICKBUTT_LINEUP_SLOT_ORDER = (
     "DL",
     "LB",
     "DB",
+    "BE",
 )
 
 
@@ -260,6 +262,7 @@ def show_espn_lineup_preview(selected_league):
                 int(player.playerId)
             ]
         ) not in reserve_slots
+        or slot_names.get(slot_id) == "BE"
     ])
     if selected_league["name"] == "AFS":
         lineup_df = _sort_espn_lineup_preview(

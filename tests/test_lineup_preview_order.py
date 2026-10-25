@@ -13,7 +13,8 @@ from pages.lineup_preview import (
 class ESPNLineupPreviewOrderTests(unittest.TestCase):
     def test_orders_afs_slots_as_requested_and_keeps_duplicate_slots_stable(self):
         frame = pd.DataFrame([
-            {"Slot": "DL", "Player": "Defensive Line"},
+            {"Slot": "BE", "Player": "Bench"},
+            {"Slot": "DST", "Player": "Defense"},
             {"Slot": "K", "Player": "Kicker"},
             {"Slot": "RB/WR/TE", "Player": "Flex"},
             {"Slot": "TE", "Player": "Tight End"},
@@ -35,13 +36,16 @@ class ESPNLineupPreviewOrderTests(unittest.TestCase):
             "TE",
             "RB/WR/TE",
             "K",
-            "DL",
+            "DST",
+            "BE",
         ])
         self.assertEqual(ordered.loc[1:2, "Player"].tolist(), ["RB 2", "RB 1"])
         self.assertEqual(ordered.loc[3:4, "Player"].tolist(), ["WR 2", "WR 1"])
+        self.assertEqual(ordered.iloc[-1]["Player"], "Bench")
 
     def test_orders_kickbutt_slots_as_requested_and_keeps_duplicate_slots_stable(self):
         frame = pd.DataFrame([
+            {"Slot": "BE", "Player": "Bench"},
             {"Slot": "DB", "Player": "Defensive Back"},
             {"Slot": "LB", "Player": "Linebacker"},
             {"Slot": "DL", "Player": "Defensive Line"},
@@ -72,9 +76,11 @@ class ESPNLineupPreviewOrderTests(unittest.TestCase):
             "DL",
             "LB",
             "DB",
+            "BE",
         ])
         self.assertEqual(ordered.loc[1:2, "Player"].tolist(), ["RB 2", "RB 1"])
         self.assertEqual(ordered.loc[3:4, "Player"].tolist(), ["WR 2", "WR 1"])
+        self.assertEqual(ordered.iloc[-1]["Player"], "Bench")
 
 
 class CBSLineupPreviewCacheTests(unittest.TestCase):
