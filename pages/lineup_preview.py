@@ -120,6 +120,14 @@ def _projection_column_config(columns):
     }
 
 
+def _cbs_preview_needs_refresh(preview, selected_team):
+    return (
+        preview is None
+        or preview.get("preview_requested_team") != selected_team
+        or not preview.get("synced_at")
+    )
+
+
 def _add_bye_week_column(frame, player_records, player_column="Player"):
     if frame.empty or not player_records:
         return frame
@@ -393,10 +401,7 @@ def show_cbs_lineup_preview():
         key="cbs_preview_team",
     )
     preview = st.session_state.get("cbs_lineup_preview")
-    if (
-        preview is None
-        or preview.get("preview_requested_team") != selected_preview_team
-    ):
+    if _cbs_preview_needs_refresh(preview, selected_preview_team):
         try:
             if selected_preview_team == authenticated_team_id:
                 live_roster = authenticated_roster or fetch_my_cbs_roster()

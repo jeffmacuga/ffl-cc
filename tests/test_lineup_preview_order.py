@@ -5,6 +5,7 @@ import pandas as pd
 from pages.lineup_preview import (
     AFS_LINEUP_SLOT_ORDER,
     KICKBUTT_LINEUP_SLOT_ORDER,
+    _cbs_preview_needs_refresh,
     _sort_espn_lineup_preview,
 )
 
@@ -74,6 +75,29 @@ class ESPNLineupPreviewOrderTests(unittest.TestCase):
         ])
         self.assertEqual(ordered.loc[1:2, "Player"].tolist(), ["RB 2", "RB 1"])
         self.assertEqual(ordered.loc[3:4, "Player"].tolist(), ["WR 2", "WR 1"])
+
+
+class CBSLineupPreviewCacheTests(unittest.TestCase):
+    def test_refreshes_preview_without_sync_timestamp(self):
+        preview = {"preview_requested_team": "6"}
+
+        self.assertTrue(_cbs_preview_needs_refresh(preview, "6"))
+
+    def test_keeps_preview_with_matching_team_and_sync_timestamp(self):
+        preview = {
+            "preview_requested_team": "6",
+            "synced_at": "2026-10-25T07:00:00+00:00",
+        }
+
+        self.assertFalse(_cbs_preview_needs_refresh(preview, "6"))
+
+    def test_refreshes_preview_for_different_team(self):
+        preview = {
+            "preview_requested_team": "6",
+            "synced_at": "2026-10-25T07:00:00+00:00",
+        }
+
+        self.assertTrue(_cbs_preview_needs_refresh(preview, "8"))
 
 
 if __name__ == "__main__":
