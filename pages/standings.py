@@ -74,13 +74,13 @@ def show_standings(selected_league, selected_league_name):
         df = pd.DataFrame(rows)
         df = df.sort_values(["Wins", "Points For"], ascending=False)
         df.insert(0, "Rank", range(1, len(df) + 1))
-        st.dataframe(df, use_container_width=True, hide_index=True)
+        st.dataframe(df, width="stretch", hide_index=True)
     elif selected_league["platform"] == "CBS":
         st.caption(format_last_data_sync("CBS", selected_league_name))
         cbs_df = get_cbs_standings()
         if not cbs_df.empty:
             cbs_df = cbs_df.sort_values(["Wins", "Points For"], ascending=False)
             cbs_df.insert(0, "Rank", range(1, len(cbs_df) + 1))
-            st.dataframe(cbs_df, use_container_width=True, hide_index=True)
+            st.dataframe(cbs_df, width="stretch", hide_index=True)
         else:
             st.info("No CBS standings data available.")

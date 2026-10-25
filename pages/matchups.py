@@ -101,7 +101,7 @@ def _show_cbs_matchups(selected_league_name):
     st.subheader(f"All matchups — week {week}")
     st.dataframe(
         matchup_df,
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
     )
     st.caption(
@@ -139,7 +139,7 @@ def show_matchups(selected_league, selected_league_name):
     st.subheader(f"All matchups — week {week}")
     st.dataframe(
         build_matchup_summary(box_scores),
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
     )
     selected_matchup_index = st.selectbox(
@@ -164,14 +164,14 @@ def show_matchups(selected_league, selected_league_name):
         st.markdown(f"**{_team_name(box_score.away_team)} lineup**")
         st.dataframe(
             build_matchup_player_rows(box_score, "away"),
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )
     with home_lineup:
         st.markdown(f"**{_team_name(box_score.home_team)} lineup**")
         st.dataframe(
             build_matchup_player_rows(box_score, "home"),
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )
     st.caption(

@@ -153,7 +153,7 @@ st.header("Standings")
 
 st.dataframe(
     standings_df,
-    use_container_width=True
+    width="stretch"
 )
 
 
@@ -204,7 +204,7 @@ else:
 
 st.dataframe(
     roster_df,
-    use_container_width=True
+    width="stretch"
 )
 
 if team_obj is not None:

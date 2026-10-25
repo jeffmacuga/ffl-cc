@@ -118,9 +118,9 @@ def show_team_rosters(selected_league, selected_league_name):
             return
         roster_df = build_espn_roster_df(team_obj.roster)
         roster_df = reorder_roster_df(roster_df, "ESPN")
-        st.dataframe(roster_df, use_container_width=True)
+        st.dataframe(roster_df, width="stretch")
     elif selected_league["platform"] == "CBS":
         roster_df = get_cbs_roster(selected_team["provider_team_id"])
         roster_df.rename(columns={"player_name": "Player", "position": "Position"}, inplace=True)
         roster_df = reorder_roster_df(roster_df, "CBS")
-        st.dataframe(roster_df, use_container_width=True)
+        st.dataframe(roster_df, width="stretch")

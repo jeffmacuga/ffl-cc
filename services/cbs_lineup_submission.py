@@ -326,6 +326,12 @@ def _normalized_players(team: dict[str, Any]) -> list[dict[str, Any]]:
                 or player.get("eligible")
                 or player.get("position")
             ),
+            "pro_team": (
+                player.get("pro_team")
+                or player.get("team_id")
+                or player.get("team")
+            ),
+            "injury": player.get("injury"),
             "roster_position": player.get("roster_pos"),
             "roster_status": player.get("roster_status"),
             "projected_points": player.get("projected_points"),

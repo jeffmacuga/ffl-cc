@@ -1,4 +1,5 @@
 import unicodedata
+from datetime import date, datetime, timedelta, timezone
 
 import pandas as pd
 import streamlit as st
@@ -12,6 +13,10 @@ from services.cbs_lineup_optimizer import (
     optimize_cbs_lineup,
 )
 from services.database import format_last_data_sync, format_sync_timestamp
+from services.fantasypros import (
+    FantasyProsAPIError,
+    fetch_weekly_projections,
+)
 from services.cbs_lineup_submission import (
     CBSLineupError,
     apply_confirmed_lineup,
@@ -128,6 +133,171 @@ def _cbs_preview_needs_refresh(preview, selected_team):
         or preview.get("preview_requested_team") != selected_team
         or not preview.get("synced_at")
     )
+
+
+def _show_fantasypros_decision_center(preview):
+    st.subheader("Weekly decision center")
+    st.caption(
+        "FantasyPros weekly projections are matched to CBS roster players "
+        "by normalized player name. Recommendations are read-only and use "
+        "PPR projections. CBS injury details are shown when available; "
+        "FantasyPros news and ranking feeds are not yet connected. CBS "
+        "lineup submissions continue to use CBS data."
+    )
+    injury_notes = [
+        f"{player.get('player_name')}: {player['injury']}"
+        for player in preview["players"]
+        if player.get("injury")
+    ]
+    if injury_notes:
+        st.warning("CBS injury notes: " + "; ".join(injury_notes))
+
+    season = date.today().year
+    week = int(preview["week"])
+    cache_key = (
+        str(preview["team_id"]),
+        season,
+        week,
+        "PPR",
+    )
+    cache_state_key = "fantasypros_weekly_decision_cache"
+    if st.button(
+        "Refresh FantasyPros projections",
+        key=f"fantasypros_refresh_{preview['team_id']}_{week}",
+    ):
+        st.session_state.pop(cache_state_key, None)
+
+    cached = st.session_state.get(cache_state_key)
+    cache_expired = (
+        cached is not None
+        and datetime.now(timezone.utc) - cached["loaded_at"]
+        >= timedelta(minutes=15)
+    )
+    if cached is None or cached["key"] != cache_key or cache_expired:
+        try:
+            with st.spinner("Loading FantasyPros weekly projections..."):
+                data = fetch_weekly_projections(
+                    preview["players"],
+                    season=season,
+                    week=week,
+                    scoring="PPR",
+                )
+        except FantasyProsAPIError as exc:
+            st.error(str(exc))
+            return
+        st.session_state[cache_state_key] = {
+            "key": cache_key,
+            "data": data,
+            "loaded_at": datetime.now(timezone.utc),
+        }
+    else:
+        data = cached["data"]
+
+    missing_players = data["missing_players"]
+    if missing_players:
+        displayed_names = ", ".join(missing_players[:8])
+        remaining = len(missing_players) - 8
+        if remaining > 0:
+            displayed_names += f", and {remaining} more"
+        st.warning(
+            f"FantasyPros did not return a usable PPR projection for "
+            f"{len(missing_players)} rostered player(s): {displayed_names}. "
+            "No FantasyPros-optimal lineup is shown to avoid treating "
+            "missing projections as zero."
+        )
+        return
+
+    result = optimize_cbs_lineup(data["roster"])
+    if not result["complete"]:
+        st.warning(
+            "FantasyPros projections loaded, but CBS roster eligibility "
+            "could not fill every required lineup slot: "
+            + ", ".join(result["missing_slots"])
+        )
+        return
+
+    current, recommended, gain = st.columns(3)
+    current.metric(
+        "Current lineup (FantasyPros)",
+        f"{result['current_projected_points']:.2f}",
+    )
+    recommended.metric(
+        "Recommended lineup",
+        f"{result['projected_points']:.2f}",
+    )
+    gain.metric(
+        "Projected gain",
+        f"{result['improvement']:+.2f}",
+        help="Recommended lineup projection minus the current CBS lineup.",
+    )
+
+    roster_by_id = {
+        str(player.get("provider_player_id") or player.get("id")): player
+        for player in data["roster"]
+    }
+    lineup_rows = []
+    for player in result["lineup"]:
+        roster_player = roster_by_id[player["player_id"]]
+        lineup_rows.append({
+            "Slot": player["slot"],
+            "Player": player["player"],
+            "Position": player["position"],
+            "FantasyPros PPR": player["projected_points"],
+            "CBS Projection": roster_player.get("cbs_projected_points"),
+            "CBS Injury": roster_player.get("injury") or "",
+        })
+    lineup_df = pd.DataFrame(lineup_rows)
+    for column in ("FantasyPros PPR", "CBS Projection"):
+        lineup_df[column] = pd.to_numeric(
+            lineup_df[column],
+            errors="coerce",
+        ).round(2)
+    st.dataframe(
+        lineup_df,
+        column_config=_projection_column_config(
+            ["FantasyPros PPR", "CBS Projection"]
+        ),
+        width="stretch",
+        hide_index=True,
+    )
+
+    if result["moves"]:
+        st.markdown("**Suggested start/sit decisions**")
+        moves_df = pd.DataFrame(result["moves"]).rename(
+            columns={
+                "player": "Player",
+                "position": "Position",
+                "current_assignment": "Current Assignment",
+                "suggested_assignment": "Suggested Assignment",
+                "projected_points": "FantasyPros PPR",
+            }
+        )
+        moves_df["FantasyPros PPR"] = pd.to_numeric(
+            moves_df["FantasyPros PPR"],
+            errors="coerce",
+        ).round(2)
+        injury_by_id = {
+            str(player.get("provider_player_id")): player.get("injury") or ""
+            for player in data["roster"]
+        }
+        moves_df["CBS Injury"] = moves_df["player_id"].map(
+            injury_by_id
+        ).fillna("")
+        st.dataframe(
+            moves_df[[
+                "Player",
+                "Position",
+                "Current Assignment",
+                "Suggested Assignment",
+                "FantasyPros PPR",
+                "CBS Injury",
+            ]],
+            column_config=_projection_column_config(["FantasyPros PPR"]),
+            width="stretch",
+            hide_index=True,
+        )
+    else:
+        st.success("FantasyPros projections agree with your current lineup.")
 
 
 def _add_bye_week_column(frame, player_records, player_column="Player"):
@@ -294,7 +464,7 @@ def show_espn_lineup_preview(selected_league):
     st.dataframe(
         display_df.style.apply(_style_total_row, axis=1),
         column_config=_projection_column_config(total_columns),
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
     )
 
@@ -328,7 +498,7 @@ def show_espn_lineup_preview(selected_league):
         for move in proposal["changes"]
     ])
     st.subheader("Suggested lineup changes")
-    st.dataframe(moves_df, use_container_width=True, hide_index=True)
+    st.dataframe(moves_df, width="stretch", hide_index=True)
     st.warning(
         "Submitting immediately updates your ESPN lineup. Players whose "
         "games have started and stale previews are rejected; review every "
@@ -403,6 +573,14 @@ def show_cbs_lineup_preview():
         ),
         key="cbs_preview_team",
     )
+    if st.button(
+        "Refresh CBS roster",
+        key=f"cbs_roster_refresh_{selected_preview_team}",
+    ):
+        st.session_state.pop("cbs_lineup_preview", None)
+        st.session_state.pop("fantasypros_weekly_decision_cache", None)
+        st.rerun()
+
     preview = st.session_state.get("cbs_lineup_preview")
     if _cbs_preview_needs_refresh(preview, selected_preview_team):
         try:
@@ -444,6 +622,7 @@ def show_cbs_lineup_preview():
         "aggregate is the mean of available projections from KickButt, AFS, "
         "and CBS. Player matches use normalized names."
     )
+    _show_fantasypros_decision_center(preview)
     result = preview["result"]
     if not result["complete"]:
         st.warning(
@@ -478,7 +657,7 @@ def show_cbs_lineup_preview():
     st.dataframe(
         display_df.style.apply(_style_total_row, axis=1),
         column_config=_projection_column_config(total_columns),
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
     )
 
@@ -520,7 +699,7 @@ def show_cbs_lineup_preview():
     st.dataframe(
         moves_df,
         column_config=_projection_column_config(["Projected Points"]),
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
     )
 
