@@ -41,6 +41,7 @@ ESPN_PROJECTION_COLUMN_NAMES = {
     "Kick-Butt Football": "KickButt Optimized Projection",
     "AFS": "AFS Optimized Projection",
 }
+FANTASYPROS_CONTENT_ENABLED = False
 AFS_LINEUP_SLOT_ORDER = (
     "QB",
     "RB",
@@ -670,7 +671,8 @@ def show_cbs_lineup_preview():
         "matches use normalized names."
     )
     roster_players = preview["players"]
-    _show_fantasypros_decision_center(preview)
+    if FANTASYPROS_CONTENT_ENABLED:
+        _show_fantasypros_decision_center(preview)
     result = optimize_cbs_lineup(
         roster_players,
         allow_average_fallback=False,

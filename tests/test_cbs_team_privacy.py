@@ -69,7 +69,10 @@ class CBSTeamPrivacyTests(unittest.TestCase):
                 "optimize_cbs_lineup",
                 return_value={"complete": False, "missing_slots": []},
             ),
-            patch.object(lineup_preview, "_show_fantasypros_decision_center"),
+            patch.object(
+                lineup_preview,
+                "_show_fantasypros_decision_center",
+            ) as show_fantasypros,
             patch.object(
                 lineup_preview,
                 "format_sync_timestamp",
@@ -88,6 +91,7 @@ class CBSTeamPrivacyTests(unittest.TestCase):
 
         fetch_roster.assert_called_once_with("101")
         show_team_picker.assert_not_called()
+        show_fantasypros.assert_not_called()
 
     def test_cbs_trade_analyzer_does_not_load_rosters(self):
         with (
