@@ -868,7 +868,7 @@ def show_cbs_lineup_preview():
         "week": preview["week"],
         "projection_source": "CBS",
         "optimizer_objective": (
-            "The existing deterministic optimizer maximizes CBS projections "
+            "This optimizer maximizes CBS projections "
             "while following CBS slot eligibility and lock constraints."
         ),
         "current_lineup": _frame_records(current_lineup_df),
