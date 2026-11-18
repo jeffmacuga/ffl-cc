@@ -752,11 +752,29 @@ def show_cbs_lineup_preview():
         moves_df["Projected Points"] = pd.to_numeric(
             moves_df["Projected Points"], errors="coerce"
         ).round(2)
-    st.dataframe(
-        moves_df,
-        column_config=_projection_column_config(["Projected Points"]),
+    moves_df.insert(0, "Submit", False)
+    visible_move_columns = [
+        "Submit",
+        "Player",
+        "Position",
+        "Current Assignment",
+        "Suggested Assignment",
+        "Projected Points",
+    ]
+    edited_moves_df = st.data_editor(
+        moves_df[visible_move_columns],
+        column_config={
+            "Submit": st.column_config.CheckboxColumn(
+                "Submit",
+                help="Select this change to include it in the CBS submission.",
+                default=False,
+            ),
+            **_projection_column_config(["Projected Points"]),
+        },
+        disabled=visible_move_columns[1:],
         width="stretch",
         hide_index=True,
+        key=f"cbs_suggested_changes_{preview['fingerprint']}",
     )
 
     if not can_submit:
@@ -766,21 +784,12 @@ def show_cbs_lineup_preview():
         )
         return
 
-    move_options = {
-        str(move["player_id"]): (
-            f"{move['player']} — {move['current_assignment']} → "
-            f"{move['suggested_assignment']}"
-        )
-        for move in result["moves"]
-    }
-    selected_move_ids = st.multiselect(
-        "Select suggested changes to submit",
-        options=list(move_options),
-        default=[],
-        format_func=lambda player_id: move_options[player_id],
-        key=f"cbs_selected_moves_{preview['fingerprint']}",
-        help="Only the changes selected here will be sent to CBS.",
-    )
+    selected_move_ids = [
+        str(result["moves"][index]["player_id"])
+        for index in edited_moves_df.index[
+            edited_moves_df["Submit"].fillna(False)
+        ]
+    ]
     selected_moves = _select_cbs_lineup_moves(
         result["moves"],
         selected_move_ids,
