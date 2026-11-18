@@ -137,6 +137,16 @@ def _fetch_position_payload(season, week, position, api_key):
         page_players = payload["players"]
         remaining_count = expected_count - len(players)
         if (
+            payload.get("public_api_limited") is True
+            and len(page_players) < expected_count
+        ):
+            raise FantasyProsAPIError(
+                f"FantasyPros limited the {position} projection response to "
+                f"{len(page_players)} of {expected_count} players. The "
+                "remaining projections are unavailable with the current API "
+                "access."
+            )
+        if (
             (not page_players and remaining_count > 0)
             or len(page_players) > remaining_count
         ):
@@ -153,8 +163,11 @@ def _fetch_position_payload(season, week, position, api_key):
             or seen_players.intersection(page_signatures)
         ):
             raise FantasyProsAPIError(
-                f"FantasyPros pagination did not advance for "
-                f"{position} projections."
+                f"FantasyPros repeated a {position} projection page at "
+                f"offset {offset}; only {len(players)} of {expected_count} "
+                "players were returned. This response is not providing "
+                "additional pages, so verify that the API access supports "
+                "the full projection list."
             )
         seen_players.update(page_signatures)
         players.extend(page_players)

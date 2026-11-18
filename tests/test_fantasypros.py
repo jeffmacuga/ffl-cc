@@ -176,21 +176,45 @@ class FantasyProsProjectionTests(unittest.TestCase):
         self.assertEqual(offsets, [0, 10, 20])
 
     @patch("services.fantasypros.urlopen")
-    def test_rejects_projection_pagination_that_does_not_advance(self, urlopen):
+    def test_reports_limited_projection_access(self, urlopen):
         urlopen.return_value = FakeResponse({
             "count": "26",
             "limit": "10",
+            "public_api_limited": True,
             "players": [
-                {
-                    "fpid": 123,
-                    "name": "Defense",
-                },
+                {"fpid": player_id, "name": f"Defense {player_id}"}
+                for player_id in range(10)
             ],
         })
 
         with self.assertRaisesRegex(
             FantasyProsAPIError,
-            "pagination did not advance",
+            "limited the DST projection response to 10 of 26 players",
+        ):
+            _fetch_position_payload(
+                season=2026,
+                week=7,
+                position="DST",
+                api_key="test-key",
+            )
+
+        urlopen.assert_called_once()
+
+    @patch("services.fantasypros.urlopen")
+    def test_rejects_projection_pagination_that_does_not_advance(self, urlopen):
+        urlopen.return_value = FakeResponse({
+            "count": "26",
+            "limit": "10",
+            "players": [
+                {"fpid": player_id, "name": f"Defense {player_id}"}
+                for player_id in range(10)
+            ],
+        })
+
+        with self.assertRaisesRegex(
+            FantasyProsAPIError,
+            "repeated a DST projection page at offset 10; only 10 of 26 "
+            "players were returned",
         ):
             _fetch_position_payload(
                 season=2026,
