@@ -1,85 +1,122 @@
+import hashlib
+import hmac
 from collections.abc import Mapping
 
 import streamlit as st
 from streamlit.errors import StreamlitSecretNotFoundError
 
+SESSION_CODE_HASH_KEY = "cbs_access_code_hash"
 
-def get_cbs_team_mapping():
+
+def _get_access_config():
     try:
         access_config = st.secrets.get("access", {})
     except StreamlitSecretNotFoundError:
-        access_config = {}
-
+        return {}
     if not isinstance(access_config, Mapping):
         raise ValueError("[access] must be a mapping.")
+    return access_config
 
-    configured_mapping = access_config.get("team_by_email", {})
-    if not isinstance(configured_mapping, Mapping):
-        raise ValueError("[access].team_by_email must be a mapping.")
+
+def _normalize_team_id(team_id):
+    team_id = str(team_id).strip()
+    if not team_id.isdigit() or int(team_id) < 1:
+        raise ValueError("CBS team IDs must be positive numbers.")
+    return team_id
+
+
+def _hash_code(code):
+    return hashlib.sha256(code.encode("utf-8")).hexdigest()
+
+
+def get_cbs_code_mapping():
+    access_config = _get_access_config()
+    configured_codes = access_config.get("team_access_codes", [])
+    if not isinstance(configured_codes, list):
+        raise ValueError("[access].team_access_codes must be a list.")
 
     mapping = {}
-    for email, team_id in configured_mapping.items():
-        if not isinstance(email, str) or not email.strip():
-            raise ValueError("CBS team mapping contains an invalid email.")
-        team_id = str(team_id).strip()
-        if not team_id.isdigit() or int(team_id) < 1:
+    for entry in configured_codes:
+        if not isinstance(entry, Mapping):
+            raise ValueError("Each CBS access code entry must be a mapping.")
+        code = entry.get("code")
+        if not isinstance(code, str) or len(code) < 20:
             raise ValueError(
-                f"CBS team ID for {email.strip()} must be a positive number."
+                "Each CBS access code must be a string of at least 20 characters."
             )
-        mapping[email.strip().casefold()] = team_id
+        team_id = _normalize_team_id(entry.get("team_id", ""))
+        code_hash = _hash_code(code)
+        if code_hash in mapping:
+            raise ValueError("CBS access codes must be unique.")
+        mapping[code_hash] = team_id
     return mapping
 
 
+def _find_team_for_code(code, code_mapping):
+    if not isinstance(code, str) or not code:
+        return None
+    submitted_hash = _hash_code(code)
+    for known_hash, team_id in code_mapping.items():
+        if hmac.compare_digest(submitted_hash, known_hash):
+            return team_id
+    return None
+
+
+def _find_team_for_code_hash(code_hash, code_mapping):
+    if not isinstance(code_hash, str):
+        return None
+    for known_hash, team_id in code_mapping.items():
+        if hmac.compare_digest(code_hash, known_hash):
+            return team_id
+    return None
+
+
 def get_authenticated_cbs_team_id():
-    user = st.user
-    if not user.is_logged_in or not getattr(user, "email_verified", False):
-        return None
-
-    email = str(getattr(user, "email", "") or "").strip().casefold()
-    if not email:
-        return None
-    return get_cbs_team_mapping().get(email)
+    code_mapping = get_cbs_code_mapping()
+    authenticated_hash = st.session_state.get(SESSION_CODE_HASH_KEY)
+    return _find_team_for_code_hash(authenticated_hash, code_mapping)
 
 
-def _show_logout_button():
-    st.sidebar.button("Sign out", on_click=st.logout)
+def _sign_out():
+    st.session_state.pop(SESSION_CODE_HASH_KEY, None)
 
 
 def require_site_access():
     try:
-        team_by_email = get_cbs_team_mapping()
+        code_mapping = get_cbs_code_mapping()
     except ValueError as exc:
         st.error(f"Site access configuration is invalid: {exc}")
         return False
 
-    if not team_by_email:
+    if not code_mapping:
         st.error(
-            "Site access is not configured. Map each member's Google email "
-            "to their CBS team ID in `[access].team_by_email` in Streamlit "
-            "secrets."
+            "Site access is not configured. Add individual CBS team access "
+            "codes to `[access].team_access_codes` in Streamlit secrets."
         )
         return False
 
-    user = st.user
-    if not user.is_logged_in:
-        st.title("CBS League Sign In")
-        st.write("Sign in with your Google account to access league data.")
-        st.button("Continue with Google", on_click=st.login)
+    authenticated_hash = st.session_state.get(SESSION_CODE_HASH_KEY)
+    if _find_team_for_code_hash(authenticated_hash, code_mapping):
+        st.sidebar.button("Sign out", on_click=_sign_out)
+        return True
+
+    if authenticated_hash:
+        _sign_out()
+
+    st.title("CBS League Sign In")
+    st.write("Enter the individual access code provided by your league administrator.")
+    with st.form("cbs_access_code_login"):
+        submitted_code = st.text_input("CBS team access code", type="password")
+        submitted = st.form_submit_button("Continue")
+
+    if submitted:
+        team_id = _find_team_for_code(submitted_code, code_mapping)
+        if team_id is None:
+            st.error("That access code is not valid.")
+            return False
+
+        st.session_state[SESSION_CODE_HASH_KEY] = _hash_code(submitted_code)
+        st.rerun()
         return False
 
-    email = str(getattr(user, "email", "") or "").strip().casefold()
-    if not getattr(user, "email_verified", False):
-        st.error("Google did not confirm a verified email address for this account.")
-        _show_logout_button()
-        return False
-
-    if email not in team_by_email:
-        st.error(
-            "This Google account is not assigned to a CBS team. Contact the "
-            "league administrator if you need access."
-        )
-        _show_logout_button()
-        return False
-
-    _show_logout_button()
-    return True
+    return False

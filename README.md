@@ -1,33 +1,40 @@
 # Fantasy Command Center
 
-## Site access
+## CBS member access
 
-The app requires an approved Google account before it loads league data. Set up
-a Google OAuth client and configure the redirect URL as your app URL followed
-by `/oauth2callback` in Google Cloud. Then configure Streamlit secrets in the
-deployment settings or in `.streamlit/secrets.toml` for local development:
+The app uses one individual access code per CBS team. Members enter their code
+on the sign-in screen; the app associates that code with the configured team
+and limits roster and lineup pages to that team. Shared standings and matchup
+summaries remain visible to all signed-in members.
 
-```toml
-[auth]
-redirect_uri = "http://localhost:8501/oauth2callback"
-cookie_secret = "replace-with-a-long-random-secret"
-client_id = "your-google-oauth-client-id"
-client_secret = "your-google-oauth-client-secret"
-server_metadata_url = "https://accounts.google.com/.well-known/openid-configuration"
+Generate a different high-entropy code for each member. For example, run this
+command once per member:
 
-[access.team_by_email]
-"member1@example.com" = "CBS_TEAM_ID_1"
-"member2@example.com" = "CBS_TEAM_ID_2"
+```bash
+python -c "import secrets; print(secrets.token_urlsafe(24))"
 ```
 
-Set `redirect_uri` to the public app URL plus `/oauth2callback` in production.
-Use a unique, strong value for `cookie_secret`, and add the same redirect URL
-to the Google OAuth client's authorized redirect URIs.
+In the Streamlit Cloud app settings under **Secrets**, add the generated codes
+and matching CBS team IDs:
 
-Never commit OAuth secrets. If the team mapping is missing or invalid, the app
-fails closed and displays a setup message. Find each CBS team ID in the
-`cbs_teams` table or the CBS team data, then map each member's verified Google
-email to that numeric ID. Members can see shared CBS standings and matchups,
-but roster pages and lineup previews are limited to their assigned team. The
-CBS trade analyzer is unavailable because it requires access to both teams'
-rosters.
+```toml
+[access]
+team_access_codes = [
+  { code = "PASTE_MEMBER_1_CODE_HERE", team_id = "1" },
+  { code = "PASTE_MEMBER_2_CODE_HERE", team_id = "2" },
+]
+```
+
+Use the numeric CBS team IDs from the `cbs_teams` data. Keep these codes in
+Streamlit secrets, never in the repository. Send each member only their own
+code using a private channel. To revoke access, remove that code from secrets;
+existing sessions using it are denied on their next app run. Generate a new
+code if a member's code is lost or exposed.
+
+Google OAuth `[auth]` settings are no longer required for this app. The code
+gate is inside the app; Streamlit Community Cloud may separately require the
+app owner to share the app with users or make it public so they can reach the
+sign-in screen.
+
+The CBS Trade Analyzer is unavailable because it requires access to both
+teams' rosters.
