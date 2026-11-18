@@ -15,6 +15,10 @@ def _get_credential(name):
 ESPN_SWID = _get_credential("ESPN_SWID")
 ESPN_S2 = _get_credential("ESPN_S2")
 FANTASYPROS_API_KEY = _get_credential("FANTASYPROS_API_KEY")
+ANTHROPIC_API_KEY = _get_credential("ANTHROPIC_API_KEY")
+ANTHROPIC_MODEL = (
+    _get_credential("ANTHROPIC_MODEL") or "claude-sonnet-5-5"
+)
 
 LEAGUES = [
     {

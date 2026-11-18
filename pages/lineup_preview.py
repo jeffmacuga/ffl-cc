@@ -1,10 +1,12 @@
 import hashlib
+import json
 from datetime import date, datetime, timedelta, timezone
 
 import pandas as pd
 import streamlit as st
 from espn_api.football.constant import POSITION_MAP
 
+from config import ANTHROPIC_API_KEY
 from pages.standings import load_espn_league
 from services.cbs_lineup_optimizer import (
     is_player_locked,
@@ -35,6 +37,7 @@ from services.projection_comparison import (
     build_cbs_projection_lookup,
     build_espn_optimized_projection_lookup,
 )
+from services.lineup_ai import LineupAIError, explain_lineup
 
 
 ESPN_PROJECTION_COLUMN_NAMES = {
@@ -121,6 +124,53 @@ def _projection_column_config(columns):
         column: st.column_config.NumberColumn(format="%.2f")
         for column in columns
     }
+
+
+def _show_ai_lineup_explanation(context):
+    signature = hashlib.sha256(
+        json.dumps(context, sort_keys=True, default=str).encode("utf-8")
+    ).hexdigest()[:16]
+    cache_key = "lineup_ai_explanation"
+    cached = st.session_state.get(cache_key)
+    if not isinstance(cached, dict) or cached.get("signature") != signature:
+        cached = None
+
+    with st.expander("AI lineup explanation (Anthropic)"):
+        st.caption(
+            "When requested, player names, current and optimized lineup "
+            "assignments, projection values, and uncertainty notes are sent "
+            "to Anthropic. AI explanations are informational only; review "
+            "all changes yourself."
+        )
+        if not ANTHROPIC_API_KEY:
+            st.info(
+                "AI explanations are unavailable until ANTHROPIC_API_KEY is "
+                "configured in Streamlit secrets or the environment."
+            )
+            return
+
+        if st.button(
+            "Regenerate AI explanation" if cached else "Explain lineup with AI",
+            key=f"lineup_ai_explain_{signature}",
+        ):
+            try:
+                explanation = explain_lineup(context)
+            except LineupAIError as exc:
+                st.error(str(exc))
+                return
+            cached = {"signature": signature, "text": explanation}
+            st.session_state[cache_key] = cached
+
+        if cached:
+            st.write(cached["text"])
+
+
+def _frame_records(frame):
+    return (
+        frame.astype(object)
+        .where(pd.notna(frame), None)
+        .to_dict("records")
+    )
 
 
 def _cbs_preview_needs_refresh(preview, selected_team):
@@ -530,6 +580,9 @@ def show_espn_lineup_preview(selected_league):
         selected_column: build_espn_optimized_projection_lookup(league)
     }
     lineup_df = add_projection_columns(lineup_df, projection_lookups)
+    optimized_lineup = lineup_df[["Slot", "Player", selected_column]].rename(
+        columns={selected_column: "Projection"}
+    )
     total_columns = [selected_column]
     lineup_df = append_projection_totals(lineup_df, total_columns)
     display_df = lineup_df[["Slot", "Player", *total_columns]]
@@ -551,6 +604,70 @@ def show_espn_lineup_preview(selected_league):
             hide_index=True,
         )
 
+    projection_values = optimized_lineup["Projection"]
+    missing_projection_players = optimized_lineup.loc[
+        projection_values.isna(), "Player"
+    ].tolist()
+    zero_projection_players = optimized_lineup.loc[
+        projection_values.eq(0), "Player"
+    ].tolist()
+    uncertainties = []
+    if missing_projection_players:
+        uncertainties.append(
+            "No usable projection was found for: "
+            + ", ".join(missing_projection_players)
+            + "."
+        )
+    if zero_projection_players:
+        uncertainties.append(
+            "The projection is 0.0 for: "
+            + ", ".join(zero_projection_players)
+            + "; verify those values."
+        )
+    injury_notes = [
+        f"{player.name}: {player.injuryStatus}"
+        for player in selected_team.roster
+        if getattr(player, "injuryStatus", None)
+        and str(player.injuryStatus).strip()
+    ]
+    if injury_notes:
+        uncertainties.append(
+            "ESPN roster injury statuses: " + "; ".join(injury_notes) + "."
+        )
+    player_names = {
+        int(player.playerId): player.name
+        for player in selected_team.roster
+    }
+    changes = [
+        {
+            "Player": player_names.get(
+                move["playerId"], "Unknown player"
+            ),
+            "Current Assignment": slot_names.get(
+                move["fromLineupSlotId"],
+                str(move["fromLineupSlotId"]),
+            ),
+            "Suggested Assignment": slot_names.get(
+                move["toLineupSlotId"],
+                str(move["toLineupSlotId"]),
+            ),
+        }
+        for move in proposal["changes"]
+    ]
+    _show_ai_lineup_explanation({
+        "league": selected_league["name"],
+        "week": getattr(league, "nfl_week", None),
+        "projection_source": selected_column,
+        "optimizer_objective": (
+            "The existing deterministic optimizer maximizes the supplied "
+            "projection while following this league's lineup slots."
+        ),
+        "current_lineup": _frame_records(current_lineup_df),
+        "optimized_lineup": _frame_records(optimized_lineup),
+        "suggested_changes": changes,
+        "uncertainties": uncertainties,
+    })
+
     if not can_submit:
         st.info(
             "Lineup changes can only be submitted for the authenticated "
@@ -562,10 +679,6 @@ def show_espn_lineup_preview(selected_league):
         st.success("The optimized lineup already matches the active lineup.")
         return
 
-    player_names = {
-        int(player.playerId): player.name
-        for player in selected_team.roster
-    }
     moves_df = pd.DataFrame([
         {
             "Player": player_names.get(move["playerId"], "Unknown player"),
@@ -698,6 +811,11 @@ def show_cbs_lineup_preview():
         lineup_df,
         preview["projection_lookups"],
     )
+    optimized_lineup = lineup_df[[
+        "Slot",
+        "Player",
+        "CBS Optimized Projection",
+    ]].rename(columns={"CBS Optimized Projection": "Projection"})
     total_columns = ["CBS Optimized Projection"]
     lineup_df = append_projection_totals(lineup_df, total_columns)
     display_df = lineup_df[["Slot", "Player", *total_columns]]
@@ -718,6 +836,52 @@ def show_cbs_lineup_preview():
             width="stretch",
             hide_index=True,
         )
+
+    uncertainties = []
+    if result["missing_projection_count"]:
+        uncertainties.append(
+            f"CBS provided no projection for "
+            f"{result['missing_projection_count']} eligible player(s); the "
+            "optimizer scored missing projections as 0.0."
+        )
+    if result["zero_projection_count"]:
+        uncertainties.append(
+            f"CBS provided a 0.0 projection for "
+            f"{result['zero_projection_count']} eligible player(s); verify "
+            "whether those values reflect a bye or unavailable projection."
+        )
+    injury_notes = [
+        f"{player.get('player_name')}: {player.get('injury')}"
+        for player in roster_players
+        if player.get("injury")
+    ]
+    if injury_notes:
+        uncertainties.append(
+            "CBS roster injury notes: " + "; ".join(injury_notes) + "."
+        )
+    _show_ai_lineup_explanation({
+        "league": "CBS",
+        "week": preview["week"],
+        "projection_source": "CBS",
+        "optimizer_objective": (
+            "The existing deterministic optimizer maximizes CBS projections "
+            "while following CBS slot eligibility and lock constraints."
+        ),
+        "current_lineup": _frame_records(current_lineup_df),
+        "optimized_lineup": _frame_records(optimized_lineup),
+        "suggested_changes": [
+            {
+                "Player": move["player"],
+                "Position": move["position"],
+                "Current Assignment": move["current_assignment"],
+                "Suggested Assignment": move["suggested_assignment"],
+                "Projection": move["projected_points"],
+                "Is Locked": move["is_locked"],
+            }
+            for move in result["moves"]
+        ],
+        "uncertainties": uncertainties,
+    })
 
     if result["missing_projection_count"]:
         st.warning(
