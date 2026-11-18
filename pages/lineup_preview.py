@@ -6,7 +6,6 @@ import pandas as pd
 import streamlit as st
 from espn_api.football.constant import POSITION_MAP
 
-from config import LEAGUES
 from pages.standings import load_espn_league
 from services.cbs_lineup_optimizer import (
     is_player_locked,
@@ -36,7 +35,6 @@ from services.projection_comparison import (
     append_projection_totals,
     build_cbs_projection_lookup,
     build_espn_optimized_projection_lookup,
-    load_cbs_projection_lookup,
 )
 
 
@@ -449,26 +447,6 @@ def _add_bye_week_column(frame, player_records, player_column="Player"):
     return with_bye_weeks
 
 
-def _load_espn_projection_lookups(
-    current_league_name=None,
-    current_league=None,
-):
-    projection_lookups = {}
-    for league_config in LEAGUES:
-        if league_config["platform"] != "ESPN":
-            continue
-        league = (
-            current_league
-            if current_league is not None
-            and league_config["name"] == current_league_name
-            else load_espn_league(league_config)
-        )
-        projection_lookups[
-            ESPN_PROJECTION_COLUMN_NAMES[league_config["name"]]
-        ] = build_espn_optimized_projection_lookup(league)
-    return projection_lookups
-
-
 def show_espn_lineup_preview(selected_league):
     league = load_espn_league(selected_league)
     st.caption(format_last_data_sync("ESPN", selected_league["name"]))
@@ -517,8 +495,7 @@ def show_espn_lineup_preview(selected_league):
     st.write(f"Optimal lineup for **{selected_team.team_name}**")
     st.caption(
         "The lineup uses this ESPN league's optimized projections. The "
-        "aggregate is the mean of available projections from KickButt, AFS, "
-        "and CBS. Player matches use normalized names."
+        "player matches use normalized names."
     )
     if proposal_error is not None:
         st.error(str(proposal_error))
@@ -558,18 +535,12 @@ def show_espn_lineup_preview(selected_league):
             lineup_df,
             KICKBUTT_LINEUP_SLOT_ORDER,
         )
-    projection_lookups = _load_espn_projection_lookups(
-        current_league_name=selected_league["name"],
-        current_league=league,
-    )
-    projection_lookups["CBS Optimized Projection"] = load_cbs_projection_lookup()
-    lineup_df = add_projection_columns(lineup_df, projection_lookups)
     selected_column = ESPN_PROJECTION_COLUMN_NAMES[selected_league["name"]]
-    total_columns = [
-        selected_column,
-        "CBS Optimized Projection",
-        "Aggregate Projection",
-    ]
+    projection_lookups = {
+        selected_column: build_espn_optimized_projection_lookup(league)
+    }
+    lineup_df = add_projection_columns(lineup_df, projection_lookups)
+    total_columns = [selected_column]
     lineup_df = append_projection_totals(lineup_df, total_columns)
     display_df = lineup_df[["Slot", "Player", *total_columns]]
     display_df = _add_bye_week_column(display_df, selected_team.roster)
@@ -673,13 +644,13 @@ def show_cbs_lineup_preview():
     ):
         try:
             live_roster = fetch_cbs_team_roster(team_id)
-            projection_lookups = _load_espn_projection_lookups()
-            projection_lookups["CBS Optimized Projection"] = (
-                build_cbs_projection_lookup(live_roster["players"])
-            )
             st.session_state["cbs_lineup_preview"] = {
                 **live_roster,
-                "projection_lookups": projection_lookups,
+                "projection_lookups": {
+                    "CBS Optimized Projection": build_cbs_projection_lookup(
+                        live_roster["players"]
+                    )
+                },
                 "can_submit": True,
                 "preview_requested_team": team_id,
             }
@@ -698,9 +669,8 @@ def show_cbs_lineup_preview():
     )
     st.caption(format_sync_timestamp(preview["synced_at"]))
     st.caption(
-        "The lineup and submission proposal use CBS projections. The "
-        "aggregate is the mean of available projections from KickButt, AFS, "
-        "and CBS. Player matches use normalized names."
+        "The lineup and submission proposal use CBS projections. Player "
+        "matches use normalized names."
     )
     roster_players = preview["players"]
     _show_fantasypros_decision_center(preview)
@@ -728,11 +698,7 @@ def show_cbs_lineup_preview():
         lineup_df,
         preview["projection_lookups"],
     )
-    total_columns = [
-        "CBS Optimized Projection",
-        "KickButt Optimized Projection",
-        "Aggregate Projection",
-    ]
+    total_columns = ["CBS Optimized Projection"]
     lineup_df = append_projection_totals(lineup_df, total_columns)
     display_df = lineup_df[["Slot", "Player", *total_columns]]
     display_df = _add_bye_week_column(display_df, preview["players"])
