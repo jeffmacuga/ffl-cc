@@ -50,6 +50,13 @@ if not require_site_access():
 
 initialize_database()
 
+st.sidebar.selectbox(
+    "League",
+    options=[league["name"] for league in LEAGUES],
+    key="selected_league_name",
+    help="Choose which fantasy league to view.",
+)
+
 page = st.navigation(
     {
         "League": [
@@ -62,17 +69,7 @@ page = st.navigation(
             st.Page(render_trade_analyzer, title="Trade Analyzer"),
         ],
     },
-    position="top",
+    position="sidebar",
 )
-
-_, league_selector = st.columns([5, 2])
-with league_selector:
-    st.selectbox(
-        "League",
-        options=[league["name"] for league in LEAGUES],
-        key="selected_league_name",
-        label_visibility="collapsed",
-        help="Choose which fantasy league to view.",
-    )
 
 page.run()
