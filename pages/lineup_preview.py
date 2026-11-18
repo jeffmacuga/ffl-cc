@@ -1,5 +1,4 @@
 import hashlib
-import unicodedata
 from datetime import date, datetime, timedelta, timezone
 
 import pandas as pd
@@ -85,11 +84,6 @@ def _find_espn_owned_team(league, swid):
 def _style_total_row(row):
     style = "color: #007FFF; font-weight: bold"
     return [style if row.get("Player") == "Total" else "" for _ in row]
-
-
-def _normalize_name_for_lookup(value):
-    normalized = unicodedata.normalize("NFKD", str(value or "")).casefold()
-    return "".join(character for character in normalized if character.isalnum())
 
 
 def _round_projection_columns(frame, columns=None):
@@ -409,42 +403,36 @@ def _show_fantasypros_decision_center(preview):
             hide_index=True,
         )
     else:
-        st.success("FantasyPros projections agree with your current lineup.")
+        st.success("FantasyPros projections agree with your current lineup."        )
 
 
-def _add_bye_week_column(frame, player_records, player_column="Player"):
-    if frame.empty or not player_records:
-        return frame
+def _build_espn_current_lineup(roster):
+        return pd.DataFrame([
+            {
+                "Slot": str(getattr(player, "lineupSlot", "")),
+                "Player": player.name,
+            }
+            for player in roster
+            if str(getattr(player, "lineupSlot", "")).strip().upper()
+            not in {"IR", "ER", "ROOKIE"}
+        ])
 
-    bye_lookup = {}
-    for player in player_records:
-        name = (
-            player.get("player_name")
-            if isinstance(player, dict)
-            else getattr(player, "player_name", None)
-        )
-        if name is None:
-            name = (
-                player.get("name")
-                if isinstance(player, dict)
-                else getattr(player, "name", None)
-            )
-        bye_week = (
-            player.get("bye_week")
-            if isinstance(player, dict)
-            else getattr(player, "bye_week", None)
-        )
-        if name is None or bye_week is None:
-            continue
-        bye_lookup[_normalize_name_for_lookup(name)] = bye_week
 
-    with_bye_weeks = frame.copy()
-    with_bye_weeks["Bye Week"] = with_bye_weeks[player_column].map(
-        lambda player_name: bye_lookup.get(
-            _normalize_name_for_lookup(player_name), ""
-        )
-    )
-    return with_bye_weeks
+def _build_cbs_current_lineup(roster):
+        rows = []
+        for player in roster:
+            status = str(player.get("roster_status") or "").strip().upper()
+            if status in {"I", "IR", "INJ", "INJURED"}:
+                slot = "Injured"
+            elif status == "A":
+                slot = str(player.get("roster_position") or "Starter")
+            else:
+                slot = "Bench"
+            rows.append({
+                "Slot": slot,
+                "Player": player.get("player_name") or "",
+            })
+        return pd.DataFrame(rows)
 
 
 def show_espn_lineup_preview(selected_league):
@@ -492,7 +480,7 @@ def show_espn_lineup_preview(selected_league):
     except ESPNLineupSubmissionError as exc:
         proposal_error = exc
 
-    st.write(f"Optimal lineup for **{selected_team.team_name}**")
+    st.write(f"Lineup for **{selected_team.team_name}**")
     st.caption(
         "The lineup uses this ESPN league's optimized projections. The "
         "player matches use normalized names."
@@ -512,6 +500,7 @@ def show_espn_lineup_preview(selected_league):
         for slot_id, slot_name in slot_names.items()
         if slot_name in {"BE", "IR", "ER", "Rookie"}
     }
+    current_lineup_df = _build_espn_current_lineup(selected_team.roster)
     lineup_df = pd.DataFrame([
         {
             "Slot": slot_names.get(slot_id, str(slot_id)),
@@ -543,15 +532,23 @@ def show_espn_lineup_preview(selected_league):
     total_columns = [selected_column]
     lineup_df = append_projection_totals(lineup_df, total_columns)
     display_df = lineup_df[["Slot", "Player", *total_columns]]
-    display_df = _add_bye_week_column(display_df, selected_team.roster)
     display_df = _round_projection_columns(display_df)
-    display_df = display_df[["Slot", "Player", "Bye Week", *total_columns]]
-    st.dataframe(
-        display_df.style.apply(_style_total_row, axis=1),
-        column_config=_projection_column_config(total_columns),
-        width="stretch",
-        hide_index=True,
-    )
+    current_column, optimized_column = st.columns(2)
+    with current_column:
+        st.subheader("Current Lineup")
+        st.dataframe(
+            current_lineup_df,
+            width="stretch",
+            hide_index=True,
+        )
+    with optimized_column:
+        st.subheader("Optimized Lineup")
+        st.dataframe(
+            display_df.style.apply(_style_total_row, axis=1),
+            column_config=_projection_column_config(total_columns),
+            width="stretch",
+            hide_index=True,
+        )
 
     if not can_submit:
         st.info(
@@ -694,6 +691,7 @@ def show_cbs_lineup_preview():
     lineup_df = pd.DataFrame(result["lineup"]).rename(
         columns={"slot": "Slot", "player": "Player"}
     )[["Slot", "Player"]]
+    current_lineup_df = _build_cbs_current_lineup(roster_players)
     lineup_df = add_projection_columns(
         lineup_df,
         preview["projection_lookups"],
@@ -701,15 +699,23 @@ def show_cbs_lineup_preview():
     total_columns = ["CBS Optimized Projection"]
     lineup_df = append_projection_totals(lineup_df, total_columns)
     display_df = lineup_df[["Slot", "Player", *total_columns]]
-    display_df = _add_bye_week_column(display_df, preview["players"])
     display_df = _round_projection_columns(display_df)
-    display_df = display_df[["Slot", "Player", "Bye Week", *total_columns]]
-    st.dataframe(
-        display_df.style.apply(_style_total_row, axis=1),
-        column_config=_projection_column_config(total_columns),
-        width="stretch",
-        hide_index=True,
-    )
+    current_column, optimized_column = st.columns(2)
+    with current_column:
+        st.subheader("Current Lineup")
+        st.dataframe(
+            current_lineup_df,
+            width="stretch",
+            hide_index=True,
+        )
+    with optimized_column:
+        st.subheader("Optimized Lineup")
+        st.dataframe(
+            display_df.style.apply(_style_total_row, axis=1),
+            column_config=_projection_column_config(total_columns),
+            width="stretch",
+            hide_index=True,
+        )
 
     if result["missing_projection_count"]:
         st.warning(

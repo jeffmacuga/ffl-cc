@@ -61,11 +61,6 @@ class CBSTeamPrivacyTests(unittest.TestCase):
             patch.object(lineup_preview, "fetch_cbs_team_roster") as fetch_roster,
             patch.object(
                 lineup_preview,
-                "_load_espn_projection_lookups",
-                return_value={},
-            ),
-            patch.object(
-                lineup_preview,
                 "build_cbs_projection_lookup",
                 return_value={},
             ),

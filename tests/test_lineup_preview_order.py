@@ -1,13 +1,59 @@
 import unittest
+from types import SimpleNamespace
 
 import pandas as pd
 
 from pages.lineup_preview import (
     AFS_LINEUP_SLOT_ORDER,
     KICKBUTT_LINEUP_SLOT_ORDER,
+    _build_cbs_current_lineup,
+    _build_espn_current_lineup,
     _cbs_preview_needs_refresh,
     _sort_espn_lineup_preview,
 )
+
+
+class CurrentLineupTests(unittest.TestCase):
+    def test_builds_espn_current_lineup_and_skips_ir_reserve(self):
+        roster = [
+            SimpleNamespace(name="Starter", lineupSlot="QB"),
+            SimpleNamespace(name="Bench", lineupSlot="BE"),
+            SimpleNamespace(name="Injured Reserve", lineupSlot="IR"),
+        ]
+
+        result = _build_espn_current_lineup(roster)
+
+        self.assertEqual(result.to_dict("records"), [
+            {"Slot": "QB", "Player": "Starter"},
+            {"Slot": "BE", "Player": "Bench"},
+        ])
+
+    def test_builds_cbs_current_assignments(self):
+        roster = [
+            {
+                "player_name": "Starter",
+                "roster_status": "A",
+                "roster_position": "WR-TE",
+            },
+            {
+                "player_name": "Reserve",
+                "roster_status": "RS",
+                "roster_position": "QB",
+            },
+            {
+                "player_name": "Injured",
+                "roster_status": "I",
+                "roster_position": "RB",
+            },
+        ]
+
+        result = _build_cbs_current_lineup(roster)
+
+        self.assertEqual(result.to_dict("records"), [
+            {"Slot": "WR-TE", "Player": "Starter"},
+            {"Slot": "Bench", "Player": "Reserve"},
+            {"Slot": "Injured", "Player": "Injured"},
+        ])
 
 
 class ESPNLineupPreviewOrderTests(unittest.TestCase):
