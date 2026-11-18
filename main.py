@@ -4,6 +4,7 @@ from pages.lineup_preview import show_lineup_preview
 from pages.standings import show_standings
 from pages.rosters import show_team_rosters
 from pages.matchups import show_matchups
+from pages.trade_analyzer import show_trade_analyzer
 from services.database import initialize_database
 
 
@@ -36,6 +37,11 @@ def render_matchups():
     show_matchups(selected_league, selected_league_name)
 
 
+def render_trade_analyzer():
+    selected_league, _ = get_selected_league()
+    show_trade_analyzer(selected_league)
+
+
 initialize_database()
 set_streamlit_config()
 
@@ -48,6 +54,7 @@ page = st.navigation(
         ],
         "Tools": [
             st.Page(render_lineup_preview, title="Lineup Preview"),
+            st.Page(render_trade_analyzer, title="Trade Analyzer"),
         ],
     },
     position="top",
