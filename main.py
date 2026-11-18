@@ -6,6 +6,7 @@ from pages.rosters import show_team_rosters
 from pages.matchups import show_matchups
 from pages.trade_analyzer import show_trade_analyzer
 from services.database import initialize_database
+from services.access_control import require_site_access
 
 
 def get_selected_league():
@@ -42,8 +43,12 @@ def render_trade_analyzer():
     show_trade_analyzer(selected_league)
 
 
-initialize_database()
 set_streamlit_config()
+
+if not require_site_access():
+    st.stop()
+
+initialize_database()
 
 page = st.navigation(
     {

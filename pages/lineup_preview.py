@@ -6,7 +6,7 @@ import streamlit as st
 from espn_api.football.constant import POSITION_MAP
 
 from config import LEAGUES
-from pages.standings import get_cbs_team_options, load_espn_league
+from pages.standings import load_espn_league
 from services.cbs_lineup_optimizer import (
     is_player_locked,
     is_player_unlocked,
@@ -23,8 +23,8 @@ from services.cbs_lineup_submission import (
     CBSLineupError,
     apply_confirmed_lineup,
     fetch_cbs_team_roster,
-    fetch_my_cbs_roster,
 )
+from services.access_control import get_authenticated_cbs_team_id
 from services.espn_lineup_submission import (
     ESPNLineupSubmissionError,
     apply_confirmed_espn_lineup,
@@ -640,59 +640,30 @@ def show_espn_lineup_preview(selected_league):
 
 
 def show_cbs_lineup_preview():
+    team_id = get_authenticated_cbs_team_id()
+    if team_id is None:
+        st.error("Your CBS team assignment could not be verified.")
+        return
+
     st.caption(
-        "Choose a CBS team for a live lineup preview. Your authenticated team "
-        "can be submitted only after explicit confirmation."
-    )
-    authenticated_team = st.session_state.get("cbs_authenticated_team")
-    authenticated_roster = None
-    if authenticated_team is None:
-        try:
-            authenticated_roster = fetch_my_cbs_roster()
-        except CBSLineupError as exc:
-            st.error(str(exc))
-            return
-        authenticated_team = {
-            "team_id": str(authenticated_roster["team_id"]),
-            "team_name": str(authenticated_roster["team_name"]),
-        }
-        st.session_state["cbs_authenticated_team"] = authenticated_team
-
-    cbs_team_options = get_cbs_team_options()
-    team_names_by_id = dict(cbs_team_options)
-    authenticated_team_id = authenticated_team["team_id"]
-    if authenticated_team_id not in team_names_by_id:
-        team_names_by_id[authenticated_team_id] = authenticated_team[
-            "team_name"
-        ]
-    if st.session_state.get("cbs_preview_team") not in team_names_by_id:
-        st.session_state["cbs_preview_team"] = authenticated_team_id
-
-    selected_preview_team = st.selectbox(
-        "Team to preview",
-        options=list(team_names_by_id),
-        format_func=lambda team_id: (
-            f"{team_names_by_id[team_id]} (your team)"
-            if team_id == authenticated_team_id
-            else team_names_by_id[team_id]
-        ),
-        key="cbs_preview_team",
+        "Your CBS team lineup can be submitted only after explicit "
+        "confirmation."
     )
     if st.button(
         "Refresh CBS roster",
-        key=f"cbs_roster_refresh_{selected_preview_team}",
+        key=f"cbs_roster_refresh_{team_id}",
     ):
         st.session_state.pop("cbs_lineup_preview", None)
         st.session_state.pop("fantasypros_weekly_decision_cache", None)
         st.rerun()
 
     preview = st.session_state.get("cbs_lineup_preview")
-    if _cbs_preview_needs_refresh(preview, selected_preview_team):
+    if (
+        _cbs_preview_needs_refresh(preview, team_id)
+        or str(preview.get("team_id")) != team_id
+    ):
         try:
-            if selected_preview_team == authenticated_team_id:
-                live_roster = authenticated_roster or fetch_my_cbs_roster()
-            else:
-                live_roster = fetch_cbs_team_roster(selected_preview_team)
+            live_roster = fetch_cbs_team_roster(team_id)
             projection_lookups = _load_espn_projection_lookups()
             projection_lookups["CBS Optimized Projection"] = (
                 build_cbs_projection_lookup(live_roster["players"])
@@ -705,8 +676,8 @@ def show_cbs_lineup_preview():
                 **live_roster,
                 "result": result,
                 "projection_lookups": projection_lookups,
-                "can_submit": selected_preview_team == authenticated_team_id,
-                "preview_requested_team": selected_preview_team,
+                "can_submit": True,
+                "preview_requested_team": team_id,
             }
         except CBSLineupError as exc:
             st.error(str(exc))
@@ -714,7 +685,7 @@ def show_cbs_lineup_preview():
 
     preview = st.session_state.get("cbs_lineup_preview")
     if not preview:
-        st.info("Select a CBS team to build a live lineup preview.")
+        st.info("No CBS lineup preview is available.")
         return
 
     st.write(

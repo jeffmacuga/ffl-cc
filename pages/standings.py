@@ -22,14 +22,6 @@ def get_cbs_standings():
     return df
 
 
-def get_cbs_team_options():
-    with sqlite3.connect(DB_FILE) as conn:
-        rows = conn.execute(
-            "SELECT team_id, team_name FROM cbs_standings ORDER BY team_name"
-        ).fetchall()
-    return [(str(team_id), str(team_name)) for team_id, team_name in rows]
-
-
 def load_espn_league(selected_league):
     missing_credentials = [
         name

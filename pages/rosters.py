@@ -1,7 +1,8 @@
 import streamlit as st
 import pandas as pd
-from cbs_get_league import get_cbs_teams, get_cbs_roster
+from cbs_get_league import get_cbs_roster
 from pages.standings import load_espn_league
+from services.access_control import get_authenticated_cbs_team_id
 from services.database import format_last_data_sync
 
 # Position maps for each platform
@@ -97,9 +98,21 @@ def show_team_rosters(selected_league, selected_league_name):
         teams_df = pd.DataFrame(espn_rows)
     elif selected_league["platform"] == "CBS":
         st.caption(format_last_data_sync("CBS", selected_league_name))
-        cbs_df = get_cbs_teams()
-        cbs_df["platform"] = "CBS"
-        teams_df = cbs_df.rename(columns={"team_name": "team_name", "team_id": "provider_team_id"})
+        team_id = get_authenticated_cbs_team_id()
+        if team_id is None:
+            st.error("Your CBS team assignment could not be verified.")
+            return
+        roster_df = get_cbs_roster(team_id)
+        if roster_df.empty:
+            st.error("No roster data was found for your assigned CBS team.")
+            return
+        roster_df.rename(
+            columns={"player_name": "Player", "position": "Position"},
+            inplace=True,
+        )
+        roster_df = reorder_roster_df(roster_df, "CBS")
+        st.dataframe(roster_df, width="stretch")
+        return
     else:
         st.info("Team rosters not available for this league yet.")
         return
@@ -108,19 +121,13 @@ def show_team_rosters(selected_league, selected_league_name):
     selected_label = st.selectbox("Choose Team", teams_df["label"])
     selected_team = teams_df[teams_df["label"] == selected_label].iloc[0]
 
-    if selected_league["platform"] == "ESPN":
-        team_obj = next(
-            (t for t in league.teams if str(t.team_id) == str(selected_team["provider_team_id"])),
-            None
-        )
-        if team_obj is None:
-            st.error("ESPN team not found.")
-            return
-        roster_df = build_espn_roster_df(team_obj.roster)
-        roster_df = reorder_roster_df(roster_df, "ESPN")
-        st.dataframe(roster_df, width="stretch")
-    elif selected_league["platform"] == "CBS":
-        roster_df = get_cbs_roster(selected_team["provider_team_id"])
-        roster_df.rename(columns={"player_name": "Player", "position": "Position"}, inplace=True)
-        roster_df = reorder_roster_df(roster_df, "CBS")
-        st.dataframe(roster_df, width="stretch")
+    team_obj = next(
+        (t for t in league.teams if str(t.team_id) == str(selected_team["provider_team_id"])),
+        None
+    )
+    if team_obj is None:
+        st.error("ESPN team not found.")
+        return
+    roster_df = build_espn_roster_df(team_obj.roster)
+    roster_df = reorder_roster_df(roster_df, "ESPN")
+    st.dataframe(roster_df, width="stretch")

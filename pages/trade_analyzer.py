@@ -4,7 +4,6 @@ import pandas as pd
 import streamlit as st
 from espn_api.football.constant import POSITION_MAP
 
-from cbs_get_league import get_cbs_roster, get_cbs_teams
 from optimizer import normalize_position
 from pages.standings import load_espn_league
 from services.database import format_last_data_sync
@@ -41,21 +40,6 @@ def _espn_roster_frame(team):
     return pd.DataFrame(
         rows,
         columns=["player_id", "player_name", "position", "projected_points"],
-    )
-
-
-def _cbs_roster_frame(team_id):
-    roster = get_cbs_roster(team_id)
-    return roster.rename(columns={
-        "provider_player_id": "player_id",
-        "player_name": "player_name",
-        "position": "position",
-        "projected_points": "projected_points",
-    })[
-        ["player_id", "player_name", "position", "projected_points"]
-    ].assign(
-        player_id=lambda frame: frame["player_id"].astype(str),
-        position=lambda frame: frame["position"].map(normalize_position),
     )
 
 
@@ -201,11 +185,17 @@ def show_trade_analyzer(selected_league):
     st.caption(
         "Select one or more players from each team. This read-only tool "
         "compares weekly projections and the resulting position mix; ESPN "
-        "uses projected average points (falling back to average points), "
-        "and CBS uses locally cached projections. For supported ESPN "
-        "lineup formats, it also compares the best starting lineup before "
-        "and after the trade."
+        "uses projected average points (falling back to average points). "
+        "For supported ESPN lineup formats, it also compares the best "
+        "starting lineup before and after the trade."
     )
+
+    if selected_league["platform"] == "CBS":
+        st.info(
+            "The CBS trade analyzer needs both teams' rosters. To protect "
+            "team-specific roster data, CBS trade analysis is unavailable."
+        )
+        return
 
     roster_requirements = {}
     lineup_requirements = None
@@ -247,35 +237,6 @@ def show_trade_analyzer(selected_league):
             for position, count in lineup_requirements.items()
             if count > 0
         }
-    elif selected_league["platform"] == "CBS":
-        teams = get_cbs_teams()
-        if teams.empty:
-            st.info("No CBS team data is available. Sync CBS league data first.")
-            return
-        team_ids = teams["provider_team_id"].astype(str).tolist()
-        team_labels = dict(zip(
-            team_ids,
-            teams["team_name"].astype(str),
-        ))
-        if len(team_ids) < 2:
-            st.info("At least two CBS teams are needed to analyze a trade.")
-            return
-
-        your_team_id = st.selectbox(
-            "Your team",
-            options=team_ids,
-            format_func=team_labels.get,
-            key="trade_cbs_your_team",
-        )
-        partner_ids = [team_id for team_id in team_ids if team_id != your_team_id]
-        partner_team_id = st.selectbox(
-            "Trade partner",
-            options=partner_ids,
-            format_func=team_labels.get,
-            key=f"trade_cbs_partner_{your_team_id}",
-        )
-        your_roster = _cbs_roster_frame(your_team_id)
-        partner_roster = _cbs_roster_frame(partner_team_id)
     else:
         st.info("Trade analysis is not available for this league platform.")
         return
