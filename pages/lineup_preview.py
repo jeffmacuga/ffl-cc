@@ -657,7 +657,7 @@ def show_espn_lineup_preview(selected_league):
         "week": getattr(league, "nfl_week", None),
         "projection_source": selected_column,
         "optimizer_objective": (
-            "The existing deterministic optimizer maximizes the supplied "
+            "This optimizer maximizes the supplied "
             "projection while following this league's lineup slots."
         ),
         "current_lineup": _frame_records(current_projection_lineup.rename(
@@ -906,9 +906,9 @@ def show_cbs_lineup_preview():
 
     can_submit = preview.get("can_submit", False)
     st.subheader(
-        "Suggested changes (CBS projections only)"
+        "Suggested changes"
         if can_submit
-        else "Suggested lineup changes (CBS projections only; preview only)"
+        else "Suggested lineup changes"
     )
     if not result["moves"]:
         st.success("The optimized lineup already matches the active lineup.")
