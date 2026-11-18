@@ -1,4 +1,5 @@
 import unittest
+from contextlib import nullcontext
 from unittest.mock import patch
 
 import pandas as pd
@@ -93,16 +94,58 @@ class CBSTeamPrivacyTests(unittest.TestCase):
         show_team_picker.assert_not_called()
         show_fantasypros.assert_not_called()
 
-    def test_cbs_trade_analyzer_does_not_load_rosters(self):
+    def test_cbs_trade_analyzer_loads_both_selected_teams(self):
+        teams = pd.DataFrame([
+            {"provider_team_id": "101", "team_name": "Member Team"},
+            {"provider_team_id": "102", "team_name": "Trade Partner"},
+        ])
+        roster = pd.DataFrame([
+            {
+                "provider_player_id": "player-1",
+                "player_name": "Roster Player",
+                "position": "RB",
+                "projected_points": 12.5,
+            },
+        ])
         with (
+            patch.object(trade_analyzer, "get_cbs_teams", return_value=teams),
+            patch.object(
+                trade_analyzer,
+                "get_cbs_roster",
+                return_value=roster,
+            ) as load_roster,
+            patch.object(
+                trade_analyzer.st,
+                "selectbox",
+                side_effect=["101", "102"],
+            ),
+            patch.object(trade_analyzer.st, "multiselect", return_value=[]),
+            patch.object(
+                trade_analyzer.st,
+                "columns",
+                return_value=(nullcontext(), nullcontext()),
+            ),
             patch.object(trade_analyzer.st, "header"),
             patch.object(trade_analyzer.st, "caption"),
-            patch.object(trade_analyzer.st, "info") as show_info,
+            patch.object(trade_analyzer.st, "info"),
+            patch.object(
+                trade_analyzer,
+                "format_last_data_sync",
+                return_value="",
+            ),
         ):
-            trade_analyzer.show_trade_analyzer({"platform": "CBS"})
+            trade_analyzer.show_trade_analyzer({
+                "platform": "CBS",
+                "name": "CBS",
+            })
 
-        show_info.assert_called_once()
-        self.assertIn("both teams' rosters", show_info.call_args.args[0])
+        self.assertEqual(
+            load_roster.call_args_list,
+            [
+                unittest.mock.call("101"),
+                unittest.mock.call("102"),
+            ],
+        )
 
 
 if __name__ == "__main__":

@@ -41,8 +41,10 @@ gate is inside the app; Streamlit Community Cloud may separately require the
 app owner to share the app with users or make it public so they can reach the
 sign-in screen.
 
-The CBS Trade Analyzer is unavailable because it requires access to both
-teams' rosters.
+The Trade Analyzer is available to all signed-in members. It loads the
+selected teams' read-only CBS or ESPN roster data to compare proposed trades;
+CBS analysis uses the locally stored CBS projections and does not submit
+trades or lineup changes.
 
 ## Lineup explanations
 
