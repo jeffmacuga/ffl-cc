@@ -7,6 +7,19 @@ from pages import lineup_preview, rosters, trade_analyzer
 
 
 class CBSTeamPrivacyTests(unittest.TestCase):
+    def test_selects_only_owner_chosen_lineup_moves(self):
+        suggested_moves = [
+            {"player_id": "101", "player": "Quarterback"},
+            {"player_id": "202", "player": "Receiver"},
+        ]
+
+        selected_moves = lineup_preview._select_cbs_lineup_moves(
+            suggested_moves,
+            ["202"],
+        )
+
+        self.assertEqual(selected_moves, [suggested_moves[1]])
+
     def test_roster_page_loads_all_cbs_teams(self):
         roster = pd.DataFrame([
             {"player_name": "League Player", "position": "QB"},

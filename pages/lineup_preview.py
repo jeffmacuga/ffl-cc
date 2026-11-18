@@ -1,3 +1,4 @@
+import hashlib
 import unicodedata
 from datetime import date, datetime, timedelta, timezone
 
@@ -135,6 +136,14 @@ def _cbs_preview_needs_refresh(preview, selected_team):
         or preview.get("preview_requested_team") != selected_team
         or not preview.get("synced_at")
     )
+
+
+def _select_cbs_lineup_moves(moves, selected_player_ids):
+    selected_player_ids = {str(player_id) for player_id in selected_player_ids}
+    return [
+        move for move in moves
+        if str(move["player_id"]) in selected_player_ids
+    ]
 
 
 def _show_fantasypros_decision_center(preview, excluded_player_ids):
@@ -825,12 +834,34 @@ def show_cbs_lineup_preview():
         )
         return
 
+    move_options = {
+        str(move["player_id"]): (
+            f"{move['player']} — {move['current_assignment']} → "
+            f"{move['suggested_assignment']}"
+        )
+        for move in result["moves"]
+    }
+    selected_move_ids = st.multiselect(
+        "Select suggested changes to submit",
+        options=list(move_options),
+        default=[],
+        format_func=lambda player_id: move_options[player_id],
+        key=f"cbs_selected_moves_{preview['fingerprint']}",
+        help="Only the changes selected here will be sent to CBS.",
+    )
+    selected_moves = _select_cbs_lineup_moves(
+        result["moves"],
+        selected_move_ids,
+    )
+    if not selected_moves:
+        st.info("Select one or more suggested changes to enable submission.")
+
     locked_moves = [
-        move for move in result["moves"]
+        move for move in selected_moves
         if is_player_locked(move["is_locked"])
     ]
     unknown_lock_moves = [
-        move for move in result["moves"]
+        move for move in selected_moves
         if not is_player_locked(move["is_locked"])
         and not is_player_unlocked(move["is_locked"])
     ]
@@ -853,15 +884,25 @@ def show_cbs_lineup_preview():
     )
     st.warning(
         "Submitting changes immediately updates your CBS lineup. "
-        "Review every move; stale previews are rejected."
+        "Only selected changes will be submitted; stale previews are rejected."
     )
+    selection_signature = hashlib.sha256(
+        ",".join(sorted(selected_move_ids)).encode("utf-8")
+    ).hexdigest()[:12]
     confirmation = st.checkbox(
-        f"I reviewed these changes for {preview['team_name']} in week "
-        f"{preview['week']} and want to submit them to CBS.",
-        key=f"cbs_confirm_{preview['fingerprint']}",
+        f"I reviewed the {len(selected_moves)} selected change(s) for "
+        f"{preview['team_name']} in week {preview['week']} and want to "
+        "submit them to CBS.",
+        key=(
+            f"cbs_confirm_{preview['fingerprint']}_"
+            f"{selection_signature}"
+        ),
     )
     submit_disabled = (
-        not confirmation or bool(locked_moves) or bool(unknown_lock_moves)
+        not selected_moves
+        or not confirmation
+        or bool(locked_moves)
+        or bool(unknown_lock_moves)
     )
     if st.button(
         "Submit confirmed lineup changes to CBS",
@@ -873,7 +914,7 @@ def show_cbs_lineup_preview():
                 expected_fingerprint=preview["fingerprint"],
                 team_id=preview["team_id"],
                 week=preview["week"],
-                moves=result["moves"],
+                moves=selected_moves,
             )
             st.session_state.pop("cbs_lineup_preview", None)
             st.success(
