@@ -43,3 +43,13 @@ sign-in screen.
 
 The CBS Trade Analyzer is unavailable because it requires access to both
 teams' rosters.
+
+## Automatic CBS data refresh
+
+The `CBS data refresh` GitHub Actions workflow imports CBS teams, rosters, and
+standings daily at 11:17 UTC and can also be started manually from the Actions
+tab. It uses the `CBS_STORAGE_STATE` repository Actions secret, the same saved
+CBS browser login state used by the lineup workflow, and commits an updated
+`fantasy.db` when the import completes. If Streamlit Community Cloud is
+connected to this repository and branch, that commit triggers a redeploy with
+the refreshed data.

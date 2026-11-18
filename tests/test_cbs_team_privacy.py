@@ -41,6 +41,7 @@ class CBSTeamPrivacyTests(unittest.TestCase):
             patch.object(lineup_preview.st, "session_state", {}),
             patch.object(lineup_preview.st, "button", return_value=False),
             patch.object(lineup_preview.st, "selectbox") as show_team_picker,
+            patch.object(lineup_preview.st, "multiselect", return_value=[]),
             patch.object(lineup_preview.st, "caption"),
             patch.object(lineup_preview.st, "write"),
             patch.object(lineup_preview.st, "warning"),

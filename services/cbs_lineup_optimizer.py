@@ -117,8 +117,15 @@ def _cbs_roster_position(slot_type, player):
     return slot_type
 
 
-def optimize_cbs_lineup(roster, allow_average_fallback=False):
-    """Return a maximum-projection legal lineup and the moves needed to reach it."""
+def optimize_cbs_lineup(
+    roster,
+    allow_average_fallback=False,
+    excluded_player_ids=None,
+):
+    """Return a maximum-projection lineup, optionally excluding players."""
+    excluded_player_ids = {
+        str(player_id) for player_id in (excluded_player_ids or ())
+    }
     candidates = []
     missing_projection_count = 0
     zero_projection_count = 0
@@ -166,6 +173,10 @@ def optimize_cbs_lineup(roster, allow_average_fallback=False):
                 eligible_positions &= SLOT_ELIGIBILITY.get(current_slot, set())
             else:
                 eligible_positions = set()
+        elif str(
+            player.get("provider_player_id", player.get("player_name"))
+        ) in excluded_player_ids:
+            eligible_positions = set()
         candidates.append({
             "player_id": str(player.get("provider_player_id", player.get("player_name"))),
             "name": str(player.get("player_name") or "Unknown player"),
