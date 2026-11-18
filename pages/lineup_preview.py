@@ -1,12 +1,10 @@
 import hashlib
-import json
 from datetime import date, datetime, timedelta, timezone
 
 import pandas as pd
 import streamlit as st
 from espn_api.football.constant import POSITION_MAP
 
-from config import ANTHROPIC_API_KEY
 from pages.standings import load_espn_league
 from services.cbs_lineup_optimizer import (
     is_player_locked,
@@ -37,7 +35,7 @@ from services.projection_comparison import (
     build_cbs_projection_lookup,
     build_espn_optimized_projection_lookup,
 )
-from services.lineup_ai import LineupAIError, explain_lineup
+from services.lineup_explanation import explain_lineup
 
 
 ESPN_PROJECTION_COLUMN_NAMES = {
@@ -126,43 +124,14 @@ def _projection_column_config(columns):
     }
 
 
-def _show_ai_lineup_explanation(context):
-    signature = hashlib.sha256(
-        json.dumps(context, sort_keys=True, default=str).encode("utf-8")
-    ).hexdigest()[:16]
-    cache_key = "lineup_ai_explanation"
-    cached = st.session_state.get(cache_key)
-    if not isinstance(cached, dict) or cached.get("signature") != signature:
-        cached = None
-
-    with st.expander("AI lineup explanation (Anthropic)"):
+def _show_lineup_explanation(context):
+    with st.expander("Lineup explanation (local rules)"):
         st.caption(
-            "When requested, player names, current and optimized lineup "
-            "assignments, projection values, and uncertainty notes are sent "
-            "to Anthropic. AI explanations are informational only; review "
-            "all changes yourself."
+            "This explanation uses the optimizer's results and available "
+            "projections only. It is generated locally; no lineup data is "
+            "sent to an AI provider."
         )
-        if not ANTHROPIC_API_KEY:
-            st.info(
-                "AI explanations are unavailable until ANTHROPIC_API_KEY is "
-                "configured in Streamlit secrets or the environment."
-            )
-            return
-
-        if st.button(
-            "Regenerate AI explanation" if cached else "Explain lineup with AI",
-            key=f"lineup_ai_explain_{signature}",
-        ):
-            try:
-                explanation = explain_lineup(context)
-            except LineupAIError as exc:
-                st.error(str(exc))
-                return
-            cached = {"signature": signature, "text": explanation}
-            st.session_state[cache_key] = cached
-
-        if cached:
-            st.write(cached["text"])
+        st.markdown(explain_lineup(context))
 
 
 def _frame_records(frame):
@@ -638,11 +607,20 @@ def show_espn_lineup_preview(selected_league):
         int(player.playerId): player.name
         for player in selected_team.roster
     }
+    player_positions = {
+        int(player.playerId): getattr(player, "position", None)
+        for player in selected_team.roster
+    }
+    optimized_projection_by_player = dict(zip(
+        optimized_lineup["Player"],
+        optimized_lineup["Projection"],
+    ))
     changes = [
         {
             "Player": player_names.get(
                 move["playerId"], "Unknown player"
             ),
+            "Position": player_positions.get(move["playerId"]),
             "Current Assignment": slot_names.get(
                 move["fromLineupSlotId"],
                 str(move["fromLineupSlotId"]),
@@ -651,10 +629,30 @@ def show_espn_lineup_preview(selected_league):
                 move["toLineupSlotId"],
                 str(move["toLineupSlotId"]),
             ),
+            "Projection": optimized_projection_by_player.get(
+                player_names.get(move["playerId"])
+            ),
         }
         for move in proposal["changes"]
     ]
-    _show_ai_lineup_explanation({
+    current_projection_lineup = add_projection_columns(
+        current_lineup_df,
+        projection_lookups,
+    )
+    current_starter_projections = pd.to_numeric(
+        current_projection_lineup.loc[
+            ~current_projection_lineup["Slot"].isin(
+                {"BE", "IR", "ER", "Rookie"}
+            ),
+            selected_column,
+        ],
+        errors="coerce",
+    )
+    optimized_projections = pd.to_numeric(
+        optimized_lineup["Projection"],
+        errors="coerce",
+    )
+    _show_lineup_explanation({
         "league": selected_league["name"],
         "week": getattr(league, "nfl_week", None),
         "projection_source": selected_column,
@@ -662,8 +660,14 @@ def show_espn_lineup_preview(selected_league):
             "The existing deterministic optimizer maximizes the supplied "
             "projection while following this league's lineup slots."
         ),
-        "current_lineup": _frame_records(current_lineup_df),
+        "current_lineup": _frame_records(current_projection_lineup.rename(
+            columns={selected_column: "Projection"}
+        )),
         "optimized_lineup": _frame_records(optimized_lineup),
+        "projection_summary": {
+            "current": current_starter_projections.sum(min_count=1),
+            "optimized": optimized_projections.sum(min_count=1),
+        },
         "suggested_changes": changes,
         "uncertainties": uncertainties,
     })
@@ -859,7 +863,7 @@ def show_cbs_lineup_preview():
         uncertainties.append(
             "CBS roster injury notes: " + "; ".join(injury_notes) + "."
         )
-    _show_ai_lineup_explanation({
+    _show_lineup_explanation({
         "league": "CBS",
         "week": preview["week"],
         "projection_source": "CBS",
@@ -869,6 +873,11 @@ def show_cbs_lineup_preview():
         ),
         "current_lineup": _frame_records(current_lineup_df),
         "optimized_lineup": _frame_records(optimized_lineup),
+        "projection_summary": {
+            "current": result["current_projected_points"],
+            "optimized": result["projected_points"],
+            "improvement": result["improvement"],
+        },
         "suggested_changes": [
             {
                 "Player": move["player"],

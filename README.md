@@ -44,23 +44,13 @@ sign-in screen.
 The CBS Trade Analyzer is unavailable because it requires access to both
 teams' rosters.
 
-## AI lineup explanations
+## Lineup explanations
 
-The CBS and ESPN lineup previews can optionally request an explanation from
-Anthropic. The deterministic lineup optimizer remains authoritative, and AI
-does not submit lineup changes. To enable the explanation button, configure
-an Anthropic API key in Streamlit secrets or the environment:
-
-```toml
-ANTHROPIC_API_KEY = "YOUR_ANTHROPIC_API_KEY"
-# Optional; defaults to claude-sonnet-5-5
-ANTHROPIC_MODEL = "claude-sonnet-5-5"
-```
-
-The request is made only when a user clicks **Explain lineup with AI**.
-That action sends player names, current and optimized lineup assignments,
-CBS or ESPN projection values, and uncertainty notes to Anthropic. Do not
-configure the key if this data sharing is not acceptable.
+The CBS and ESPN lineup previews include concise, rule-based explanations of
+the optimizer's choices and available projection totals. These explanations
+are generated locally from app data and do not require an AI API key or send
+roster data to an external AI provider. Projections are estimates, and users
+should review missing or zero values and late injury/news changes.
 
 ## Automatic CBS data refresh
 
