@@ -1,9 +1,11 @@
 import json
 import unittest
+from urllib.parse import parse_qs, urlsplit
 from unittest.mock import patch
 
 from services.fantasypros import (
     FantasyProsAPIError,
+    _fetch_position_payload,
     fetch_consensus_rankings,
     fetch_injury_news,
     fetch_weekly_projections,
@@ -82,7 +84,7 @@ class FantasyProsProjectionTests(unittest.TestCase):
         self.assertEqual(
             request.full_url,
             "https://api.fantasypros.com/public/v2/json/nfl/2026/"
-            "projections?position=RB&week=7&limit=500",
+            "projections?position=RB&week=7&limit=500&offset=0",
         )
         self.assertEqual(request.get_header("X-api-key"), "test-key")
 
@@ -141,27 +143,59 @@ class FantasyProsProjectionTests(unittest.TestCase):
             )
 
     @patch("services.fantasypros.urlopen")
-    def test_rejects_truncated_projection_response(self, urlopen):
+    def test_fetches_all_projection_pages(self, urlopen):
+        players = [
+            {"fpid": player_id, "name": f"Defense {player_id}"}
+            for player_id in range(26)
+        ]
+
+        def response_for_offset(request, timeout):
+            offset = int(
+                parse_qs(urlsplit(request.full_url).query)["offset"][0]
+            )
+            return FakeResponse({
+                "count": "26",
+                "limit": "10",
+                "players": players[offset:offset + 10],
+            })
+
+        urlopen.side_effect = response_for_offset
+
+        result = _fetch_position_payload(
+            season=2026,
+            week=7,
+            position="DST",
+            api_key="test-key",
+        )
+
+        self.assertEqual(len(result["players"]), 26)
+        offsets = [
+            int(parse_qs(urlsplit(call.args[0].full_url).query)["offset"][0])
+            for call in urlopen.call_args_list
+        ]
+        self.assertEqual(offsets, [0, 10, 20])
+
+    @patch("services.fantasypros.urlopen")
+    def test_rejects_projection_pagination_that_does_not_advance(self, urlopen):
         urlopen.return_value = FakeResponse({
-            "count": "130",
+            "count": "26",
             "limit": "10",
             "players": [
                 {
-                    "name": "Christian McCaffrey",
-                    "team_id": "SF",
-                    "stats": {"points_ppr": 23.3},
+                    "fpid": 123,
+                    "name": "Defense",
                 },
             ],
         })
 
         with self.assertRaisesRegex(
             FantasyProsAPIError,
-            "pagination parameters must be configured",
+            "pagination did not advance",
         ):
-            fetch_weekly_projections(
-                self.roster[:1],
+            _fetch_position_payload(
                 season=2026,
                 week=7,
+                position="DST",
                 api_key="test-key",
             )
 

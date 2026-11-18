@@ -49,69 +49,118 @@ def _projection_position(value):
 
 
 def _fetch_position_payload(season, week, position, api_key):
-    query = urlencode({
-        "position": position,
-        "week": week,
-        "limit": PROJECTION_BATCH_LIMIT,
-    })
-    url = f"{API_BASE_URL}/{season}/projections?{query}"
-    request = Request(
-        url,
-        headers={
-            "Accept": "application/json",
-            "x-api-key": api_key,
-        },
-    )
-    try:
-        with urlopen(request, timeout=20) as response:
-            payload = json.loads(response.read().decode("utf-8"))
-    except HTTPError as exc:
-        raise FantasyProsAPIError(
-            f"FantasyPros returned HTTP {exc.code} for {position} projections."
-        ) from exc
-    except (URLError, TimeoutError) as exc:
-        raise FantasyProsAPIError(
-            f"FantasyPros {position} projections could not be reached."
-        ) from exc
-    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
-        raise FantasyProsAPIError(
-            f"FantasyPros returned invalid JSON for {position} projections."
-        ) from exc
+    offset = 0
+    expected_count = None
+    players = []
+    seen_players = set()
+    response_metadata = None
 
-    if not isinstance(payload, dict) or not isinstance(payload.get("players"), list):
-        raise FantasyProsAPIError(
-            f"FantasyPros returned an unexpected {position} projections shape."
+    while expected_count is None or len(players) < expected_count:
+        query = urlencode({
+            "position": position,
+            "week": week,
+            "limit": PROJECTION_BATCH_LIMIT,
+            "offset": offset,
+        })
+        url = f"{API_BASE_URL}/{season}/projections?{query}"
+        request = Request(
+            url,
+            headers={
+                "Accept": "application/json",
+                "x-api-key": api_key,
+            },
         )
-    if payload.get("season") and str(payload["season"]) != str(season):
-        raise FantasyProsAPIError(
-            f"FantasyPros returned projections for season {payload['season']}, "
-            f"not {season}."
-        )
-    if payload.get("week") and str(payload["week"]) != str(week):
-        raise FantasyProsAPIError(
-            f"FantasyPros returned projections for week {payload['week']}, "
-            f"not {week}."
-        )
-    try:
-        expected_count = int(payload.get("count", len(payload["players"])))
-        returned_limit = int(payload.get("limit", PROJECTION_BATCH_LIMIT))
-    except (TypeError, ValueError) as exc:
-        raise FantasyProsAPIError(
-            f"FantasyPros returned invalid pagination metadata for "
-            f"{position} projections."
-        ) from exc
-    if expected_count > len(payload["players"]) and (
-        returned_limit < PROJECTION_BATCH_LIMIT
-        or len(payload["players"])
-        < min(expected_count, PROJECTION_BATCH_LIMIT)
-    ):
-        raise FantasyProsAPIError(
-            f"FantasyPros returned only {len(payload['players'])} of "
-            f"{expected_count} {position} projections despite a requested "
-            f"limit of {PROJECTION_BATCH_LIMIT}; its pagination parameters "
-            "must be configured before lineup advice can be complete."
-        )
-    return payload
+        try:
+            with urlopen(request, timeout=20) as response:
+                payload = json.loads(response.read().decode("utf-8"))
+        except HTTPError as exc:
+            raise FantasyProsAPIError(
+                f"FantasyPros returned HTTP {exc.code} for "
+                f"{position} projections."
+            ) from exc
+        except (URLError, TimeoutError) as exc:
+            raise FantasyProsAPIError(
+                f"FantasyPros {position} projections could not be reached."
+            ) from exc
+        except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+            raise FantasyProsAPIError(
+                f"FantasyPros returned invalid JSON for "
+                f"{position} projections."
+            ) from exc
+
+        if (
+            not isinstance(payload, dict)
+            or not isinstance(payload.get("players"), list)
+        ):
+            raise FantasyProsAPIError(
+                f"FantasyPros returned an unexpected "
+                f"{position} projections shape."
+            )
+        if payload.get("season") and str(payload["season"]) != str(season):
+            raise FantasyProsAPIError(
+                f"FantasyPros returned projections for season "
+                f"{payload['season']}, not {season}."
+            )
+        if payload.get("week") and str(payload["week"]) != str(week):
+            raise FantasyProsAPIError(
+                f"FantasyPros returned projections for week "
+                f"{payload['week']}, not {week}."
+            )
+        try:
+            page_count = int(payload.get("count", len(payload["players"])))
+            returned_limit = int(
+                payload.get("limit", PROJECTION_BATCH_LIMIT)
+            )
+        except (TypeError, ValueError) as exc:
+            raise FantasyProsAPIError(
+                f"FantasyPros returned invalid pagination metadata for "
+                f"{position} projections."
+            ) from exc
+        if page_count < 0 or returned_limit <= 0:
+            raise FantasyProsAPIError(
+                f"FantasyPros returned invalid pagination metadata for "
+                f"{position} projections."
+            )
+        if expected_count is None:
+            expected_count = page_count
+            response_metadata = {
+                key: value
+                for key, value in payload.items()
+                if key != "players"
+            }
+        elif page_count != expected_count:
+            raise FantasyProsAPIError(
+                f"FantasyPros returned inconsistent pagination metadata "
+                f"for {position} projections."
+            )
+
+        page_players = payload["players"]
+        remaining_count = expected_count - len(players)
+        if (
+            (not page_players and remaining_count > 0)
+            or len(page_players) > remaining_count
+        ):
+            raise FantasyProsAPIError(
+                f"FantasyPros pagination did not return all "
+                f"{expected_count} {position} projections."
+            )
+        page_signatures = [
+            json.dumps(player, sort_keys=True, separators=(",", ":"))
+            for player in page_players
+        ]
+        if (
+            len(page_signatures) != len(set(page_signatures))
+            or seen_players.intersection(page_signatures)
+        ):
+            raise FantasyProsAPIError(
+                f"FantasyPros pagination did not advance for "
+                f"{position} projections."
+            )
+        seen_players.update(page_signatures)
+        players.extend(page_players)
+        offset += len(page_players)
+
+    return {**response_metadata, "players": players}
 
 
 def _fetch_json(url, api_key, description):
