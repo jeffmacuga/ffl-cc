@@ -146,7 +146,7 @@ def _select_cbs_lineup_moves(moves, selected_player_ids):
     ]
 
 
-def _show_fantasypros_decision_center(preview, excluded_player_ids):
+def _show_fantasypros_decision_center(preview):
     st.subheader("Weekly decision center")
     st.caption(
         "FantasyPros weekly projections are matched to CBS roster players "
@@ -295,10 +295,7 @@ def _show_fantasypros_decision_center(preview, excluded_player_ids):
         )
         return
 
-    result = optimize_cbs_lineup(
-        data["roster"],
-        excluded_player_ids=excluded_player_ids,
-    )
+    result = optimize_cbs_lineup(data["roster"])
     if not result["complete"]:
         st.warning(
             "FantasyPros projections loaded, but CBS roster eligibility "
@@ -705,48 +702,11 @@ def show_cbs_lineup_preview():
         "aggregate is the mean of available projections from KickButt, AFS, "
         "and CBS. Player matches use normalized names."
     )
-    excluded_widget_key = f"cbs_excluded_players_{team_id}"
     roster_players = preview["players"]
-    player_names = {
-        str(player.get("provider_player_id") or player.get("player_name")):
-        str(player.get("player_name") or "Unknown player")
-        for player in roster_players
-    }
-    roster_by_id = {
-        str(player.get("provider_player_id") or player.get("player_name")):
-        player
-        for player in roster_players
-    }
-    excluded_player_ids = st.multiselect(
-        "Exclude players from lineup optimization",
-        options=list(player_names),
-        format_func=lambda player_id: player_names[player_id],
-        key=excluded_widget_key,
-        help=(
-            "Excluded unlocked players will not be recommended as starters. "
-            "CBS-locked players remain in their current slots."
-        ),
-    )
-    locked_exclusions = [
-        player_names[player_id]
-        for player_id in excluded_player_ids
-        if player_id in roster_by_id
-        and not is_player_unlocked(
-            roster_by_id[player_id].get("is_locked")
-        )
-    ]
-    if locked_exclusions:
-        st.info(
-            "CBS-locked or unconfirmed players cannot be moved by the "
-            "optimizer and will remain in their current assignments: "
-            + ", ".join(locked_exclusions)
-        )
-
-    _show_fantasypros_decision_center(preview, excluded_player_ids)
+    _show_fantasypros_decision_center(preview)
     result = optimize_cbs_lineup(
         roster_players,
         allow_average_fallback=False,
-        excluded_player_ids=excluded_player_ids,
     )
     if not result["complete"]:
         st.warning(

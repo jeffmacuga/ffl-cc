@@ -92,39 +92,6 @@ class CBSLineupOptimizerTests(unittest.TestCase):
         self.assertIn(flex["position"], {"RB", "WR", "TE"})
         self.assertNotEqual(flex["position"], "QB")
 
-    def test_excludes_selected_unlocked_players_from_suggested_lineup(self):
-        result = optimize_cbs_lineup(
-            self.roster,
-            excluded_player_ids={"3"},
-        )
-
-        self.assertTrue(result["complete"])
-        self.assertNotIn(
-            "RB One",
-            {player["player"] for player in result["lineup"]},
-        )
-        excluded_move = next(
-            move for move in result["moves"]
-            if move["player_id"] == "3"
-        )
-        self.assertEqual(excluded_move["suggested_assignment"], "Bench")
-
-    def test_excluded_locked_player_stays_in_current_slot(self):
-        roster = [dict(player) for player in self.roster]
-        roster[0]["is_locked"] = "1"
-
-        result = optimize_cbs_lineup(
-            roster,
-            excluded_player_ids={"1"},
-        )
-
-        self.assertTrue(result["complete"])
-        quarterback = next(
-            player for player in result["lineup"]
-            if player["slot"] == "QB"
-        )
-        self.assertEqual(quarterback["player"], "Starter QB")
-
     def test_reports_incomplete_lineup_when_required_position_is_missing(self):
         roster = [
             player
