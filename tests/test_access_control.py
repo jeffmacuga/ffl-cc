@@ -18,6 +18,32 @@ def mocked_form():
 
 
 class CBSTeamAccessCodeTests(unittest.TestCase):
+    def test_authenticated_member_can_be_limited_to_one_league(self):
+        session_state = {
+            access_control.SESSION_CODE_HASH_KEY: access_control._hash_code(
+                "member-access-code-1234567890"
+            )
+        }
+        access_codes = [
+            {
+                "code": "member-access-code-1234567890",
+                "team_id": "12345",
+                "leagues": ["CBS"],
+            }
+        ]
+
+        with (
+            patch.object(
+                access_control.st,
+                "secrets",
+                {"access": {"team_access_codes": access_codes}},
+            ),
+            patch.object(access_control.st, "session_state", session_state),
+        ):
+            leagues = access_control.get_authenticated_league_names()
+
+        self.assertEqual(leagues, ["CBS"])
+
     def test_reads_team_access_codes_as_hashed_team_mapping(self):
         with patch.object(
             access_control.st,

@@ -77,6 +77,42 @@ def get_authenticated_cbs_team_id():
     return _find_team_for_code_hash(authenticated_hash, code_mapping)
 
 
+def get_authenticated_league_names():
+    try:
+        access_config = _get_access_config()
+    except (ValueError, AttributeError):
+        return []
+
+    entries = access_config.get("team_access_codes", []) if isinstance(
+        access_config, Mapping
+    ) else []
+    authenticated_hash = st.session_state.get(SESSION_CODE_HASH_KEY)
+
+    if not isinstance(authenticated_hash, str):
+        return []
+
+    for entry in entries:
+        if not isinstance(entry, Mapping):
+            continue
+        code = entry.get("code")
+        if not isinstance(code, str):
+            continue
+        if hmac.compare_digest(_hash_code(code), authenticated_hash):
+            leagues = entry.get("leagues")
+            if leagues is None:
+                return None
+            if not isinstance(leagues, list) or not all(
+                isinstance(name, str) and name.strip() for name in leagues
+            ):
+                raise ValueError(
+                    "Each CBS access code leagues value must be a list "
+                    "of league names."
+                )
+            return [name.strip() for name in leagues]
+
+    return []
+
+
 def _sign_out():
     st.session_state.pop(SESSION_CODE_HASH_KEY, None)
 

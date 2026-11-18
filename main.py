@@ -6,7 +6,10 @@ from pages.rosters import show_team_rosters
 from pages.matchups import show_matchups
 from pages.trade_analyzer import show_trade_analyzer
 from services.database import initialize_database
-from services.access_control import require_site_access
+from services.access_control import (
+    get_authenticated_league_names,
+    require_site_access,
+)
 
 
 def get_selected_league():
@@ -45,12 +48,27 @@ def render_trade_analyzer():
 
 set_streamlit_config()
 
-st.sidebar.selectbox(
-    "League",
-    options=[league["name"] for league in LEAGUES],
-    key="selected_league_name",
-    help="Choose which fantasy league to view.",
-)
+authenticated_leagues = get_authenticated_league_names()
+if authenticated_leagues is None:
+    accessible_league_names = [league["name"] for league in LEAGUES]
+else:
+    accessible_league_names = [
+        league["name"]
+        for league in LEAGUES
+        if league["name"] in authenticated_leagues
+    ]
+
+if len(accessible_league_names) > 1:
+    if st.session_state.get("selected_league_name") not in accessible_league_names:
+        st.session_state["selected_league_name"] = accessible_league_names[0]
+    st.sidebar.selectbox(
+        "League",
+        options=accessible_league_names,
+        key="selected_league_name",
+        help="Choose which fantasy league to view.",
+    )
+elif len(accessible_league_names) == 1:
+    st.session_state["selected_league_name"] = accessible_league_names[0]
 
 if not require_site_access():
     st.stop()

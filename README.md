@@ -20,10 +20,15 @@ and matching CBS team IDs:
 ```toml
 [access]
 team_access_codes = [
-  { code = "PASTE_MEMBER_1_CODE_HERE", team_id = "1" },
-  { code = "PASTE_MEMBER_2_CODE_HERE", team_id = "2" },
+  { code = "PASTE_MEMBER_1_CODE_HERE", team_id = "1", leagues = ["CBS"] },
+  { code = "PASTE_MEMBER_2_CODE_HERE", team_id = "2", leagues = ["CBS", "Kick-Butt Football"] },
 ]
 ```
+
+The `leagues` list controls which league options appear in the sidebar. Omit it
+to retain the existing behavior for a member that should see every configured
+league. When only one league is allowed, the league selector is hidden and that
+league is selected automatically.
 
 Use the numeric CBS team IDs from the `cbs_teams` data. Keep these codes in
 Streamlit secrets, never in the repository. Send each member only their own
