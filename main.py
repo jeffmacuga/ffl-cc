@@ -45,17 +45,17 @@ def render_trade_analyzer():
 
 set_streamlit_config()
 
-if not require_site_access():
-    st.stop()
-
-initialize_database()
-
 st.sidebar.selectbox(
     "League",
     options=[league["name"] for league in LEAGUES],
     key="selected_league_name",
     help="Choose which fantasy league to view.",
 )
+
+if not require_site_access():
+    st.stop()
+
+initialize_database()
 
 page = st.navigation(
     {

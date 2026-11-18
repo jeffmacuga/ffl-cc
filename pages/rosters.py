@@ -1,8 +1,7 @@
 import streamlit as st
 import pandas as pd
-from cbs_get_league import get_cbs_roster
+from cbs_get_league import get_cbs_roster, get_cbs_teams
 from pages.standings import load_espn_league
-from services.access_control import get_authenticated_cbs_team_id
 from services.database import format_last_data_sync
 
 # Position maps for each platform
@@ -98,13 +97,17 @@ def show_team_rosters(selected_league, selected_league_name):
         teams_df = pd.DataFrame(espn_rows)
     elif selected_league["platform"] == "CBS":
         st.caption(format_last_data_sync("CBS", selected_league_name))
-        team_id = get_authenticated_cbs_team_id()
-        if team_id is None:
-            st.error("Your CBS team assignment could not be verified.")
+        teams_df = get_cbs_teams()
+        if teams_df.empty:
+            st.error("No CBS teams were found.")
             return
-        roster_df = get_cbs_roster(team_id)
+        teams_df["label"] = teams_df["team_name"]
+
+        selected_label = st.selectbox("Choose Team", teams_df["label"])
+        selected_team = teams_df[teams_df["label"] == selected_label].iloc[0]
+        roster_df = get_cbs_roster(selected_team["provider_team_id"])
         if roster_df.empty:
-            st.error("No roster data was found for your assigned CBS team.")
+            st.error("No roster data was found for the selected CBS team.")
             return
         roster_df.rename(
             columns={"player_name": "Player", "position": "Position"},
